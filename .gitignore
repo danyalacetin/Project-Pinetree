@@ -10,9 +10,7 @@
 *.pyo
 __pycache__
 *.rej
-.#*
 .*.swp
-.DS_Store
 [Tt]humbs.db
 *.obj
 *.ipch
@@ -29,4 +27,4 @@ __pycache__
 *.db
 *.ilk
 *.vs*
-ProjectPinetree/Temp/*
+*.FileListAbsolute.txt
