@@ -5,7 +5,7 @@
 
 // Local includes:
 #include "backbuffer.h"
-#include "texture.h"
+#include "Resource Management/texture.h"
 
 Sprite::Sprite()
 : m_pTexture(0)

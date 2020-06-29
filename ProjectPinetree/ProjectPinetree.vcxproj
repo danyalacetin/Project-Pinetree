@@ -16,9 +16,19 @@
     <ClInclude Include="Source\game.h" />
     <ClInclude Include="Source\inputhandler.h" />
     <ClInclude Include="Source\logmanager.h" />
+    <ClInclude Include="Source\Resource Management\font.h" />
+    <ClInclude Include="Source\Resource Management\fontmanager.h" />
+    <ClInclude Include="Source\Resource Management\ini.h" />
+    <ClInclude Include="Source\Resource Management\inimanager.h" />
+    <ClInclude Include="Source\Resource Management\iniparser.h" />
+    <ClInclude Include="Source\Resource Management\managerinterface.h" />
+    <ClInclude Include="Source\Resource Management\objectpool.h" />
+    <ClInclude Include="Source\Resource Management\resourcemanager.h" />
+    <ClInclude Include="Source\Resource Management\text.h" />
+    <ClInclude Include="Source\Resource Management\texture.h" />
+    <ClInclude Include="Source\Resource Management\texturemanager.h" />
+    <ClInclude Include="Source\Resource Management\textures.h" />
     <ClInclude Include="Source\sprite.h" />
-    <ClInclude Include="Source\texture.h" />
-    <ClInclude Include="Source\texturemanager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\backbuffer.cpp" />
@@ -27,9 +37,15 @@
     <ClCompile Include="Source\inputhandler.cpp" />
     <ClCompile Include="Source\logmanager.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Resource Management\fontmanager.cpp" />
+    <ClCompile Include="Source\Resource Management\inimanager.cpp" />
+    <ClCompile Include="Source\Resource Management\iniparser.cpp" />
+    <ClCompile Include="Source\Resource Management\managerinterface.cpp" />
+    <ClCompile Include="Source\Resource Management\resourcemanager.cpp" />
+    <ClCompile Include="Source\Resource Management\text.cpp" />
+    <ClCompile Include="Source\Resource Management\texture.cpp" />
+    <ClCompile Include="Source\Resource Management\texturemanager.cpp" />
     <ClCompile Include="Source\sprite.cpp" />
-    <ClCompile Include="Source\texture.cpp" />
-    <ClCompile Include="Source\texturemanager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A63A081C-F174-43A2-803D-AEE64AB9986C}</ProjectGuid>

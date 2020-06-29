@@ -5,7 +5,7 @@
 
 // Local includes:
 #include "texture.h"
-#include "logmanager.h"
+#include "../logmanager.h"
 
 // Library includes:
 #include <SDL.h>
@@ -18,11 +18,10 @@ TextureManager::TextureManager()
 
 TextureManager::~TextureManager()
 {
-	for (std::map<std::string, Texture*>::iterator it = m_pLoadedTextures.begin(); it != m_pLoadedTextures.end(); ++it)
+	for each (std::pair<std::string, Texture*> entry in m_pLoadedTextures)
 	{
-		Texture* pTexture = it->second;
-
-		delete pTexture;
+		delete entry.second;
+		entry.second = 0;
 	}
 
 	m_pLoadedTextures.clear();
@@ -40,24 +39,24 @@ Texture*
 TextureManager::GetTexture(const char* pcFilename)
 {
 	Texture* pTexture = 0;
+	std::string filename = ManagerInterface::m_folderLocation + pcFilename;
 
-	if (m_pLoadedTextures.find(pcFilename) == m_pLoadedTextures.end())
+	if (m_pLoadedTextures.find(filename) == m_pLoadedTextures.end())
 	{
 		// Not already loaded... so load...
 		pTexture = new Texture();
-		if (!pTexture->Initialise(pcFilename, m_pRenderer))
+		if (!pTexture->InitialiseImage(filename.c_str(), m_pRenderer))
 		{
-			LogManager::GetInstance().Log("Texture failed to initialise!");
+			LogManager::Log("Texture failed to initialise!");
 		}
 		
-		m_pLoadedTextures[pcFilename] = pTexture;
+		m_pLoadedTextures[filename] = pTexture;
 	}
 	else
 	{
 		// Is already loaded...
-		pTexture = m_pLoadedTextures[pcFilename];
+		pTexture = m_pLoadedTextures[filename];
 	}
 
 	return (pTexture);
 }
-

@@ -1,13 +1,11 @@
-// COMP710 GP 2D Framework 2019
-
 // This include:
 #include "backbuffer.h"
 
 // Local includes:
 #include "logmanager.h"
-#include "texturemanager.h"
+#include "Resource Management/texturemanager.h"
 #include "sprite.h"
-#include "texture.h"
+#include "Resource Management/texture.h"
 
 // Library includes:
 #include <SDL.h>
@@ -170,7 +168,7 @@ BackBuffer::DrawLine(int x1, int y1, int x2, int y2)
 void 
 BackBuffer::LogSDLError()
 {
-	LogManager::GetInstance().Log(SDL_GetError());
+	LogManager::Log(SDL_GetError());
 }
 
 Sprite* 
@@ -183,7 +181,7 @@ BackBuffer::CreateSprite(const char* pcFilename)
 	Sprite* pSprite = new Sprite();
 	if (!pSprite->Initialise(*pTexture))
 	{
-		LogManager::GetInstance().Log("Sprite Failed to Create!");
+		LogManager::Log("Sprite Failed to Create!");
 	}
 
 	return (pSprite);

@@ -2,15 +2,17 @@
 #ifndef __LOGMANAGER_H__
 #define __LOGMANAGER_H__
 
+#include <string>
+
 class LogManager
 {
 	//Member Methods:
 public:
-	static LogManager& GetInstance();
 	static void DestroyInstance();
 	~LogManager();
 
-	void Log(const char* pcMessage);
+	static void Log(const char* pcMessage);
+	static void Log(std::string pcMessage);
 protected:
 
 private:
