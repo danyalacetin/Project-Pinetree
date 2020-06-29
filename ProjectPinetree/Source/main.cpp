@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 	Game& gameInstance = Game::GetInstance();
 	if (!gameInstance.Initialise())
 	{
-		LogManager::GetInstance().Log("Game initialise failed!");
+		LogManager::Log("Game initialise failed!");
 
 		return (1);
 	}

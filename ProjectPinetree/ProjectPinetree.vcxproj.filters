@@ -7,6 +7,12 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{0a9e22bb-3755-4a18-bbd9-135b62bb09fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Resource Management">
+      <UniqueIdentifier>{a54c9b96-a741-4019-a08a-9b0010ced6b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resource Management">
+      <UniqueIdentifier>{50efc779-14e0-4777-a4d3-2ee302b10f09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\backbuffer.h">
@@ -27,11 +33,41 @@
     <ClInclude Include="Source\sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\texture.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Source\Resource Management\font.h">
+      <Filter>Header Files\Resource Management</Filter>
     </ClInclude>
-    <ClInclude Include="Source\texturemanager.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Source\Resource Management\fontmanager.h">
+      <Filter>Header Files\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resource Management\ini.h">
+      <Filter>Header Files\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resource Management\inimanager.h">
+      <Filter>Header Files\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resource Management\iniparser.h">
+      <Filter>Header Files\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resource Management\managerinterface.h">
+      <Filter>Header Files\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resource Management\objectpool.h">
+      <Filter>Header Files\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resource Management\resourcemanager.h">
+      <Filter>Header Files\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resource Management\text.h">
+      <Filter>Header Files\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resource Management\texture.h">
+      <Filter>Header Files\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resource Management\texturemanager.h">
+      <Filter>Header Files\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resource Management\textures.h">
+      <Filter>Header Files\Resource Management</Filter>
     </ClInclude>
     <ClInclude Include="Source\gameutils.h">
       <Filter>Header Files</Filter>
@@ -62,11 +98,29 @@
     <ClCompile Include="Source\sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\texture.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\Resource Management\fontmanager.cpp">
+      <Filter>Source Files\Resource Management</Filter>
     </ClCompile>
-    <ClCompile Include="Source\texturemanager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\Resource Management\inimanager.cpp">
+      <Filter>Source Files\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Resource Management\iniparser.cpp">
+      <Filter>Source Files\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Resource Management\managerinterface.cpp">
+      <Filter>Source Files\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Resource Management\resourcemanager.cpp">
+      <Filter>Source Files\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Resource Management\text.cpp">
+      <Filter>Source Files\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Resource Management\texture.cpp">
+      <Filter>Source Files\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Resource Management\texturemanager.cpp">
+      <Filter>Source Files\Resource Management</Filter>
     </ClCompile>
     <ClCompile Include="Source\gameutils.cpp">
       <Filter>Source Files</Filter>

@@ -2,6 +2,9 @@
 #ifndef __TEXTUREMANAGER_H__
 #define __TEXTUREMANAGER_H__
 
+// Local Includes:
+#include "managerinterface.h"
+
 // Library Includes:
 #include <string>
 #include <map>
@@ -10,7 +13,7 @@
 class Texture;
 struct SDL_Renderer;
 
-class TextureManager
+class TextureManager : public ManagerInterface
 {
 	//Member Methods:
 public:

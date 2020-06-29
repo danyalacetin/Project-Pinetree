@@ -9,24 +9,12 @@
 // Static Members:
 LogManager* LogManager::sm_pInstance = 0;
 
-LogManager& 
-LogManager::GetInstance()
+void LogManager::DestroyInstance()
 {
-	if (sm_pInstance == 0)
-	{
-		sm_pInstance = new LogManager();
-	}
-
-	return (*sm_pInstance);
-}
-
-void
-LogManager::DestroyInstance()
-{
-	if (0 != sm_pInstance)
+	if (sm_pInstance)
 	{
 		delete sm_pInstance;
-		sm_pInstance = 0;
+		sm_pInstance = nullptr;
 	}
 }
 
@@ -43,6 +31,16 @@ LogManager::~LogManager()
 void 
 LogManager::Log(const char* pcMessage)
 {
+	if (sm_pInstance == 0)
+	{
+		sm_pInstance = new LogManager();
+	}
+
 	OutputDebugStringA(pcMessage);
 	OutputDebugStringA("\n"); 
+}
+
+void LogManager::Log(std::string pcMessage)
+{
+	Log(pcMessage.c_str());
 }

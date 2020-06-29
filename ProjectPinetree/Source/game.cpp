@@ -9,6 +9,7 @@
 #include "logmanager.h"
 #include "sprite.h"
 #include "player.h"
+#include "Resource Management/resourcemanager.h"
 
 // Library includes:
 #include <cassert>
@@ -76,14 +77,20 @@ Game::Initialise()
 	m_pBackBuffer = new BackBuffer();
 	if (!m_pBackBuffer->Initialise(sm_iWidth, sm_iHeight))
 	{
-		LogManager::GetInstance().Log("BackBuffer Init Fail!");
+		LogManager::Log("BackBuffer Init Fail!");
 		return (false);
 	}
 
 	m_pInputHandler = new InputHandler();
 	if (!m_pInputHandler->Initialise())
 	{
-		LogManager::GetInstance().Log("InputHandler Init Fail!");
+		LogManager::Log("InputHandler Init Fail!");
+		return (false);
+	}
+
+	if (!ResourceManager::Setup(&m_pBackBuffer->GetRenderer()))
+	{
+		LogManager::Log("ResourceManager Setup Failed");
 		return (false);
 	}
 
