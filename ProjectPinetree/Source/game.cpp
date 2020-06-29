@@ -8,6 +8,7 @@
 #include "inputhandler.h"
 #include "logmanager.h"
 #include "sprite.h"
+#include "player.h"
 
 // Library includes:
 #include <cassert>
@@ -52,12 +53,16 @@ Game::Game()
 , m_lastTime(0)
 , m_lag(0)
 , m_drawDebugInfo(true)
+, m_pPlayer(0)
 {
 	
 }
 
 Game::~Game()
 {
+	delete m_pPlayer;
+	m_pPlayer = 0;
+
 	delete m_pBackBuffer;
 	m_pBackBuffer = 0;
 

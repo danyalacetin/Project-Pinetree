@@ -6,6 +6,8 @@
 class BackBuffer;
 class Sprite;
 
+struct Vector2f;
+
 class Entity
 {
 	//Member Methods:
@@ -24,11 +26,15 @@ public:
 	bool IsCollidingWith(Entity& e);
 
 	void SetPosition(float x, float y);
+	void SetPosition(Vector2f v2fPosition);
 	void SetPositionX(float x);
 	void SetPositionY(float y);
 
+	Vector2f GetPositionV2f() const;
 	float GetPositionX() const;
 	float GetPositionY() const;
+
+	Vector2f GetVelocity() const;
 
 	float GetHorizontalVelocity() const;
 	void SetHorizontalVelocity(float x); 

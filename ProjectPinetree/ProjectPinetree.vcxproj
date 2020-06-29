@@ -14,8 +14,10 @@
     <ClInclude Include="Source\backbuffer.h" />
     <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\game.h" />
+    <ClInclude Include="Source\gameutils.h" />
     <ClInclude Include="Source\inputhandler.h" />
     <ClInclude Include="Source\logmanager.h" />
+    <ClInclude Include="Source\player.h" />
     <ClInclude Include="Source\sprite.h" />
     <ClInclude Include="Source\texture.h" />
     <ClInclude Include="Source\texturemanager.h" />
@@ -24,9 +26,11 @@
     <ClCompile Include="Source\backbuffer.cpp" />
     <ClCompile Include="Source\entity.cpp" />
     <ClCompile Include="Source\game.cpp" />
+    <ClCompile Include="Source\gameutils.cpp" />
     <ClCompile Include="Source\inputhandler.cpp" />
     <ClCompile Include="Source\logmanager.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\player.cpp" />
     <ClCompile Include="Source\sprite.cpp" />
     <ClCompile Include="Source\texture.cpp" />
     <ClCompile Include="Source\texturemanager.cpp" />

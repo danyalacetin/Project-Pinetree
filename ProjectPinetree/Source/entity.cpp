@@ -6,6 +6,7 @@
 // Local includes:
 #include "sprite.h"
 #include "backbuffer.h"
+#include "gameutils.h"
 
 // Library includes:
 #include <cassert>
@@ -62,11 +63,25 @@ Entity::SetDead(bool dead)
 	m_dead = dead;
 }
 
+bool
+Entity::IsDead() const
+{
+	
+	return (m_dead);
+}
+
 void
 Entity::SetPosition(float x, float y)
 {
 	m_x = x;
 	m_y = y;
+}
+
+void
+Entity::SetPosition(Vector2f v2fPosition)
+{
+	m_x = v2fPosition.x;
+	m_y = v2fPosition.y;
 }
 
 void
@@ -81,6 +96,13 @@ Entity::SetPositionY(float y)
 	m_y = y;
 }
 
+Vector2f
+Entity::GetPositionV2f() const
+{
+	Vector2f v2fPosition = Vector2f(m_x, m_y);
+	return (v2fPosition);
+}
+
 float 
 Entity::GetPositionX() const
 {
@@ -91,6 +113,13 @@ float
 Entity::GetPositionY() const
 {
 	return (m_y);
+}
+
+Vector2f
+Entity::GetVelocity() const
+{
+	Vector2f v2fVelocity = Vector2f(m_velocityX, m_velocityY);
+	return (v2fVelocity);
 }
 
 float 

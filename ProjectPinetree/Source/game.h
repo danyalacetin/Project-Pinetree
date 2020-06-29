@@ -6,6 +6,7 @@
 class BackBuffer;
 class InputHandler;
 class Sprite;
+class Player;
 
 class Game
 {
@@ -49,6 +50,9 @@ protected:
 	int m_FPS;
 	int m_numUpdates;
 	bool m_drawDebugInfo;
+
+	// Game Entities
+	Player* m_pPlayer;
 	
 private:
 
