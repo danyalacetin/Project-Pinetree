@@ -3,19 +3,29 @@
 
 // Local includes:
 #include "texture.h"
+#include "../logmanager.h"
 
 // Library includes:
 #include <sstream>
 #include <cassert>
 
 Text::Text(Texture* pTexture)
-: m_textAlignment(ALIGN_CENTRE)
+: m_textAlignment(TextAlignment::ALIGN_CENTRE)
+, m_iHeight(0)
+, m_iWidth(0)
 {
 	assert(pTexture);
 
 	m_pTexture = pTexture;
-	m_iHeight = pTexture->GetHeight();
-	m_iWidth = pTexture->GetWidth();
+	if (pTexture == 0)
+	{
+		LogManager::Log("Text constructor passed null value for Texture");
+	}
+	else
+	{
+		m_iHeight = pTexture->GetHeight();
+		m_iWidth = pTexture->GetWidth();
+	}
 }
 
 Text::~Text()

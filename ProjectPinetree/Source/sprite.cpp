@@ -41,8 +41,8 @@ Sprite::Initialise(Texture& texture)
 void 
 Sprite::Process(float deltaTime)
 {
-	m_x += m_dx * deltaTime;
-	m_y += m_dy * deltaTime;
+	m_x += (int)((float)m_dx * deltaTime);
+	m_y += (int)((float)m_dy * deltaTime);
 }
 
 void 

@@ -10,6 +10,7 @@
 #include "sprite.h"
 #include "player.h"
 #include "Resource Management/resourcemanager.h"
+#include "Resource Management/textures.h"
 
 // Library includes:
 #include <cassert>
@@ -88,7 +89,7 @@ Game::Initialise()
 		return (false);
 	}
 
-	if (!ResourceManager::Setup(&m_pBackBuffer->GetRenderer()))
+	if (!ResourceManager::Setup(m_pBackBuffer->GetRenderer()))
 	{
 		LogManager::Log("ResourceManager Setup Failed");
 		return (false);
@@ -98,6 +99,10 @@ Game::Initialise()
 	m_lag = 0.0f;
 
 	m_pBackBuffer->SetClearColour(0xCC, 0xCC, 0xCC);
+
+	Sprite* pPlayerSprite = m_pBackBuffer->CreateSprite("playership.png");
+	m_pPlayer = new Player();
+	m_pPlayer->Initialise(pPlayerSprite);
 
 	return (true);
 }
@@ -160,6 +165,7 @@ Game::Process(float deltaTime)
 	}
 
 	// Update the game world simulation:
+	m_pPlayer->Process(deltaTime);
 }
 
 void 
@@ -170,6 +176,7 @@ Game::Draw(BackBuffer& backBuffer)
 	backBuffer.Clear();
 
 	// Draw game world
+	m_pPlayer->Draw(backBuffer);
 
 	backBuffer.Present();
 }

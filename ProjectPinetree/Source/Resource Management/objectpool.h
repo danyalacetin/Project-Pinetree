@@ -3,7 +3,7 @@
 #define __OBJECTPOOL_H__
 
 // Local includes
-#include "../SDL Render/sprite.h"
+#include "../sprite.h"
 
 // Library includes
 #include <cassert>
@@ -139,7 +139,8 @@ public:
 		while (!bIsDead && bHasObject)
 		{
 			*pObject = &m_pObjectArray[m_pCurrentIndex];
-			bIsDead = !(*pObject)->InUse();
+			//bIsDead = !(*pObject)->InUse();
+			bIsDead = true;
 
 			if (loopCounter > m_iSize)
 			{

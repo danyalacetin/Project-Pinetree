@@ -3,9 +3,8 @@
 
 // Local includes:
 #include "logmanager.h"
-#include "Resource Management/texturemanager.h"
 #include "sprite.h"
-#include "Resource Management/texture.h"
+#include "Resource Management/textures.h"
 
 // Library includes:
 #include <SDL.h>
@@ -13,8 +12,7 @@
 #include <cassert>
 
 BackBuffer::BackBuffer()
-: m_pTextureManager(0)
-, m_pWindow(0)
+: m_pWindow(0)
 , m_pRenderer(0)
 , m_width(0)
 , m_height(0)
@@ -32,9 +30,6 @@ BackBuffer::~BackBuffer()
 
 	SDL_DestroyWindow(m_pWindow);
 	m_pWindow = 0;
-
-	delete m_pTextureManager;
-	m_pTextureManager = 0;
 
 	IMG_Quit();
 	SDL_Quit();
@@ -85,11 +80,13 @@ BackBuffer::Initialise(int width, int height)
 	SetFullscreen(true);
 	SDL_Delay(1000);
 
-	m_pTextureManager = new TextureManager();
-	assert(m_pTextureManager);
-	m_pTextureManager->Initialise(m_pRenderer);
-
 	return (true);
+}
+
+SDL_Renderer*
+BackBuffer::GetRenderer()
+{
+	return (m_pRenderer);
 }
 
 void 
@@ -174,14 +171,12 @@ BackBuffer::LogSDLError()
 Sprite* 
 BackBuffer::CreateSprite(const char* pcFilename)
 {
-	assert(m_pTextureManager);
-
-	Texture* pTexture = m_pTextureManager->GetTexture(pcFilename);
+	Texture* pTexture = ResourceManager::GetInstance().GetTextureManager().GetTexture(pcFilename);
 
 	Sprite* pSprite = new Sprite();
 	if (!pSprite->Initialise(*pTexture))
 	{
-		LogManager::Log("Sprite Failed to Create!");
+		LogManager::Log("Sprite Failed to Initialise!");
 	}
 
 	return (pSprite);

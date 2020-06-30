@@ -34,7 +34,7 @@ InputHandler::Initialise()
 
 	if (!m_pGameController)
 	{
-		LogManager::GetInstance().Log("No controller detected!");
+		LogManager::Log("No controller detected!");
 	}
 
 	return (true);

@@ -5,7 +5,7 @@
 #include "texturemanager.h"
 #include "inimanager.h"
 #include "fontmanager.h"
-#include "../logmanager.cpp"
+#include "../logmanager.h"
 
 // Library includes:
 
@@ -44,6 +44,7 @@ bool ResourceManager::Initialise(SDL_Renderer * pRenderer)
 	m_pFontManager = new FontManager(pRenderer);
 
 	SetFileLocation("assets");
+	m_bIsInitialised = true;
 
 	return (true);
 }

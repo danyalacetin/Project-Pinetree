@@ -15,6 +15,7 @@ public:
 	~BackBuffer();
 
 	bool Initialise(int width, int height);
+	SDL_Renderer* GetRenderer();
 
 	void Clear();
 	void Present();
@@ -43,8 +44,6 @@ private:
 public:
 
 protected:
-	TextureManager* m_pTextureManager;
-
 	SDL_Window* m_pWindow;
 	SDL_Renderer* m_pRenderer;
 

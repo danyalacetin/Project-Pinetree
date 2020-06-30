@@ -14,6 +14,7 @@
 
 Texture::Texture()
 : m_pTexture(0)
+, m_pRenderer(0)
 , m_height(0)
 , m_width(0)
 {

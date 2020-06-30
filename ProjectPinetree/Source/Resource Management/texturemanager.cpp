@@ -39,6 +39,7 @@ Texture*
 TextureManager::GetTexture(const char* pcFilename)
 {
 	Texture* pTexture = 0;
+
 	std::string filename = ManagerInterface::m_folderLocation + pcFilename;
 
 	if (m_pLoadedTextures.find(filename) == m_pLoadedTextures.end())
@@ -47,7 +48,7 @@ TextureManager::GetTexture(const char* pcFilename)
 		pTexture = new Texture();
 		if (!pTexture->InitialiseImage(filename.c_str(), m_pRenderer))
 		{
-			LogManager::Log("Texture failed to initialise!");
+			LogManager::Log("Texture failed to initialise with path: " + filename);
 		}
 		
 		m_pLoadedTextures[filename] = pTexture;
