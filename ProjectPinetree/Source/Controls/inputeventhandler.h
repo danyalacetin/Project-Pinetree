@@ -14,7 +14,7 @@
 
 struct MouseListener
 {
-	InputStateType state;
+	InputState state;
 	std::function<void(Vector2f)> function;
 };
 
@@ -25,12 +25,11 @@ public:
 	static InputEventHandler& GetInstance();
 	static void DestroyInstance();
 
-	bool Call(InputStateType state, InputCommand command, float fAmmount);
-	void Register(InputStateType state, InputCommand command, std::function<void (float)> action);
-	void Register(InputStateType state, InputCommand command, std::function<void ()> action);
+	bool Call(InputState state, InputCommand command);
+	void Register(InputState state, InputCommand command, std::function<void ()> action);
 
-	void NotifyMouseMovement(InputStateType state, Vector2f v2fCoords);
-	void RegisterMouseListener(InputStateType state, std::function<void(Vector2f)> action);
+	void NotifyMouseMovement(InputState state, Vector2f v2fCoords);
+	void RegisterMouseListener(InputState state, std::function<void(Vector2f)> action);
 
 protected:
 	InputEventHandler();
@@ -45,7 +44,7 @@ public:
 
 protected:
 	static InputEventHandler* m_pInstance;
-	std::map<CommandStateInstance, std::function<void (float)>> m_events;
+	std::map<CommandStateInstance, std::function<void ()>> m_events;
 	std::vector<MouseListener> m_mouseListeners;
 
 private:

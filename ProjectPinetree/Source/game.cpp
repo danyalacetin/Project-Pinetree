@@ -208,8 +208,8 @@ Game::Initialise()
 	m_pMenuState = new MenuState();
 	m_pMenuState->Initialise(m_pFMOD, m_pBox2D, m_pRakNet, m_pAUT, m_pTitleScreen, m_pButton);
 	m_pGameStateStack.push_back(m_pMenuState);
-	InputEventHandler::GetInstance().Register(InputStateType::GAME, InputCommand::QUIT, [this] { Quit(); });
-	InputEventHandler::GetInstance().Register(InputStateType::MENU, InputCommand::QUIT, [this] { Quit(); });
+	InputEventHandler::GetInstance().Register(InputState::GAME, InputCommand::QUIT, [this] { Quit(); });
+	InputEventHandler::GetInstance().Register(InputState::MENU, InputCommand::QUIT, std::bind(&Game::Quit, this));
 
 	m_pPlayer = new Player();
 	m_pPlayer->Initialise(m_pPlayerSprite);
@@ -223,7 +223,7 @@ Game::DoGameLoop()
 	const float stepSize = 1.0f / 60.0f;
 
 	assert(m_pInputHandler);
-	m_pInputHandler->ProcessInput(*this, InputStateType::GAME);
+	m_pInputHandler->ProcessInput(*this, InputState::MENU);
 	
 	if (m_looping)
 	{

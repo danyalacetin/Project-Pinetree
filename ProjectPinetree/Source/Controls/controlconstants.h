@@ -21,7 +21,7 @@ enum class InputCommand
 	TEST,
 };
 
-enum class InputStateType
+enum class InputState
 {
 	MENU,
 	GAME
@@ -30,7 +30,7 @@ enum class InputStateType
 struct CommandStateInstance
 {
 	InputCommand command;
-	InputStateType state;
+	InputState state;
 
 	bool operator==(const CommandStateInstance& o) const;
 	bool operator<(const CommandStateInstance& o) const;

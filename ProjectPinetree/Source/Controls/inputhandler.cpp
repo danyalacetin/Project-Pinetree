@@ -36,7 +36,7 @@ InputHandler::Initialise()
 }
 
 void 
-InputHandler::ProcessInput(Game& game, InputStateType state)
+InputHandler::ProcessInput(Game& game, InputState state)
 {
 	SDL_Event event;
 
@@ -65,19 +65,12 @@ InputHandler::ProcessInput(Game& game, InputStateType state)
 	}
 }
 
-
-
-void InputHandler::RunCommand(InputStateType state, InputCommand command)
+void InputHandler::RunCommand(InputState state, InputCommand command)
 {
-	RunCommand(state, command, 1.0f);
+	InputEventHandler::GetInstance().Call(state, command);
 }
 
-void InputHandler::RunCommand(InputStateType state, InputCommand command, float fAmmount)
-{
-	InputEventHandler::GetInstance().Call(state, command, fAmmount);
-}
-
-void InputHandler::KeyDown(SDL_Keycode keycode, InputStateType state)
+void InputHandler::KeyDown(SDL_Keycode keycode, InputState state)
 {
 	if (keycode == SDLK_ESCAPE)
 	{
@@ -141,7 +134,7 @@ void InputHandler::KeyDown(SDL_Keycode keycode, InputStateType state)
 	}
 }
 
-void InputHandler::KeyUp(SDL_Keycode keycode, InputStateType state)
+void InputHandler::KeyUp(SDL_Keycode keycode, InputState state)
 {
 	if (keycode == SDLK_LEFT)
 	{
@@ -175,7 +168,7 @@ void InputHandler::KeyUp(SDL_Keycode keycode, InputStateType state)
 	}
 }
 
-void InputHandler::MouseClick(SDL_Event & event, InputStateType state)
+void InputHandler::MouseClick(SDL_Event & event, InputState state)
 {
 	if (event.button.button == SDL_BUTTON_LEFT)
 	{
@@ -184,7 +177,7 @@ void InputHandler::MouseClick(SDL_Event & event, InputStateType state)
 	}
 }
 
-void InputHandler::MouseMovement(SDL_Event& event, InputStateType state)
+void InputHandler::MouseMovement(SDL_Event& event, InputState state)
 {
 	float fX = static_cast<float>(event.motion.x);
 	float fY = static_cast<float>(event.motion.y);
@@ -193,7 +186,7 @@ void InputHandler::MouseMovement(SDL_Event& event, InputStateType state)
 	InputEventHandler::GetInstance().NotifyMouseMovement(state, v2fMouseCoords);
 }
 
-void InputHandler::Quit(InputStateType state)
+void InputHandler::Quit(InputState state)
 {
 	RunCommand(state, InputCommand::QUIT);
 }

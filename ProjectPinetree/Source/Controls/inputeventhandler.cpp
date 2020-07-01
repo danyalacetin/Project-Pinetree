@@ -38,32 +38,26 @@ void InputEventHandler::DestroyInstance()
 	}
 }
 
-bool InputEventHandler::Call(InputStateType state, InputCommand command, float fAmmount)
+bool InputEventHandler::Call(InputState state, InputCommand command)
 {
 	CommandStateInstance instance = { command, state };
 	bool bFound = !(m_events.find(instance) == m_events.end());
 
 	if (bFound)
 	{
-		m_events[instance](fAmmount);
+		m_events[instance]();
 	}
 
 	return bFound;
 }
 
-void InputEventHandler::Register(InputStateType state, InputCommand command, std::function<void(float)> action)
+void InputEventHandler::Register(InputState state, InputCommand command, std::function<void()> action)
 {
 	CommandStateInstance instance = { command, state };
 	m_events[instance] = action;
 }
 
-void InputEventHandler::Register(InputStateType state, InputCommand command, std::function<void()> action)
-{
-	CommandStateInstance instance = { command, state };
-	m_events[instance] = [action](float fIgnore) { action(); };
-}
-
-void InputEventHandler::NotifyMouseMovement(InputStateType state, Vector2f v2fCoords)
+void InputEventHandler::NotifyMouseMovement(InputState state, Vector2f v2fCoords)
 {
 	for each (MouseListener listener in m_mouseListeners)
 	{
@@ -74,7 +68,7 @@ void InputEventHandler::NotifyMouseMovement(InputStateType state, Vector2f v2fCo
 	}
 }
 
-void InputEventHandler::RegisterMouseListener(InputStateType state, std::function<void(Vector2f)> action)
+void InputEventHandler::RegisterMouseListener(InputState state, std::function<void(Vector2f)> action)
 {
 	MouseListener instance = { state, action };
 	m_mouseListeners.push_back(instance);

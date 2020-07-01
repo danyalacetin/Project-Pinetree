@@ -19,17 +19,16 @@ public:
 	~InputHandler();
 
 	bool Initialise();
-	void ProcessInput(Game& game, InputStateType state);
+	void ProcessInput(Game& game, InputState state);
 
-	void RunCommand(InputStateType state, InputCommand command);
-	void RunCommand(InputStateType state, InputCommand command, float fAmmount);
+	void RunCommand(InputState state, InputCommand command);
 
-	void KeyDown(SDL_Keycode keycode, InputStateType state);
-	void KeyUp(SDL_Keycode keycode, InputStateType state);
+	void KeyDown(SDL_Keycode keycode, InputState state);
+	void KeyUp(SDL_Keycode keycode, InputState state);
 
-	void MouseClick(SDL_Event& event, InputStateType state);
-	void MouseMovement(SDL_Event& event, InputStateType state);
-	void Quit(InputStateType state);
+	void MouseClick(SDL_Event& event, InputState state);
+	void MouseMovement(SDL_Event& event, InputState state);
+	void Quit(InputState state);
 
 protected:
 

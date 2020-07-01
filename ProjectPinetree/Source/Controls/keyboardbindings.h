@@ -19,7 +19,7 @@ public:
 
 	void Initialise();
 
-	InputCommand GetCommand(InputStateType state, std::string request);
+	InputCommand GetCommand(InputState state, std::string request);
 
 protected:
 
