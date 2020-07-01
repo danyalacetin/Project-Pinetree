@@ -31,15 +31,18 @@
     <Filter Include="Source Files\Utilities">
       <UniqueIdentifier>{04dc3acb-8858-4b52-b058-bfa73c637f54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Controls">
+      <UniqueIdentifier>{33eb0a20-9b28-445f-a88a-05750fc456a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Controls">
+      <UniqueIdentifier>{1b5d3d00-fc93-433a-a30d-31534d4bc12e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\inputhandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\logmanager.h">
@@ -105,15 +108,24 @@
     <ClInclude Include="Source\SDL Render\sprite.h">
       <Filter>Header Files\SDL Render</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Controls\controlconstants.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Controls\inputeventhandler.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Controls\inputhandler.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Controls\keyboardbindings.h">
+      <Filter>Header Files\Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\inputhandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\logmanager.cpp">
@@ -169,6 +181,18 @@
     </ClCompile>
     <ClCompile Include="Source\SDL Render\sprite.cpp">
       <Filter>Source Files\SDL Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Controls\inputeventhandler.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Controls\inputhandler.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Controls\keyboardbindings.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Controls\controlconstants.cpp">
+      <Filter>Source Files\Controls</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

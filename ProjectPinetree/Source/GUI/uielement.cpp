@@ -48,3 +48,13 @@ Vector2f UIElement::GetPosition()
 {
 	return m_position;
 }
+
+bool UIElement::ContainsPoint(Vector2f v2fPoint)
+{
+	Vector2f v2fEndPosition = Vector2f::Plus(m_position, m_dimensions);
+
+	bool bInXRange = v2fPoint.x >= m_position.x && v2fPoint.x <= v2fEndPosition.x;
+	bool bInYRange = v2fPoint.y >= m_position.y && v2fPoint.y <= v2fEndPosition.y;
+
+	return bInXRange && bInYRange;
+}

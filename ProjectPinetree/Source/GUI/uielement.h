@@ -25,6 +25,8 @@ public:
 	void SetDimensions(Vector2f newDimensions);
 	Vector2f GetDimensions();
 
+	bool ContainsPoint(Vector2f v2fPoint);
+
 	virtual void PositionChildren() = 0;
 
 protected:

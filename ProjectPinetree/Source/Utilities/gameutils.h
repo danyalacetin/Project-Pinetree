@@ -29,7 +29,7 @@ struct Vector2f
 	static Vector2f FromIntVector(Vector2i vec);
 	Vector2i ToIntVector() const;
 	
-
+	static Vector2f Plus(Vector2f v2fVec1, Vector2f v2fVec2);
 
 	float x;
 	float y;

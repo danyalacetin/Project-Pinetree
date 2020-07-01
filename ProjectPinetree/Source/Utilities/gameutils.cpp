@@ -49,6 +49,14 @@ Vector2i Vector2f::ToIntVector() const
 	return Vector2i(iX, iY);
 }
 
+Vector2f Vector2f::Plus(Vector2f v2fVec1, Vector2f v2fVec2)
+{
+	float fX = v2fVec1.x + v2fVec2.x;
+	float fY = v2fVec1.y + v2fVec2.y;
+
+	return Vector2f(fX, fY);
+}
+
 Vector2i::Vector2i()
 : x(0)
 , y(0)

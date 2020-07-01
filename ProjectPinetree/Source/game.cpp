@@ -5,7 +5,8 @@
 
 // Local includes:
 #include "SDL Render/backbuffer.h"
-#include "inputhandler.h"
+#include "Controls/inputhandler.h"
+#include "Controls/inputeventhandler.h"
 #include "logmanager.h"
 #include "SDL Render/sprite.h"
 #include "player.h"
@@ -106,6 +107,9 @@ Game::Initialise()
 
 	m_pBackBuffer->SetClearColour(0xCC, 0xCC, 0xCC);
 
+	InputEventHandler::GetInstance().Register(InputStateType::GAME, InputCommand::QUIT, [this] { Quit(); });
+	InputEventHandler::GetInstance().Register(InputStateType::MENU, InputCommand::QUIT, [this] { Quit(); });
+
 	m_pPlayerSprite = m_pBackBuffer->CreateSprite("playership.png");
 	m_pPlayer = new Player();
 	m_pPlayer->Initialise(m_pPlayerSprite);
@@ -119,7 +123,7 @@ Game::DoGameLoop()
 	const float stepSize = 1.0f / 60.0f;
 
 	assert(m_pInputHandler);
-	m_pInputHandler->ProcessInput(*this);
+	m_pInputHandler->ProcessInput(*this, InputStateType::GAME);
 	
 	if (m_looping)
 	{

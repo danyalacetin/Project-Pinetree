@@ -11,13 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Controls\controlconstants.h" />
+    <ClInclude Include="Source\Controls\inputeventhandler.h" />
+    <ClInclude Include="Source\Controls\inputhandler.h" />
+    <ClInclude Include="Source\Controls\keyboardbindings.h" />
     <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\game.h" />
     <ClInclude Include="Source\GUI\button.h" />
     <ClInclude Include="Source\GUI\image.h" />
     <ClInclude Include="Source\GUI\label.h" />
     <ClInclude Include="Source\GUI\uielement.h" />
-    <ClInclude Include="Source\inputhandler.h" />
     <ClInclude Include="Source\logmanager.h" />
     <ClInclude Include="Source\player.h" />
     <ClInclude Include="Source\Resource Management\font.h" />
@@ -37,13 +40,16 @@
     <ClInclude Include="Source\Utilities\gameutils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Controls\controlconstants.cpp" />
+    <ClCompile Include="Source\Controls\inputeventhandler.cpp" />
+    <ClCompile Include="Source\Controls\inputhandler.cpp" />
+    <ClCompile Include="Source\Controls\keyboardbindings.cpp" />
     <ClCompile Include="Source\entity.cpp" />
     <ClCompile Include="Source\game.cpp" />
     <ClCompile Include="Source\GUI\button.cpp" />
     <ClCompile Include="Source\GUI\image.cpp" />
     <ClCompile Include="Source\GUI\label.cpp" />
     <ClCompile Include="Source\GUI\uielement.cpp" />
-    <ClCompile Include="Source\inputhandler.cpp" />
     <ClCompile Include="Source\logmanager.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\player.cpp" />
