@@ -31,6 +31,18 @@
     <Filter Include="Source Files\Utilities">
       <UniqueIdentifier>{04dc3acb-8858-4b52-b058-bfa73c637f54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Menus">
+      <UniqueIdentifier>{ea7d6f6a-32d0-4560-8911-a0ad1a50f250}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menus">
+      <UniqueIdentifier>{7888f554-878d-4c5e-ae69-68f74202d176}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game States">
+      <UniqueIdentifier>{d93096c4-9cfc-4fb7-b9fa-18c20e7898e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game States">
+      <UniqueIdentifier>{21f68723-e77b-4d31-8b7e-d015545a81cd}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Controls">
       <UniqueIdentifier>{33eb0a20-9b28-445f-a88a-05750fc456a8}</UniqueIdentifier>
     </Filter>
@@ -108,6 +120,24 @@
     <ClInclude Include="Source\SDL Render\sprite.h">
       <Filter>Header Files\SDL Render</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Menus\menu.h">
+      <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Menus\splashscreen.h">
+      <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game States\gamemenustate.h">
+      <Filter>Header Files\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game States\gamestate.h">
+      <Filter>Header Files\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game States\menustate.h">
+      <Filter>Header Files\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game States\state.h">
+      <Filter>Header Files\Game States</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Controls\controlconstants.h">
       <Filter>Header Files\Controls</Filter>
     </ClInclude>
@@ -181,6 +211,24 @@
     </ClCompile>
     <ClCompile Include="Source\SDL Render\sprite.cpp">
       <Filter>Source Files\SDL Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Menus\menu.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Menus\splashscreen.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game States\gamemenustate.cpp">
+      <Filter>Source Files\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game States\gamestate.cpp">
+      <Filter>Source Files\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game States\menustate.cpp">
+      <Filter>Source Files\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game States\state.cpp">
+      <Filter>Source Files\Game States</Filter>
     </ClCompile>
     <ClCompile Include="Source\Controls\inputeventhandler.cpp">
       <Filter>Source Files\Controls</Filter>

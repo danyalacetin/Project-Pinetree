@@ -3,7 +3,7 @@
 #define __OBJECTPOOL_H__
 
 // Local includes
-#include "../sprite.h"
+#include "../SDL Render/sprite.h"
 
 // Library includes
 #include <cassert>

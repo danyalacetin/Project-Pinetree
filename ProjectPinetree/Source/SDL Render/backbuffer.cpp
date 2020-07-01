@@ -136,12 +136,18 @@ BackBuffer::DrawSprite(Sprite& sprite)
 {
 	SDL_Rect dest;
 
-	dest.x = sprite.GetX();
-	dest.y = sprite.GetY();
+	dest.x = sprite.GetX() - sprite.GetWidth() / 2;
+	dest.y = sprite.GetY() - sprite.GetHeight() / 2;
 	dest.w = sprite.GetWidth();
 	dest.h = sprite.GetHeight();
 
-	SDL_RenderCopy(m_pRenderer, sprite.GetTexture()->GetTexture(), 0, &dest);
+	SDL_SetTextureBlendMode(sprite.GetTexture()->GetTexture(), SDL_BLENDMODE_BLEND);
+	SDL_SetTextureAlphaMod(sprite.GetTexture()->GetTexture(), sprite.GetAlpha());
+
+	float fAngle = -sprite.GetAngle() * 180.0f / static_cast<float>(M_PI);
+
+	SDL_RenderCopyEx(m_pRenderer, sprite.GetTexture()->GetTexture(), nullptr, &dest,
+		fAngle, nullptr, sprite.GetTexture()->GetFlip());
 }
 
 void

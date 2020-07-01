@@ -10,8 +10,14 @@
 #include "logmanager.h"
 #include "SDL Render/sprite.h"
 #include "player.h"
+#include "Resource Management/inimanager.h"
+#include "Resource Management/iniparser.h"
 #include "Resource Management/resourcemanager.h"
 #include "Resource Management/textures.h"
+#include "Game States/menustate.h"
+#include "Game States/gamestate.h"
+#include "Game States/gamemenustate.h"
+#include "Game States/state.h"
 
 // Library includes:
 #include <cassert>
@@ -21,8 +27,8 @@
 
 // Static Members:
 Game* Game::sm_pInstance = 0;
-const int Game::sm_iWidth = 1920;
-const int Game::sm_iHeight = 1080;
+Vector2f Game::screenDimensions = Vector2f();
+float Game::metreToPixelFraction = 77.0f;
 
 Game&
 Game::GetInstance()
@@ -42,6 +48,37 @@ Game::DestroyInstance()
 {
 	delete sm_pInstance; 
 	sm_pInstance = 0;
+}
+
+Vector2i Game::WorldToScreenConversion(Vector2f worldCoords)
+{
+	Vector2f convertedCoords;
+
+	convertedCoords.x = metreToPixelFraction * worldCoords.x;
+	convertedCoords.y = screenDimensions.y - metreToPixelFraction * worldCoords.y;
+
+	return convertedCoords.ToIntVector();
+}
+
+Vector2f Game::ScreenToWorldConversion(Vector2i screenCoords)
+{
+	Vector2f convertedCoords;
+	Vector2f castedScreenCoords = Vector2f::FromIntVector(screenCoords);
+
+	convertedCoords.x = castedScreenCoords.x / metreToPixelFraction;
+	convertedCoords.y = (screenDimensions.y - castedScreenCoords.y) / metreToPixelFraction;
+
+	return convertedCoords;
+}
+
+float Game::WorldToScreenConversionf(float worldValue)
+{
+	return metreToPixelFraction * worldValue;
+}
+
+float Game::ScreenToWorldConversionf(float screenCoords)
+{
+	return screenCoords / metreToPixelFraction;
 }
 
 Game::Game()
@@ -64,8 +101,35 @@ Game::Game()
 
 Game::~Game()
 {
-	delete m_pPlayer;
-	m_pPlayer = 0;
+	delete m_pAUT;
+	m_pAUT = 0;
+
+	delete m_pBulletSprite;
+	m_pBulletSprite = 0;
+
+	delete m_pButton;
+	m_pButton = 0;
+
+	delete m_pFMOD;
+	m_pFMOD = 0;
+
+	delete m_pBox2D;
+	m_pBox2D = 0;
+
+	delete m_pRakNet;
+	m_pRakNet = 0;
+
+	delete m_pTitleScreen;
+	m_pTitleScreen = 0;
+
+	delete m_pSmgSprite;
+	m_pSmgSprite = 0;
+
+	while (!m_pGameStateStack.empty())
+	{
+		delete m_pGameStateStack.back();
+		m_pGameStateStack.pop_back();
+	}
 
 	delete m_pPlayerSprite;
 	m_pPlayerSprite = 0;
@@ -77,13 +141,17 @@ Game::~Game()
 
 	delete m_pInputHandler;
 	m_pInputHandler = 0;
+
 }
 
 bool 
 Game::Initialise()
 {
+	const int width = 1920;
+	const int height = 1080;
+
 	m_pBackBuffer = new BackBuffer();
-	if (!m_pBackBuffer->Initialise(sm_iWidth, sm_iHeight))
+	if (!m_pBackBuffer->Initialise(width, height))
 	{
 		LogManager::Log("BackBuffer Init Fail!");
 		return (false);
@@ -107,6 +175,22 @@ Game::Initialise()
 
 	m_pBackBuffer->SetClearColour(0xCC, 0xCC, 0xCC);
 
+	IniParser pGameSettings = ResourceManager::GetInstance().GetIniManager().GetIniParser("Settings.ini");
+
+	LoadSprites();
+
+	int iScreenWidth = pGameSettings.GetValueAsInt("Screen", "width");
+	int iScreenHeight = pGameSettings.GetValueAsInt("Screen", "height");
+
+	screenDimensions.x = static_cast<float>(iScreenWidth);
+	screenDimensions.y = static_cast<float>(iScreenHeight);
+
+	screenDimensions.x = static_cast<float>(iScreenWidth);
+	screenDimensions.y = static_cast<float>(iScreenHeight);
+
+	m_pMenuState = new MenuState();
+	m_pMenuState->Initialise(m_pFMOD, m_pBox2D, m_pRakNet, m_pAUT, m_pTitleScreen, m_pButton);
+	m_pGameStateStack.push_back(m_pMenuState);
 	InputEventHandler::GetInstance().Register(InputStateType::GAME, InputCommand::QUIT, [this] { Quit(); });
 	InputEventHandler::GetInstance().Register(InputStateType::MENU, InputCommand::QUIT, [this] { Quit(); });
 
@@ -175,7 +259,7 @@ Game::Process(float deltaTime)
 	}
 
 	// Update the game world simulation:
-	m_pPlayer->Process(deltaTime);
+	m_pGameStateStack.back()->Process(deltaTime);
 }
 
 void 
@@ -186,7 +270,8 @@ Game::Draw(BackBuffer& backBuffer)
 	backBuffer.Clear();
 
 	// Draw game world
-	m_pPlayer->Draw(backBuffer);
+
+	m_pGameStateStack.back()->Draw(backBuffer);
 
 	backBuffer.Present();
 }
@@ -195,4 +280,50 @@ void
 Game::Quit()
 {
 	m_looping = false;
+}
+
+bool Game::LoadSprites()
+{
+	m_pAUT = m_pBackBuffer->CreateSprite("AUT.png");
+	m_pBox2D = m_pBackBuffer->CreateSprite("Box2D.png");
+	m_pFMOD = m_pBackBuffer->CreateSprite("FMOD.png");
+	m_pRakNet = m_pBackBuffer->CreateSprite("RakNet.png");
+	m_pTitleScreen = m_pBackBuffer->CreateSprite("TitleScreen.png");
+	m_pButton = m_pBackBuffer->CreateSprite("Button.png");
+
+	m_pSmgSprite = m_pBackBuffer->CreateSprite("assault_rifle.png");
+	m_pBulletSprite = m_pBackBuffer->CreateSprite("bullet_1.png");
+
+	return true;
+}
+
+State*
+Game::GetPreviousState()
+{
+	return m_pGameStateStack[m_pGameStateStack.size() - 2];
+}
+
+void
+Game::AddGameState()
+{
+	m_pGameState = new GameState();
+	m_pGameState->Initialise();
+	m_pGameStateStack.push_back(m_pGameState);
+}
+
+void
+Game::AddGameMenuState()
+{
+	m_pGameMenuState = new GameMenuState();
+	m_pGameMenuState->Initialise(m_pButton);
+	m_pGameStateStack.push_back(m_pGameMenuState);
+}
+
+void
+Game::DeleteState()
+{
+	delete m_pGameStateStack.back();
+	m_pGameStateStack.pop_back();
+	m_pGameStateStack.back()->InitialiseControls();
+
 }

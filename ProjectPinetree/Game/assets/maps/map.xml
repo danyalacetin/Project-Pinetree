@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<world>
+    <gravity x="0.0" y="-20"></gravity>
+
+    <enviroobject>
+        <name>ground</name>
+        <dynamic>false</dynamic>
+        <position x="12.5" y="3"></position>
+        <shape>polygon</shape>
+        <size x="10" y="1"></size>
+        <density>0</density>
+        <friction>100</friction>
+        <userData>jumpable</userData>
+    </enviroobject>
+
+    <enviroobject>
+        <name>box</name>
+        <dynamic>true</dynamic>
+        <position x="10" y="10"></position>
+        <shape>polygon</shape>
+        <size x="1" y="0.4"></size>
+        <density>2.3</density>
+    </enviroobject>
+
+    <enviroobject>
+        <name>box</name>
+        <dynamic>true</dynamic>
+        <position x="15" y="15"></position>
+        <shape>polygon</shape>
+        <size x="0.4" y="1.1"></size>
+        <density>2.2</density>
+    </enviroobject>
+
+    <enviroobject>
+        <name>box</name>
+        <dynamic>true</dynamic>
+        <position x="10" y="5"></position>
+        <shape>polygon</shape>
+        <size x="1.4" y="1.0"></size>
+        <density>2.1</density>
+    </enviroobject>
+
+    <enviroobject>
+        <name>box</name>
+        <dynamic>true</dynamic>
+        <position x="13" y="20"></position>
+        <shape>polygon</shape>
+        <size x="0.2" y="1.0"></size>
+        <density>4.0</density>
+    </enviroobject>
+</world>
+
+<player>
+    <body>
+        <name>chassis</name>
+        <size x="0.225" y="0.8"></size>
+        <density>1</density>
+        <position1 x="3" y="5"></position3>
+        <position2 x="22" y="5"></position4>
+    </body>
+    <wheel1>
+        <name>wheel1</name>
+        <radius>0.1</radius>
+        <density>0</density>
+        <friction>1.0</friction>
+        <position1 x="2.85" y="4.2"></position3>
+        <position2 x="21.85" y="4.2"></position4>
+    </wheel1>
+    <wheel2>
+        <name>wheel2</name>
+        <position1 x="3.15" y="4.2"></position3>
+        <position2 x="22.15" y="4.2"></position4>
+    </wheel2>
+    <joint>
+        <motorspeed>0</motorspeed>
+        <maxMotorTorque>100</maxMotorTorque>
+        <enableMotor>true</enableMotor>
+        <frequencyHz>1</frequencyHz>
+        <dampingRatio>100</dampingRatio>
+        <collideConnected>true</collideConnected>
+    </joint>
+</player>
