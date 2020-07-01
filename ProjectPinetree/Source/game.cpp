@@ -95,6 +95,17 @@ Game::Game()
 , m_drawDebugInfo(true)
 , m_pPlayer(0)
 , m_pPlayerSprite(0)
+, m_pAUT(0)
+, m_pBox2D(0)
+, m_pFMOD(0)
+, m_pRakNet(0)
+, m_pTitleScreen(0)
+, m_pButton(0)
+, m_pSmgSprite(0)
+, m_pBulletSprite(0)
+, m_pGameMenuState(0)
+, m_pGameState(0)
+, m_pGameStateStack(0)
 {
 	
 }
@@ -125,14 +136,17 @@ Game::~Game()
 	delete m_pSmgSprite;
 	m_pSmgSprite = 0;
 
+	delete m_pPlayerSprite;
+	m_pPlayerSprite = 0;
+
+	delete m_pPlayer;
+	m_pPlayer = 0;
+
 	while (!m_pGameStateStack.empty())
 	{
 		delete m_pGameStateStack.back();
 		m_pGameStateStack.pop_back();
 	}
-
-	delete m_pPlayerSprite;
-	m_pPlayerSprite = 0;
 
 	ResourceManager::DestroyInstance();
 
@@ -194,7 +208,6 @@ Game::Initialise()
 	InputEventHandler::GetInstance().Register(InputStateType::GAME, InputCommand::QUIT, [this] { Quit(); });
 	InputEventHandler::GetInstance().Register(InputStateType::MENU, InputCommand::QUIT, [this] { Quit(); });
 
-	m_pPlayerSprite = m_pBackBuffer->CreateSprite("playership.png");
 	m_pPlayer = new Player();
 	m_pPlayer->Initialise(m_pPlayerSprite);
 
@@ -293,6 +306,8 @@ bool Game::LoadSprites()
 
 	m_pSmgSprite = m_pBackBuffer->CreateSprite("assault_rifle.png");
 	m_pBulletSprite = m_pBackBuffer->CreateSprite("bullet_1.png");
+
+	m_pPlayerSprite = m_pBackBuffer->CreateSprite("playership.png");
 
 	return true;
 }

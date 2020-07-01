@@ -106,17 +106,13 @@ protected:
 	Sprite* m_pSmgSprite;
 	Sprite* m_pBulletSprite;
 
+	// Player
+	Sprite* m_pPlayerSprite;
+
 	//-----------------
 
-	// Object pools
-	//ObjectPool<Sprite> m_spriteObjectPool;
-
-	
 	// Game Entities
 	Player* m_pPlayer;
-
-	// Game Sprites
-	Sprite* m_pPlayerSprite;
 	
 private:
 
