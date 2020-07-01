@@ -53,6 +53,9 @@ protected:
 
 	// Game Entities
 	Player* m_pPlayer;
+
+	// Game Sprites
+	Sprite* m_pPlayerSprite;
 	
 private:
 

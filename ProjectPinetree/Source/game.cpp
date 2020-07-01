@@ -56,6 +56,7 @@ Game::Game()
 , m_lag(0)
 , m_drawDebugInfo(true)
 , m_pPlayer(0)
+, m_pPlayerSprite(0)
 {
 	
 }
@@ -64,6 +65,11 @@ Game::~Game()
 {
 	delete m_pPlayer;
 	m_pPlayer = 0;
+
+	delete m_pPlayerSprite;
+	m_pPlayerSprite = 0;
+
+	ResourceManager::DestroyInstance();
 
 	delete m_pBackBuffer;
 	m_pBackBuffer = 0;
@@ -100,9 +106,9 @@ Game::Initialise()
 
 	m_pBackBuffer->SetClearColour(0xCC, 0xCC, 0xCC);
 
-	Sprite* pPlayerSprite = m_pBackBuffer->CreateSprite("playership.png");
+	m_pPlayerSprite = m_pBackBuffer->CreateSprite("playership.png");
 	m_pPlayer = new Player();
-	m_pPlayer->Initialise(pPlayerSprite);
+	m_pPlayer->Initialise(m_pPlayerSprite);
 
 	return (true);
 }
