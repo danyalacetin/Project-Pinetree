@@ -2,9 +2,10 @@
 #include "backbuffer.h"
 
 // Local includes:
-#include "logmanager.h"
+#include "../logmanager.h"
 #include "sprite.h"
-#include "Resource Management/textures.h"
+#include "../Resource Management/textures.h"
+#include "../Resource Management/text.h"
 
 // Library includes:
 #include <SDL.h>
@@ -188,4 +189,35 @@ BackBuffer::SetClearColour(unsigned char r, unsigned char g, unsigned char b)
 	m_clearRed = r;
 	m_clearGreen = g;
 	m_clearBlue = b;
+}
+
+void
+BackBuffer::DrawText(Text* pText, int iX, int iY) // TODO change handles
+{
+	if (pText)
+	{
+		TextAlignment alignment = pText->GetAlignment();
+		Texture& pTexture = pText->GetTexture();
+		SDL_Rect dst;
+
+		switch (alignment)
+		{
+		case ALIGN_BOT_LEFT:
+			dst.x = iX;
+			dst.y = iY - pText->GetHeight();
+			dst.w = pText->GetWidth();
+			dst.h = pText->GetHeight();
+			break;
+		case ALIGN_CENTRE:
+			dst.x = iX - pText->GetWidth() / 2;
+			dst.y = iY - pText->GetHeight() / 2;
+			dst.w = pText->GetWidth();
+			dst.h = pText->GetHeight();
+			break;
+		default:
+			break;
+		}
+
+		SDL_RenderCopy(m_pRenderer, pTexture.GetTexture(), NULL, &dst);
+	}
 }

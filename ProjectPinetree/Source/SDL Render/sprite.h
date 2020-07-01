@@ -2,6 +2,8 @@
 #ifndef __SPRITE_H__
 #define __SPRITE_H__
 
+#include "../Utilities/gameutils.h"
+
 // Forward Declarations:
 class BackBuffer;
 class Texture;
@@ -24,11 +26,11 @@ public:
 	int GetX() const;
 	int GetY() const;
 
-	void SetDX(int dx);
-	void SetDY(int dy);
+	Vector2i GetDimensions();
+	Vector2f GetDimensionsf();
 
-	int GetDX() const;
-	int GetDY() const;
+	int GetAlpha();
+	void SetAlpha(int alpha);
 
 	void SetAngle(float angle);
 	float GetAngle() const;
@@ -39,7 +41,15 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 
+	void SetWidth(int iwidth);
+	void SetHeight(int iheight);
+
+
+
 	Texture* GetTexture();
+
+	bool InUse();
+	void Free();
 
 protected:
 
@@ -55,8 +65,7 @@ protected:
 	int m_x;
 	int m_y;
 
-	int m_dx;
-	int m_dy;
+	int m_alpha;
 
 	float m_angle;
 	int m_centerX;

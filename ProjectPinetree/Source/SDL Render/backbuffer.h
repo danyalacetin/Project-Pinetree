@@ -6,6 +6,7 @@ class TextureManager;
 class Sprite;
 struct SDL_Window;
 struct SDL_Renderer;
+class Text;
 
 class BackBuffer
 {
@@ -32,6 +33,8 @@ public:
 	void DrawLine(int x1, int y1, int x2, int y2);
 
 	Sprite* CreateSprite(const char* pcFilename);
+
+	void DrawText(Text* pText, int x, int y);
 	
 protected:
 	void LogSDLError();

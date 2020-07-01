@@ -1,23 +1,20 @@
-// COMP710 GP 2D Framework 2019
-
 // This include:
 #include "sprite.h"
 
 // Local includes:
+#include "../Resource Management/texture.h"
 #include "backbuffer.h"
-#include "Resource Management/texture.h"
 
 Sprite::Sprite()
-: m_pTexture(0)
-, m_x(0)
-, m_y(0)
-, m_dx(0)
-, m_dy(0)
-, m_width(0)
-, m_height(0)
-, m_angle(0.0f)
-, m_centerX(0)
-, m_centerY(0)
+	: m_pTexture(0)
+	, m_x(0)
+	, m_y(0)
+	, m_alpha(0)
+	, m_width(0)
+	, m_height(0)
+	, m_angle(0.0f)
+	, m_centerX(0)
+	, m_centerY(0)
 {
 
 }
@@ -27,37 +24,38 @@ Sprite::~Sprite()
 
 }
 
-bool 
+bool
 Sprite::Initialise(Texture& texture)
 {
 	m_pTexture = &texture;
-	
+
 	m_width = m_pTexture->GetWidth();
 	m_height = m_pTexture->GetHeight();
+
+	m_alpha = 255;
 
 	return (true);
 }
 
-void 
+void
 Sprite::Process(float deltaTime)
 {
-	m_x += (int)((float)m_dx * deltaTime);
-	m_y += (int)((float)m_dy * deltaTime);
+
 }
 
-void 
+void
 Sprite::Draw(BackBuffer& backbuffer)
 {
 	backbuffer.DrawSprite(*this);
 }
 
-void 
+void
 Sprite::SetX(int x)
 {
 	m_x = x;
 }
 
-void 
+void
 Sprite::SetY(int y)
 {
 	m_y = y;
@@ -75,27 +73,26 @@ Sprite::GetY() const
 	return (m_y);
 }
 
-void
-Sprite::SetDX(int dx)
+Vector2i Sprite::GetDimensions()
 {
-	m_dx = dx;
+	return Vector2i(m_width, m_height);
 }
 
-void
-Sprite::SetDY(int dy)
+Vector2f Sprite::GetDimensionsf()
 {
-	m_dy = dy;
+	return Vector2f::FromIntVector(GetDimensions());
 }
 
 int
-Sprite::GetDX() const
+Sprite::GetAlpha()
 {
-	return (m_dx);
+	return m_alpha;
 }
 
-int Sprite::GetDY() const
+void
+Sprite::SetAlpha(int alpha)
 {
-	return (m_dy);
+	m_alpha = alpha;
 }
 
 void
@@ -120,24 +117,47 @@ Sprite::SetCenter(int x, int y)
 void
 Sprite::SetHandleCenter()
 {
-	m_centerX = m_width / 2; 
+	m_centerX = m_width / 2;
 	m_centerY = m_height / 2;
 }
 
-Texture* 
+Texture*
 Sprite::GetTexture()
 {
 	return (m_pTexture);
 }
 
-int 
+bool Sprite::InUse()
+{
+	return m_pTexture != nullptr;
+}
+
+void Sprite::Free()
+{
+	m_pTexture = nullptr;
+}
+
+int
 Sprite::GetWidth() const
 {
 	return (m_width);
+
 }
 
 int
 Sprite::GetHeight() const
 {
 	return (m_height);
+}
+
+void
+Sprite::SetWidth(int iWidth)
+{
+	m_width = iWidth;
+}
+
+void
+Sprite::SetHeight(int iHeight)
+{
+	m_height = iHeight;
 }

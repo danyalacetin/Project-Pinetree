@@ -35,7 +35,7 @@ struct Vector2f
 	float y;
 };
 
-enum class TextAlignment
+enum TextAlignment
 {
 	ALIGN_BOT_LEFT,
 	ALIGN_CENTRE,

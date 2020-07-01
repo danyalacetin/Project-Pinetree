@@ -4,9 +4,9 @@
 #include "entity.h"
 
 // Local includes:
-#include "sprite.h"
-#include "backbuffer.h"
-#include "gameutils.h"
+#include "SDL Render/sprite.h"
+#include "SDL Render/backbuffer.h"
+#include "Utilities/gameutils.h"
 
 // Library includes:
 #include <cassert>

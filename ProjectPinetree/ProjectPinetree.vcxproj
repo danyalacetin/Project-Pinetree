@@ -11,10 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\backbuffer.h" />
     <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\game.h" />
-    <ClInclude Include="Source\gameutils.h" />
+    <ClInclude Include="Source\GUI\button.h" />
+    <ClInclude Include="Source\GUI\image.h" />
+    <ClInclude Include="Source\GUI\label.h" />
+    <ClInclude Include="Source\GUI\uielement.h" />
     <ClInclude Include="Source\inputhandler.h" />
     <ClInclude Include="Source\logmanager.h" />
     <ClInclude Include="Source\player.h" />
@@ -30,13 +32,17 @@
     <ClInclude Include="Source\Resource Management\texture.h" />
     <ClInclude Include="Source\Resource Management\texturemanager.h" />
     <ClInclude Include="Source\Resource Management\textures.h" />
-    <ClInclude Include="Source\sprite.h" />
+    <ClInclude Include="Source\SDL Render\backbuffer.h" />
+    <ClInclude Include="Source\SDL Render\sprite.h" />
+    <ClInclude Include="Source\Utilities\gameutils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\backbuffer.cpp" />
     <ClCompile Include="Source\entity.cpp" />
     <ClCompile Include="Source\game.cpp" />
-    <ClCompile Include="Source\gameutils.cpp" />
+    <ClCompile Include="Source\GUI\button.cpp" />
+    <ClCompile Include="Source\GUI\image.cpp" />
+    <ClCompile Include="Source\GUI\label.cpp" />
+    <ClCompile Include="Source\GUI\uielement.cpp" />
     <ClCompile Include="Source\inputhandler.cpp" />
     <ClCompile Include="Source\logmanager.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -49,7 +55,9 @@
     <ClCompile Include="Source\Resource Management\text.cpp" />
     <ClCompile Include="Source\Resource Management\texture.cpp" />
     <ClCompile Include="Source\Resource Management\texturemanager.cpp" />
-    <ClCompile Include="Source\sprite.cpp" />
+    <ClCompile Include="Source\SDL Render\backbuffer.cpp" />
+    <ClCompile Include="Source\SDL Render\sprite.cpp" />
+    <ClCompile Include="Source\Utilities\gameutils.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A63A081C-F174-43A2-803D-AEE64AB9986C}</ProjectGuid>

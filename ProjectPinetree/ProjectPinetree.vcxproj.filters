@@ -13,11 +13,26 @@
     <Filter Include="Source Files\Resource Management">
       <UniqueIdentifier>{50efc779-14e0-4777-a4d3-2ee302b10f09}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\SDL Render">
+      <UniqueIdentifier>{86e40c0a-881e-43b2-bdd8-ab60b288265c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SDL Render">
+      <UniqueIdentifier>{587eae44-3ae4-4937-adee-fb582b0ad35a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{e3bc7b08-b3a3-46ae-99f8-7651c0e1e3f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{56515301-3e11-4313-b6bc-763a3cc0af19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{82515f70-37a4-4333-b380-8ee1381e0e0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{04dc3acb-8858-4b52-b058-bfa73c637f54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\backbuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -28,9 +43,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\logmanager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Resource Management\font.h">
@@ -69,17 +81,32 @@
     <ClInclude Include="Source\Resource Management\textures.h">
       <Filter>Header Files\Resource Management</Filter>
     </ClInclude>
-    <ClInclude Include="Source\gameutils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GUI\button.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GUI\image.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GUI\label.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GUI\uielement.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utilities\gameutils.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SDL Render\backbuffer.h">
+      <Filter>Header Files\SDL Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SDL Render\sprite.h">
+      <Filter>Header Files\SDL Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\backbuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -93,9 +120,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Resource Management\fontmanager.cpp">
@@ -122,11 +146,29 @@
     <ClCompile Include="Source\Resource Management\texturemanager.cpp">
       <Filter>Source Files\Resource Management</Filter>
     </ClCompile>
-    <ClCompile Include="Source\gameutils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\player.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GUI\button.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GUI\image.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GUI\label.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GUI\uielement.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utilities\gameutils.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SDL Render\backbuffer.cpp">
+      <Filter>Source Files\SDL Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SDL Render\sprite.cpp">
+      <Filter>Source Files\SDL Render</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

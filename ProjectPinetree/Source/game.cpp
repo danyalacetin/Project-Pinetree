@@ -4,10 +4,10 @@
 #include "game.h"
 
 // Local includes:
-#include "backbuffer.h"
+#include "SDL Render/backbuffer.h"
 #include "inputhandler.h"
 #include "logmanager.h"
-#include "sprite.h"
+#include "SDL Render/sprite.h"
 #include "player.h"
 #include "Resource Management/resourcemanager.h"
 #include "Resource Management/textures.h"

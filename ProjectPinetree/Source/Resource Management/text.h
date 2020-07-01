@@ -2,7 +2,7 @@
 #define __TEXT_H__
 
 // Local Includes:
-#include "../gameutils.h"
+#include "../Utilities/gameutils.h"
 
 // Library Includes:
 #include<string>
