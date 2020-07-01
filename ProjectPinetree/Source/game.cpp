@@ -24,6 +24,7 @@
 #include <SDL.h>
 #include <cstdio>
 #include <string>
+#include <sstream>
 
 // Static Members:
 Game* Game::sm_pInstance = 0;
@@ -105,6 +106,7 @@ Game::Game()
 , m_pBulletSprite(0)
 , m_pGameMenuState(0)
 , m_pGameState(0)
+, m_pMenuState(0)
 , m_pGameStateStack(0)
 {
 	
@@ -149,6 +151,7 @@ Game::~Game()
 	}
 
 	ResourceManager::DestroyInstance();
+	InputEventHandler::DestroyInstance();
 
 	delete m_pBackBuffer;
 	m_pBackBuffer = 0;

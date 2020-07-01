@@ -28,6 +28,7 @@ public:
 	void KeyUp(SDL_Keycode keycode, InputStateType state);
 
 	void MouseClick(SDL_Event& event, InputStateType state);
+	void MouseMovement(SDL_Event& event, InputStateType state);
 	void Quit(InputStateType state);
 
 protected:

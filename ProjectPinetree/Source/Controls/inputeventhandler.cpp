@@ -15,7 +15,8 @@ InputEventHandler::InputEventHandler()
 
 InputEventHandler::~InputEventHandler()
 {
-
+	m_events.clear();
+	m_mouseListeners.clear();
 }
 
 InputEventHandler & InputEventHandler::GetInstance()
@@ -60,4 +61,21 @@ void InputEventHandler::Register(InputStateType state, InputCommand command, std
 {
 	CommandStateInstance instance = { command, state };
 	m_events[instance] = [action](float fIgnore) { action(); };
+}
+
+void InputEventHandler::NotifyMouseMovement(InputStateType state, Vector2f v2fCoords)
+{
+	for each (MouseListener listener in m_mouseListeners)
+	{
+		if (listener.state == state)
+		{
+			listener.function(v2fCoords);
+		}
+	}
+}
+
+void InputEventHandler::RegisterMouseListener(InputStateType state, std::function<void(Vector2f)> action)
+{
+	MouseListener instance = { state, action };
+	m_mouseListeners.push_back(instance);
 }

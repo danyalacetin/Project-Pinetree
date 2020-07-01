@@ -3,12 +3,20 @@
 
 // Local Includes:
 #include "controlconstants.h"
+#include "../Utilities/gameutils.h"
 
 // Library Includes:
 #include <map>
 #include <functional>
+#include <vector>
 
 // Forward Declarations:
+
+struct MouseListener
+{
+	InputStateType state;
+	std::function<void(Vector2f)> function;
+};
 
 class InputEventHandler
 {
@@ -20,6 +28,9 @@ public:
 	bool Call(InputStateType state, InputCommand command, float fAmmount);
 	void Register(InputStateType state, InputCommand command, std::function<void (float)> action);
 	void Register(InputStateType state, InputCommand command, std::function<void ()> action);
+
+	void NotifyMouseMovement(InputStateType state, Vector2f v2fCoords);
+	void RegisterMouseListener(InputStateType state, std::function<void(Vector2f)> action);
 
 protected:
 	InputEventHandler();
@@ -35,6 +46,7 @@ public:
 protected:
 	static InputEventHandler* m_pInstance;
 	std::map<CommandStateInstance, std::function<void (float)>> m_events;
+	std::vector<MouseListener> m_mouseListeners;
 
 private:
 

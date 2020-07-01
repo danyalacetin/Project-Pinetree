@@ -56,6 +56,9 @@ InputHandler::ProcessInput(Game& game, InputStateType state)
 		case SDL_MOUSEBUTTONDOWN:
 			MouseClick(event, state);
 			break;
+		case SDL_MOUSEMOTION:
+			MouseMovement(event, state);
+			break;
 		default:
 			break;
 		}
@@ -160,6 +163,16 @@ void InputHandler::KeyUp(SDL_Keycode keycode, InputStateType state)
 		InputCommand command = m_pKeyboardBindings->GetCommand(state, "stop");
 		RunCommand(state, command);
 	}
+	else if (keycode == SDLK_s)
+	{
+		InputCommand command = m_pKeyboardBindings->GetCommand(state, "stop");
+		RunCommand(state, command);
+	}
+	else if (keycode == SDLK_w)
+	{
+		InputCommand command = m_pKeyboardBindings->GetCommand(state, "stop");
+		RunCommand(state, command);
+	}
 }
 
 void InputHandler::MouseClick(SDL_Event & event, InputStateType state)
@@ -169,6 +182,15 @@ void InputHandler::MouseClick(SDL_Event & event, InputStateType state)
 		InputCommand command = m_pKeyboardBindings->GetCommand(state, "leftclick");
 		RunCommand(state, command);
 	}
+}
+
+void InputHandler::MouseMovement(SDL_Event& event, InputStateType state)
+{
+	float fX = static_cast<float>(event.motion.x);
+	float fY = static_cast<float>(event.motion.y);
+	Vector2f v2fMouseCoords = Vector2f(fX, fY);
+
+	InputEventHandler::GetInstance().NotifyMouseMovement(state, v2fMouseCoords);
 }
 
 void InputHandler::Quit(InputStateType state)
