@@ -30,6 +30,7 @@ struct Vector2f
 	Vector2i ToIntVector() const;
 	
 	static Vector2f Plus(Vector2f v2fVec1, Vector2f v2fVec2);
+	static Vector2f Multiply(Vector2f v2fVec, float scalar);
 
 	float x;
 	float y;

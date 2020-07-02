@@ -49,12 +49,16 @@ Vector2f UIElement::GetPosition()
 	return m_position;
 }
 
-bool UIElement::ContainsPoint(Vector2f v2fPoint)
+bool UIElement::ContainsPoint(Vector2f v2fPoint) // TODO: maybe broken...
 {
-	Vector2f v2fEndPosition = Vector2f::Plus(m_position, m_dimensions);
+	Vector2f halfnegDimension = Vector2f::Multiply(m_dimensions, -0.5f);
+	Vector2f halfDimension = Vector2f::Multiply(m_dimensions, 0.5f);
 
-	bool bInXRange = v2fPoint.x >= m_position.x && v2fPoint.x <= v2fEndPosition.x;
-	bool bInYRange = v2fPoint.y >= m_position.y && v2fPoint.y <= v2fEndPosition.y;
+	Vector2f v2fStartPosition = Vector2f::Plus(m_position, halfnegDimension);
+	Vector2f v2fEndPosition = Vector2f::Plus(m_position, halfDimension);
+
+	bool bInXRange = v2fPoint.x >= v2fStartPosition.x && v2fPoint.x <= v2fEndPosition.x;
+	bool bInYRange = v2fPoint.y >= v2fStartPosition.y && v2fPoint.y <= v2fEndPosition.y;
 
 	return bInXRange && bInYRange;
 }

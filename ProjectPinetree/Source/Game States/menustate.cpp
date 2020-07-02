@@ -63,7 +63,7 @@ MenuState::Initialise(Sprite* pFMOD, Sprite* pBox2D, Sprite* pRakNet, Sprite* pA
 	m_pMousePointer = new MousePointer();
 	m_pMousePointer->Initialise(pPointerSprite);
 	
-	InputEventHandler::GetInstance().RegisterMouseListener(InputState::MENU, [this] (Vector2f pos) { MouseMoved(pos); });
+	//InputEventHandler::GetInstance().RegisterMouseListener(InputState::MENU, [this] (Vector2f pos) { MouseMoved(pos); });
 
 	CreateSplash();
 
@@ -81,6 +81,7 @@ MenuState::Process(float deltaTime)
 	{
 		m_menuStack.top()->Process(deltaTime);
 		m_pMousePointer->Process(deltaTime);
+		MouseMoved(m_pMousePointer->GetPosition());
 	}
 }
 

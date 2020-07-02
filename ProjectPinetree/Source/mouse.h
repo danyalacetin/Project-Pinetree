@@ -20,6 +20,7 @@ public:
 	void Draw(BackBuffer& backBuffer);
 
 	void SetPosition(Vector2f v2fNewPosition);
+	Vector2f GetPosition() const;
 
 private:
 

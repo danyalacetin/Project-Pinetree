@@ -40,3 +40,8 @@ void MousePointer::SetPosition(Vector2f v2fNewPosition)
 	m_v2fPosition.x = v2fNewPosition.x;
 	m_v2fPosition.y = v2fNewPosition.y;
 }
+
+Vector2f MousePointer::GetPosition() const
+{
+	return m_v2fPosition;
+}

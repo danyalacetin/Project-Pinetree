@@ -195,7 +195,7 @@ Game::Initialise()
 	m_lag = 0.0f;
 
 	m_pBackBuffer->SetClearColour(0xCC, 0xCC, 0xCC);
-	SDL_ShowCursor(SDL_DISABLE);
+	//SDL_ShowCursor(SDL_DISABLE);
 
 	LoadSprites();
 

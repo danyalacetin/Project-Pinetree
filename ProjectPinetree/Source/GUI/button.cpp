@@ -57,8 +57,7 @@ void
 Button::Draw(BackBuffer& backBuffer)
 {
 	assert(m_pSprite);
-	m_pSprite->SetX(static_cast<int>(m_position.x));
-	m_pSprite->SetY(static_cast<int>(m_position.y));
+	m_pSprite->SetPosition(m_position);
 	m_pSprite->Draw(backBuffer);
 	m_pLabel->Draw(backBuffer);
 }

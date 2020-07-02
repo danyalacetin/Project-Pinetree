@@ -57,6 +57,11 @@ Vector2f Vector2f::Plus(Vector2f v2fVec1, Vector2f v2fVec2)
 	return Vector2f(fX, fY);
 }
 
+Vector2f Vector2f::Multiply(Vector2f v2fVec, float scalar)
+{
+	return Vector2f(v2fVec.x * scalar, v2fVec.y * scalar);
+}
+
 Vector2i::Vector2i()
 : x(0)
 , y(0)
