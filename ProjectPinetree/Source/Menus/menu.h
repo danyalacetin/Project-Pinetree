@@ -28,8 +28,13 @@ public:
 
 	int IncrementSelected();
 	int DecrementSelected();
+
 	int GetSelected() const;
+	void SetSelected(int iSelected);
+
 	Button& GetSelectedButton() const;
+
+	void MouseMoved(Vector2f mousePosition);
 
 	void PositionElements(Vector2f containerDimensions);
 

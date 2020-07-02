@@ -5,6 +5,9 @@
 // Superclass Includes:
 #include "state.h"
 
+// Local includes
+#include "../Utilities/gameutils.h"
+
 // Library includes:
 #include <stack> 
 
@@ -46,6 +49,8 @@ public:
 	void DownButtonPressed();
 	void EnterButtonPressed();
 	void ExcapeButtonPressed();
+
+	void MouseMoved(Vector2f pos);
 
 	std::stack<Menu*> GetMenuStack();
 

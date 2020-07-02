@@ -75,11 +75,8 @@ Menu::GetButtonContainor()
 int
 Menu::IncrementSelected()
 {
-	if (m_iSelectedButton < m_buttonContainer.size() - 1)
-	{
-		m_iSelectedButton++;
-		//SoundManager::GetInstance().PlaySound(BUTTONSELECT);
-	}
+
+	SetSelected(m_iSelectedButton + 1);
 
 	return m_iSelectedButton;
 }
@@ -87,11 +84,7 @@ Menu::IncrementSelected()
 int
 Menu::DecrementSelected()
 {
-	if (m_iSelectedButton > 0)
-	{
-		m_iSelectedButton--;
-		//SoundManager::GetInstance().PlaySound(BUTTONSELECT);
-	}
+	SetSelected(m_iSelectedButton - 1);
 
 	return m_iSelectedButton;
 }
@@ -101,9 +94,50 @@ int Menu::GetSelected() const
 	return m_iSelectedButton;
 }
 
+void Menu::SetSelected(int iSelected)
+{
+	m_iSelectedButton = iSelected;
+
+	if (m_iSelectedButton > m_buttonContainer.size())
+	{
+		m_iSelectedButton = m_buttonContainer.size();
+	}
+	else if (m_iSelectedButton < 0)
+	{
+		m_iSelectedButton = 0;
+	}
+
+	for (unsigned i = 0; i < m_buttonContainer.size(); i++)
+	{
+		if (i == m_iSelectedButton)
+		{
+			m_buttonContainer[i]->SetSelected(true);
+		}
+		else
+		{
+			m_buttonContainer[i]->SetSelected(false);
+		}
+	}
+}
+
 Button& Menu::GetSelectedButton() const
 {
 	return *m_buttonContainer[m_iSelectedButton];
+}
+
+void Menu::MouseMoved(Vector2f mousePosition)
+{
+	for (int i = 0; i < m_buttonContainer.size(); i++)
+	{
+		UIElement* pButton = m_buttonContainer[i];
+		bool bIsIn = pButton->ContainsPoint(mousePosition);
+
+		if (bIsIn)
+		{
+			SetSelected(i);
+
+		}
+	}
 }
 
 void Menu::PositionElements(Vector2f containerDimensions)

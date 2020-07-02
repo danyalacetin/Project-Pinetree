@@ -14,7 +14,7 @@
 #include "../logmanager.h"
 #include "../Utilities/gameutils.h"
 #include "../Menus/menu.h"
-//#include "../Controls/inputeventhandler.h"
+#include "../Controls/inputeventhandler.h"
 #include "gamestate.h"
 #include "../mouse.h"
 
@@ -62,6 +62,8 @@ MenuState::Initialise(Sprite* pFMOD, Sprite* pBox2D, Sprite* pRakNet, Sprite* pA
 
 	m_pMousePointer = new MousePointer();
 	m_pMousePointer->Initialise(pPointerSprite);
+	
+	InputEventHandler::GetInstance().RegisterMouseListener(InputState::MENU, [this] (Vector2f pos) { MouseMoved(pos); });
 
 	CreateSplash();
 
@@ -307,41 +309,13 @@ MenuState::InitialiseControls()
 void
 MenuState::UpButtonPressed()
 {
-	int iselected;
-
-	iselected = m_menuStack.top()->DecrementSelected();
-
-	for (unsigned i = 0; i < m_menuStack.top()->GetButtonContainor().size(); i++)
-	{
-		if (i == iselected)
-		{
-			m_menuStack.top()->GetButtonContainor()[i]->SetSelected(true);
-		}
-		else
-		{
-			m_menuStack.top()->GetButtonContainor()[i]->SetSelected(false);
-		}
-	}
+	m_menuStack.top()->DecrementSelected();
 }
 
 void
 MenuState::DownButtonPressed()
 {
-	int iselected;
-
-	iselected = m_menuStack.top()->IncrementSelected();
-
-	for (unsigned i = 0; i < m_menuStack.top()->GetButtonContainor().size(); i++)
-	{
-		if (i == iselected)
-		{
-			m_menuStack.top()->GetButtonContainor()[i]->SetSelected(true);
-		}
-		else
-		{
-			m_menuStack.top()->GetButtonContainor()[i]->SetSelected(false);
-		}
-	}
+	m_menuStack.top()->IncrementSelected();
 }
 
 void
@@ -367,6 +341,14 @@ MenuState::ExcapeButtonPressed()
 	else
 	{
 		Game::GetInstance().Quit();
+	}
+}
+
+void MenuState::MouseMoved(Vector2f pos)
+{
+	if (!m_menuStack.empty())
+	{
+		m_menuStack.top()->MouseMoved(pos);
 	}
 }
 
