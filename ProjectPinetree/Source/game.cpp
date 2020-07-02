@@ -192,18 +192,13 @@ Game::Initialise()
 
 	m_pBackBuffer->SetClearColour(0xCC, 0xCC, 0xCC);
 
-	IniParser pGameSettings = ResourceManager::GetInstance().GetIniManager().GetIniParser("Settings.ini");
-
 	LoadSprites();
 
-	int iScreenWidth = pGameSettings.GetValueAsInt("Screen", "width");
-	int iScreenHeight = pGameSettings.GetValueAsInt("Screen", "height");
+	SDL_DisplayMode displayMode;
+	SDL_GetCurrentDisplayMode(0, &displayMode);
 
-	screenDimensions.x = static_cast<float>(iScreenWidth);
-	screenDimensions.y = static_cast<float>(iScreenHeight);
-
-	screenDimensions.x = static_cast<float>(iScreenWidth);
-	screenDimensions.y = static_cast<float>(iScreenHeight);
+	screenDimensions.x = static_cast<float>(displayMode.w);
+	screenDimensions.y = static_cast<float>(displayMode.h);
 
 	m_pMenuState = new MenuState();
 	m_pMenuState->Initialise(m_pFMOD, m_pBox2D, m_pRakNet, m_pAUT, m_pTitleScreen, m_pButton);
