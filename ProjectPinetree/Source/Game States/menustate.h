@@ -17,6 +17,7 @@ class Menu;
 class Image;
 class Button;
 class Label;
+class MousePointer;
 
 class MenuState : public State
 {
@@ -24,7 +25,7 @@ public:
 	//Member Methods:
 	MenuState();
 	~MenuState();
-	bool Initialise(Sprite* FMOD, Sprite* Box2D, Sprite* RakNet, Sprite* AUT, Sprite* TileScreen, Sprite* Button);
+	bool Initialise(Sprite* FMOD, Sprite* Box2D, Sprite* RakNet, Sprite* AUT, Sprite* TileScreen, Sprite* Button, Sprite* pPointerSprite);
 	void Process(float deltaTime);
 	void Draw(BackBuffer& backBuffer);
 
@@ -69,6 +70,9 @@ private:
 	Sprite* m_pAUT;
 	Sprite* m_pTitleScreen;
 	Sprite* m_pButtonSprite;
+
+	MousePointer* m_pMousePointer;
+
 
 	//MenuState m_menuState;
 

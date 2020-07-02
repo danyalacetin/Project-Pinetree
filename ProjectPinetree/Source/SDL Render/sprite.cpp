@@ -15,6 +15,7 @@ Sprite::Sprite()
 	, m_angle(0.0f)
 	, m_centerX(0)
 	, m_centerY(0)
+	, m_positionHandle(SpritePositionHandle::CENTRE)
 {
 
 }
@@ -46,7 +47,7 @@ Sprite::Process(float deltaTime)
 void
 Sprite::Draw(BackBuffer& backbuffer)
 {
-	backbuffer.DrawSprite(*this);
+	backbuffer.DrawSprite(*this, m_positionHandle);
 }
 
 void
@@ -59,6 +60,12 @@ void
 Sprite::SetY(int y)
 {
 	m_y = y;
+}
+
+void Sprite::SetPosition(Vector2f position)
+{
+	m_x = static_cast<int>(position.x);
+	m_y = static_cast<int>(position.y);
 }
 
 int
@@ -119,6 +126,11 @@ Sprite::SetHandleCenter()
 {
 	m_centerX = m_width / 2;
 	m_centerY = m_height / 2;
+}
+
+void Sprite::SetHandle(SpritePositionHandle handle)
+{
+	m_positionHandle = handle;
 }
 
 Texture*

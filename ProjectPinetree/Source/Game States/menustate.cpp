@@ -16,6 +16,7 @@
 #include "../Menus/menu.h"
 //#include "../Controls/inputeventhandler.h"
 #include "gamestate.h"
+#include "../mouse.h"
 
 // Library includes:
 #include <cassert>
@@ -26,6 +27,7 @@ MenuState::MenuState()
 	, m_pMainMenu(0)
 	, m_pSplash(0)
 	, m_playerCount(0)
+	, m_pMousePointer(0)
 {
 }
 
@@ -43,10 +45,13 @@ MenuState::~MenuState()
 		delete m_menuStack.top();
 		m_menuStack.pop();
 	}
+
+	delete m_pMousePointer;
+	m_pMousePointer = 0;
 }
 
 bool
-MenuState::Initialise(Sprite* pFMOD, Sprite* pBox2D, Sprite* pRakNet, Sprite* pAUT, Sprite* pTitleScreen, Sprite* pButton)
+MenuState::Initialise(Sprite* pFMOD, Sprite* pBox2D, Sprite* pRakNet, Sprite* pAUT, Sprite* pTitleScreen, Sprite* pButton, Sprite* pPointerSprite)
 {
 	m_pRakNet = pRakNet;
 	m_pBox2D = pBox2D;
@@ -54,6 +59,9 @@ MenuState::Initialise(Sprite* pFMOD, Sprite* pBox2D, Sprite* pRakNet, Sprite* pA
 	m_pTitleScreen = pTitleScreen;
 	m_pAUT = pAUT;
 	m_pButtonSprite = pButton;
+
+	m_pMousePointer = new MousePointer();
+	m_pMousePointer->Initialise(pPointerSprite);
 
 	CreateSplash();
 
@@ -70,6 +78,7 @@ MenuState::Process(float deltaTime)
 	else
 	{
 		m_menuStack.top()->Process(deltaTime);
+		m_pMousePointer->Process(deltaTime);
 	}
 }
 
@@ -83,8 +92,9 @@ MenuState::Draw(BackBuffer& backBuffer)
 	}
 	else
 	{
-		backBuffer.SetClearColour(0x77, 0x77, 0x77); //Should this go here?
+		backBuffer.SetClearColour(0x77, 0x77, 0x77); //Should this go here? No it shouldn't.
 		m_menuStack.top()->Draw(backBuffer);
+		m_pMousePointer->Draw(backBuffer);
 	}
 }
 

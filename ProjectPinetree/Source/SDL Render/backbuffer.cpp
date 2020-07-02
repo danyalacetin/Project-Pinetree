@@ -132,12 +132,22 @@ BackBuffer::SetDrawColour(unsigned char r, unsigned char g, unsigned char b, uns
 }
 
 void 
-BackBuffer::DrawSprite(Sprite& sprite)
+BackBuffer::DrawSprite(Sprite& sprite, SpritePositionHandle positionHandle)
 {
 	SDL_Rect dest;
 
-	dest.x = sprite.GetX() - sprite.GetWidth() / 2;
-	dest.y = sprite.GetY() - sprite.GetHeight() / 2;
+	if (SpritePositionHandle::CENTRE == positionHandle)
+	{
+		dest.x = sprite.GetX() - sprite.GetWidth() / 2;
+		dest.y = sprite.GetY() - sprite.GetHeight() / 2;
+	}
+	else if (SpritePositionHandle::TOP_LEFT == positionHandle)
+	{
+		dest.x = sprite.GetX();
+		dest.y = sprite.GetY();
+	}
+
+	
 	dest.w = sprite.GetWidth();
 	dest.h = sprite.GetHeight();
 

@@ -8,6 +8,12 @@
 class BackBuffer;
 class Texture;
 
+enum class SpritePositionHandle
+{
+	CENTRE,
+	TOP_LEFT
+};
+
 class Sprite
 {
 	//Member Methods:
@@ -22,6 +28,7 @@ public:
 
 	void SetX(int x);
 	void SetY(int y);
+	void SetPosition(Vector2f position);
 
 	int GetX() const;
 	int GetY() const;
@@ -38,13 +45,13 @@ public:
 	void SetCenter(int x, int y);
 	void SetHandleCenter();
 
+	void SetHandle(SpritePositionHandle handle);
+
 	int GetWidth() const;
 	int GetHeight() const;
 
 	void SetWidth(int iwidth);
 	void SetHeight(int iheight);
-
-
 
 	Texture* GetTexture();
 
@@ -73,6 +80,8 @@ protected:
 
 	int m_width;
 	int m_height;
+
+	SpritePositionHandle m_positionHandle;
 
 private:
 

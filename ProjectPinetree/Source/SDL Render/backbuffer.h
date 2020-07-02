@@ -1,6 +1,9 @@
 #ifndef __BACKBUFFER_H__
 #define __BACKBUFFER_H__
 
+// Local Includes
+#include "sprite.h"
+
 // Forward Declarations:
 class TextureManager;
 class Sprite;
@@ -28,7 +31,7 @@ public:
 	void SetDrawColour(unsigned char r, unsigned char g, unsigned char b);
 	void SetDrawColour(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
 
-	void DrawSprite(Sprite& sprite);
+	void DrawSprite(Sprite& sprite, SpritePositionHandle positionHandle);
 	void DrawRectangle(int x1, int y1, int x2, int y2);
 	void DrawLine(int x1, int y1, int x2, int y2);
 

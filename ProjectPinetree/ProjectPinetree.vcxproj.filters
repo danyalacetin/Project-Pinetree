@@ -150,6 +150,9 @@
     <ClInclude Include="Source\Controls\keyboardbindings.h">
       <Filter>Header Files\Controls</Filter>
     </ClInclude>
+    <ClInclude Include="Source\mouse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\entity.cpp">
@@ -241,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="Source\Controls\controlconstants.cpp">
       <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\mouse.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

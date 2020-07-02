@@ -108,6 +108,7 @@ Game::Game()
 , m_pGameState(0)
 , m_pMenuState(0)
 , m_pGameStateStack(0)
+, m_pPointerSprite(0)
 {
 	
 }
@@ -140,6 +141,9 @@ Game::~Game()
 
 	delete m_pPlayerSprite;
 	m_pPlayerSprite = 0;
+
+	delete m_pPointerSprite;
+	m_pPointerSprite = 0;
 
 	delete m_pPlayer;
 	m_pPlayer = 0;
@@ -191,6 +195,7 @@ Game::Initialise()
 	m_lag = 0.0f;
 
 	m_pBackBuffer->SetClearColour(0xCC, 0xCC, 0xCC);
+	SDL_ShowCursor(SDL_DISABLE);
 
 	LoadSprites();
 
@@ -201,7 +206,7 @@ Game::Initialise()
 	screenDimensions.y = static_cast<float>(displayMode.h);
 
 	m_pMenuState = new MenuState();
-	m_pMenuState->Initialise(m_pFMOD, m_pBox2D, m_pRakNet, m_pAUT, m_pTitleScreen, m_pButton);
+	m_pMenuState->Initialise(m_pFMOD, m_pBox2D, m_pRakNet, m_pAUT, m_pTitleScreen, m_pButton, m_pPointerSprite);
 	m_pGameStateStack.push_back(m_pMenuState);
 	InputEventHandler::GetInstance().Register(InputState::GAME, InputCommand::QUIT, [this] { Quit(); });
 	InputEventHandler::GetInstance().Register(InputState::MENU, InputCommand::QUIT, std::bind(&Game::Quit, this));
@@ -306,6 +311,7 @@ bool Game::LoadSprites()
 	m_pBulletSprite = m_pBackBuffer->CreateSprite("bullet_1.png");
 
 	m_pPlayerSprite = m_pBackBuffer->CreateSprite("playership.png");
+	m_pPointerSprite = m_pBackBuffer->CreateSprite("mouse_pointer.png");
 
 	return true;
 }

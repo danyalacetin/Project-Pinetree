@@ -98,6 +98,7 @@ protected:
 
 	// Main Menu
 	Sprite* m_pTitleScreen;
+	Sprite* m_pPointerSprite;
 
 	// Buttons
 	Sprite* m_pButton;
