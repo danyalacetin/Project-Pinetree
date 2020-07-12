@@ -5,20 +5,13 @@
 enum class InputCommand
 {
 	NONE,
-	MOVE_LEFT,
-	MOVE_RIGHT,
-	MOVE_UP,
-	MOVE_DOWN,
-	MOVE_STOP,
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
 	ACTIVATE,
 	SHOW_MENU,
 	QUIT,
-	MENU_UP,
-	MENU_DOWN,
-	MENU_RIGHT,
-	MENU_LEFT,
-	MENU_SELECT,
-	TEST,
 };
 
 enum class InputState

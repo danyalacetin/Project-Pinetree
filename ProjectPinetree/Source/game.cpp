@@ -18,6 +18,7 @@
 #include "Game States/gamestate.h"
 #include "Game States/gamemenustate.h"
 #include "Game States/state.h"
+#include "mouse.h"
 
 // Library includes:
 #include <cassert>
@@ -109,6 +110,7 @@ Game::Game()
 , m_pMenuState(0)
 , m_pGameStateStack(0)
 , m_pPointerSprite(0)
+, m_pMousePointer(0)
 {
 	
 }
@@ -147,6 +149,9 @@ Game::~Game()
 
 	delete m_pPlayer;
 	m_pPlayer = 0;
+
+	delete m_pMousePointer;
+	m_pMousePointer = 0;
 
 	while (!m_pGameStateStack.empty())
 	{
@@ -195,7 +200,7 @@ Game::Initialise()
 	m_lag = 0.0f;
 
 	m_pBackBuffer->SetClearColour(0xCC, 0xCC, 0xCC);
-	//SDL_ShowCursor(SDL_DISABLE);
+	SDL_ShowCursor(SDL_DISABLE);
 
 	LoadSprites();
 
@@ -206,13 +211,14 @@ Game::Initialise()
 	screenDimensions.y = static_cast<float>(displayMode.h);
 
 	m_pMenuState = new MenuState();
-	m_pMenuState->Initialise(m_pFMOD, m_pBox2D, m_pRakNet, m_pAUT, m_pTitleScreen, m_pButton, m_pPointerSprite);
+	m_pMenuState->Initialise(m_pFMOD, m_pBox2D, m_pRakNet, m_pAUT, m_pTitleScreen, m_pButton);
 	m_pGameStateStack.push_back(m_pMenuState);
-	InputEventHandler::GetInstance().Register(InputState::GAME, InputCommand::QUIT, [this] { Quit(); });
-	InputEventHandler::GetInstance().Register(InputState::MENU, InputCommand::QUIT, std::bind(&Game::Quit, this));
 
 	m_pPlayer = new Player();
 	m_pPlayer->Initialise(m_pPlayerSprite);
+
+	m_pMousePointer = new MousePointer();
+	m_pMousePointer->Initialise(m_pPointerSprite);
 
 	return (true);
 }
@@ -345,4 +351,9 @@ Game::DeleteState()
 	m_pGameStateStack.pop_back();
 	m_pGameStateStack.back()->InitialiseControls();
 
+}
+
+MousePointer& Game::GetMouse()
+{
+	return *m_pMousePointer;
 }

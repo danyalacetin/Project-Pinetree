@@ -22,6 +22,9 @@ public:
 	void SetPosition(Vector2f v2fNewPosition);
 	Vector2f GetPosition() const;
 
+protected:
+	void MouseMovement(Vector2f v2fMouseMovement); // TODO: maybe get rid of?
+
 private:
 
 	// Member Data

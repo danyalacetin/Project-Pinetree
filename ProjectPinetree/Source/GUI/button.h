@@ -27,7 +27,7 @@ public:
 	void Process(float deltaTime);
 	void Draw(BackBuffer& backBuffer);
 	bool IsSelected();
-	void SetSelected(bool selected);
+	void SetSelected(bool selected); // TODO: Maybe remove?
 
 	void OnPress();
 	void SetOnPress(std::function<void()> fnOnPress);

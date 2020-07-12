@@ -42,17 +42,17 @@ GameMenuState::Initialise(Sprite* buttonSprite)
 	m_pButton->Initialise(buttonSprite, "Resume");
 	m_pButton->SetSelected(true);
 	m_pButton->SetOnPress([&] { Game::GetInstance().DeleteState(); });
-	m_pInGameMenu->AddButton(m_pButton);
+	m_pInGameMenu->AddChild(m_pButton);
 
 	m_pButton = new Button();
 	m_pButton->Initialise(buttonSprite, "Quit to Lobby");
 	m_pButton->SetOnPress([&] { Game::GetInstance().DeleteState(); Game::GetInstance().DeleteState(); });
-	m_pInGameMenu->AddButton(m_pButton);
+	m_pInGameMenu->AddChild(m_pButton);
 
 	m_pButton = new Button();
 	m_pButton->Initialise(buttonSprite, "Quit to Desktop");
 	m_pButton->SetOnPress([&] { Game::GetInstance().Quit(); });
-	m_pInGameMenu->AddButton(m_pButton);
+	m_pInGameMenu->AddChild(m_pButton);
 
 	m_pInGameMenu->PositionElements(Game::screenDimensions);
 
@@ -94,45 +94,45 @@ GameMenuState::InitialiseControls()
 void
 GameMenuState::UpButtonPressed()
 {
-	int iselected;
+	//int iselected;
 
-	iselected = m_pInGameMenu->DecrementSelected();
+	//iselected = m_pInGameMenu->DecrementSelected();
 
-	for (unsigned i = 0; i < m_pInGameMenu->GetButtonContainor().size(); i++)
-	{
-		if (i == iselected)
-		{
-			m_pInGameMenu->GetButtonContainor()[i]->SetSelected(true);
-		}
-		else
-		{
-			m_pInGameMenu->GetButtonContainor()[i]->SetSelected(false);
-		}
-	}
+	//for (unsigned i = 0; i < m_pInGameMenu->GetButtonContainor().size(); i++)
+	//{
+	//	if (i == iselected)
+	//	{
+	//		m_pInGameMenu->GetButtonContainor()[i]->SetSelected(true);
+	//	}
+	//	else
+	//	{
+	//		m_pInGameMenu->GetButtonContainor()[i]->SetSelected(false);
+	//	}
+	//}
 }
 
 void
 GameMenuState::DownButtonPressed()
 {
-	int iselected;
+	//int iselected;
 
-	iselected = m_pInGameMenu->IncrementSelected();
+	//iselected = m_pInGameMenu->IncrementSelected();
 
-	for (unsigned i = 0; i < m_pInGameMenu->GetButtonContainor().size(); i++)
-	{
-		if (i == iselected)
-		{
-			m_pInGameMenu->GetButtonContainor()[i]->SetSelected(true);
-		}
-		else
-		{
-			m_pInGameMenu->GetButtonContainor()[i]->SetSelected(false);
-		}
-	}
+	//for (unsigned i = 0; i < m_pInGameMenu->GetButtonContainor().size(); i++)
+	//{
+	//	if (i == iselected)
+	//	{
+	//		m_pInGameMenu->GetButtonContainor()[i]->SetSelected(true);
+	//	}
+	//	else
+	//	{
+	//		m_pInGameMenu->GetButtonContainor()[i]->SetSelected(false);
+	//	}
+	//}
 }
 
 void
 GameMenuState::EnterButtonPressed()
 {
-	m_pInGameMenu->GetSelectedButton().OnPress();
+	//m_pInGameMenu->GetSelectedButton().OnPress();
 }

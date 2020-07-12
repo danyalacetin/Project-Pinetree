@@ -14,7 +14,6 @@
 #include <cassert>
 
 Menu::Menu()
-	: m_iSelectedButton(0)
 {
 
 }
@@ -28,7 +27,6 @@ Menu::~Menu()
 	}
 
 	m_uiElementContainor.clear();
-	m_buttonContainer.clear();
 }
 
 bool
@@ -41,7 +39,10 @@ Menu::Initialise()
 void
 Menu::Process(float deltaTime)
 {
-
+	for each (Button* pButton in m_buttonContainer)
+	{
+		pButton->Process(deltaTime);
+	}
 }
 
 void
@@ -59,85 +60,25 @@ Menu::AddChild(UIElement* uiElement)
 	m_uiElementContainor.push_back(uiElement);
 }
 
-void
-Menu::AddButton(Button* button)
+void Menu::AddChild(Button* button)
 {
+	m_uiElementContainor.push_back(button);
 	m_buttonContainer.push_back(button);
-	AddChild(button);
 }
 
-std::vector<Button*>&
-Menu::GetButtonContainor()
+void Menu::MouseClicked(Vector2f v2fMousePosition)
 {
-	return m_buttonContainer;
-}
+	Button* pSelectedButton = 0;
 
-int
-Menu::IncrementSelected()
-{
-
-	SetSelected(m_iSelectedButton + 1);
-
-	return m_iSelectedButton;
-}
-
-int
-Menu::DecrementSelected()
-{
-	SetSelected(m_iSelectedButton - 1);
-
-	return m_iSelectedButton;
-}
-
-int Menu::GetSelected() const
-{
-	return m_iSelectedButton;
-}
-
-void Menu::SetSelected(int iSelected)
-{
-	m_iSelectedButton = iSelected;
-
-	if (m_iSelectedButton > m_buttonContainer.size())
+	for each (Button * pButton in m_buttonContainer)
 	{
-		m_iSelectedButton = m_buttonContainer.size();
-	}
-	else if (m_iSelectedButton < 0)
-	{
-		m_iSelectedButton = 0;
-	}
-
-	for (unsigned i = 0; i < m_buttonContainer.size(); i++)
-	{
-		if (i == m_iSelectedButton)
+		if (pButton->ContainsPoint(v2fMousePosition))
 		{
-			m_buttonContainer[i]->SetSelected(true);
-		}
-		else
-		{
-			m_buttonContainer[i]->SetSelected(false);
+			pSelectedButton = pButton;
 		}
 	}
-}
 
-Button& Menu::GetSelectedButton() const
-{
-	return *m_buttonContainer[m_iSelectedButton];
-}
-
-void Menu::MouseMoved(Vector2f mousePosition)
-{
-	for (int i = 0; i < m_buttonContainer.size(); i++)
-	{
-		UIElement* pButton = m_buttonContainer[i];
-		bool bIsIn = pButton->ContainsPoint(mousePosition);
-
-		if (bIsIn)
-		{
-			SetSelected(i);
-
-		}
-	}
+	pSelectedButton->OnPress();
 }
 
 void Menu::PositionElements(Vector2f containerDimensions)

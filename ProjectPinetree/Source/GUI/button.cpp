@@ -7,6 +7,7 @@
 #include "../SDL Render/sprite.h"
 #include "../game.h"
 #include "label.h"
+#include "../mouse.h"
 //#include "../soundmanager.h"
 
 // Library includes:
@@ -43,6 +44,9 @@ Button::Initialise(Sprite* sprite, std::string text)
 void
 Button::Process(float deltaTime)
 {
+	MousePointer gameMouse = Game::GetInstance().GetMouse();
+	m_selected = ContainsPoint(gameMouse.GetPosition());
+
 	if (m_selected)
 	{
 		m_pLabel->SetColour(0xFF, 0x00, 0x00);

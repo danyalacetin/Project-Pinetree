@@ -27,7 +27,6 @@ MenuState::MenuState()
 	, m_pMainMenu(0)
 	, m_pSplash(0)
 	, m_playerCount(0)
-	, m_pMousePointer(0)
 {
 }
 
@@ -45,13 +44,10 @@ MenuState::~MenuState()
 		delete m_menuStack.top();
 		m_menuStack.pop();
 	}
-
-	delete m_pMousePointer;
-	m_pMousePointer = 0;
 }
 
 bool
-MenuState::Initialise(Sprite* pFMOD, Sprite* pBox2D, Sprite* pRakNet, Sprite* pAUT, Sprite* pTitleScreen, Sprite* pButton, Sprite* pPointerSprite)
+MenuState::Initialise(Sprite* pFMOD, Sprite* pBox2D, Sprite* pRakNet, Sprite* pAUT, Sprite* pTitleScreen, Sprite* pButton)
 {
 	m_pRakNet = pRakNet;
 	m_pBox2D = pBox2D;
@@ -60,12 +56,9 @@ MenuState::Initialise(Sprite* pFMOD, Sprite* pBox2D, Sprite* pRakNet, Sprite* pA
 	m_pAUT = pAUT;
 	m_pButtonSprite = pButton;
 
-	m_pMousePointer = new MousePointer();
-	m_pMousePointer->Initialise(pPointerSprite);
-	
-	//InputEventHandler::GetInstance().RegisterMouseListener(InputState::MENU, [this] (Vector2f pos) { MouseMoved(pos); });
-
 	CreateSplash();
+
+	InitialiseControls();
 
 	return (true);
 }
@@ -80,8 +73,7 @@ MenuState::Process(float deltaTime)
 	else
 	{
 		m_menuStack.top()->Process(deltaTime);
-		m_pMousePointer->Process(deltaTime);
-		MouseMoved(m_pMousePointer->GetPosition());
+		Game::GetInstance().GetMouse().Process(deltaTime);
 	}
 }
 
@@ -97,15 +89,13 @@ MenuState::Draw(BackBuffer& backBuffer)
 	{
 		backBuffer.SetClearColour(0x77, 0x77, 0x77); //Should this go here? No it shouldn't.
 		m_menuStack.top()->Draw(backBuffer);
-		m_pMousePointer->Draw(backBuffer);
+		Game::GetInstance().GetMouse().Draw(backBuffer);
 	}
 }
 
 void
 MenuState::CreateMainMenu()
 {
-	InitialiseControls();
-
 	m_pMainMenu = new Menu();
 	m_pMainMenu->Initialise();
 
@@ -115,19 +105,18 @@ MenuState::CreateMainMenu()
 
 	m_pButton = new Button();
 	m_pButton->Initialise(m_pButtonSprite, "Join Game");
-	m_pButton->SetSelected(true);
 	m_pButton->SetOnPress([&] {CreateLobbyMenu(); });
-	m_pMainMenu->AddButton(m_pButton);
+	m_pMainMenu->AddChild(m_pButton);
 
 	m_pButton = new Button();
 	m_pButton->Initialise(m_pButtonSprite, "Credits");
 	m_pButton->SetOnPress([&] {CreateCreditsMenu(); });
-	m_pMainMenu->AddButton(m_pButton);
+	m_pMainMenu->AddChild(m_pButton);
 
 	m_pButton = new Button();
 	m_pButton->Initialise(m_pButtonSprite, "Quit");
 	m_pButton->SetOnPress([] { Game::GetInstance().Quit(); });
-	m_pMainMenu->AddButton(m_pButton);
+	m_pMainMenu->AddChild(m_pButton);
 
 	m_pMainMenu->PositionElements(Game::screenDimensions);
 
@@ -137,9 +126,6 @@ MenuState::CreateMainMenu()
 void
 MenuState::CreateSplash()
 {
-	//InputEventHandler::GetInstance().Register(COMMAND_QUIT, [this] { ExcapeButtonPressed(); });
-	//InputEventHandler::GetInstance().Register(COMMAND_MENU_SELECT, [this] {EnterButtonPressed(); });
-
 	m_pAUT->SetWidth(static_cast<int>(Game::screenDimensions.x / 8));
 	m_pAUT->SetHeight(static_cast<int>(Game::screenDimensions.x / 8));
 
@@ -175,7 +161,7 @@ MenuState::CreateOptionsMenu()
 	m_pButton->Initialise(m_pButtonSprite, "Back");
 	m_pButton->SetSelected(true);
 	m_pButton->SetOnPress([&] { MenuReturn(); });
-	m_pOptionsMenu->AddButton(m_pButton);
+	m_pOptionsMenu->AddChild(m_pButton);
 
 	m_pOptionsMenu->PositionElements(Game::screenDimensions);
 
@@ -216,7 +202,7 @@ MenuState::CreateCreditsMenu()
 	m_pButton->Initialise(m_pButtonSprite, "Back");
 	m_pButton->SetSelected(true);
 	m_pButton->SetOnPress([&] { MenuReturn(); });
-	m_pCreditsMenu->AddButton(m_pButton);
+	m_pCreditsMenu->AddChild(m_pButton);
 
 	m_pCreditsMenu->PositionElements(Game::screenDimensions);
 
@@ -243,10 +229,9 @@ MenuState::CreateLobbyMenu()
 
 	m_pButton = new Button();
 	m_pButton->Initialise(m_pButtonSprite, "Back");
-	m_pButton->SetSelected(true);
 	m_pButton->SetOnPress([&] { MenuReturn(); });
 	m_pButton->SetPosition(Game::screenDimensions.x - m_pButtonSprite->GetWidth(), Game::screenDimensions.y - m_pButtonSprite->GetHeight());
-	m_pLobbyMenu->AddButton(m_pButton);
+	m_pLobbyMenu->AddChild(m_pButton);
 
 	m_pLobbyMenu->PositionElements(Game::screenDimensions);
 
@@ -293,34 +278,24 @@ MenuState::MenuReturn()
 void
 MenuState::InitialiseControls()
 {
-	//InputEventHandler::GetInstance().Register(COMMAND_NONE, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_MOVE_LEFT, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_MOVE_STOP, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_MOVE_RIGHT, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_JUMP, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_ACTIVATE_WEAPON, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_SHOW_MENU, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_QUIT, [this] { ExcapeButtonPressed(); });
-	//InputEventHandler::GetInstance().Register(COMMAND_MENU_SELECT, [this] {EnterButtonPressed(); });
-	//InputEventHandler::GetInstance().Register(COMMAND_MENU_SELECT_UP, [this] {UpButtonPressed(); });
-	//InputEventHandler::GetInstance().Register(COMMAND_MENU_SELECT_DOWN, [this] {DownButtonPressed(); });
-	//InputEventHandler::GetInstance().Register(COMMAND_TEST, [] {});
+	InputEventHandler::GetInstance().Register(InputState::GAME, InputCommand::QUIT, [this] { EscapeButtonPressed(); });
+	InputEventHandler::GetInstance().Register(InputState::MENU, InputCommand::ACTIVATE, [this] { ActivateAction(); });
 }
 
 void
 MenuState::UpButtonPressed()
 {
-	m_menuStack.top()->DecrementSelected();
+	//m_menuStack.top()->DecrementSelected();
 }
 
 void
 MenuState::DownButtonPressed()
 {
-	m_menuStack.top()->IncrementSelected();
+	//m_menuStack.top()->IncrementSelected();
 }
 
 void
-MenuState::EnterButtonPressed()
+MenuState::ActivateAction()
 {
 	if (!m_splashStack.empty())
 	{
@@ -328,12 +303,13 @@ MenuState::EnterButtonPressed()
 	}
 	else
 	{
-		m_menuStack.top()->GetSelectedButton().OnPress();
+		Vector2f v2fMousePosition = Game::GetInstance().GetMouse().GetPosition();
+		m_menuStack.top()->MouseClicked(v2fMousePosition);
 	}
 }
 
 void
-MenuState::ExcapeButtonPressed()
+MenuState::EscapeButtonPressed()
 {
 	if (m_menuStack.size() > 1)
 	{
@@ -349,7 +325,7 @@ void MenuState::MouseMoved(Vector2f pos)
 {
 	if (!m_menuStack.empty())
 	{
-		m_menuStack.top()->MouseMoved(pos);
+		//m_menuStack.top()->MouseMoved(pos);
 	}
 }
 

@@ -20,6 +20,10 @@ void KeyboardBindings::Initialise()
 {
 	m_gameCommandBindings["escape"] = InputCommand::QUIT;
 	m_menuCommandBindings["escape"] = InputCommand::QUIT;
+
+
+	m_menuCommandBindings["enter"] = InputCommand::ACTIVATE;
+	m_menuCommandBindings["leftclick"] = InputCommand::ACTIVATE;
 }
 
 InputCommand KeyboardBindings::GetCommand(InputState state, std::string request)

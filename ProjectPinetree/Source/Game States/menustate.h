@@ -20,7 +20,6 @@ class Menu;
 class Image;
 class Button;
 class Label;
-class MousePointer;
 
 class MenuState : public State
 {
@@ -28,7 +27,7 @@ public:
 	//Member Methods:
 	MenuState();
 	~MenuState();
-	bool Initialise(Sprite* FMOD, Sprite* Box2D, Sprite* RakNet, Sprite* AUT, Sprite* TileScreen, Sprite* Button, Sprite* pPointerSprite);
+	bool Initialise(Sprite* FMOD, Sprite* Box2D, Sprite* RakNet, Sprite* AUT, Sprite* TileScreen, Sprite* Button);
 	void Process(float deltaTime);
 	void Draw(BackBuffer& backBuffer);
 
@@ -47,8 +46,8 @@ public:
 
 	void UpButtonPressed();
 	void DownButtonPressed();
-	void EnterButtonPressed();
-	void ExcapeButtonPressed();
+	void ActivateAction();
+	void EscapeButtonPressed();
 
 	void MouseMoved(Vector2f pos);
 
@@ -75,8 +74,6 @@ private:
 	Sprite* m_pAUT;
 	Sprite* m_pTitleScreen;
 	Sprite* m_pButtonSprite;
-
-	MousePointer* m_pMousePointer;
 
 
 	//MenuState m_menuState;
