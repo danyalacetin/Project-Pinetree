@@ -23,18 +23,9 @@ public:
 	void Draw(BackBuffer& backBuffer);
 
 	void AddChild(UIElement* uiElement);
-	void AddButton(Button* button);
-	std::vector<Button*>& GetButtonContainor();
+	void AddChild(Button* button);
 
-	int IncrementSelected();
-	int DecrementSelected();
-
-	int GetSelected() const;
-	void SetSelected(int iSelected);
-
-	Button& GetSelectedButton() const;
-
-	void MouseMoved(Vector2f mousePosition);
+	void MouseClicked(Vector2f v2fMousePosition);
 
 	void PositionElements(Vector2f containerDimensions);
 
@@ -48,12 +39,8 @@ public:
 protected:
 
 private:
-
-	unsigned m_iSelectedButton;
-
 	std::vector<UIElement*> m_uiElementContainor;
-	std::vector<Button*> m_buttonContainer;
-
+	std::vector<Button*> m_buttonContainer; // TODO: has to be a better way.
 };
 
 #endif // __MENU_H__

@@ -15,6 +15,7 @@
     <ClInclude Include="Source\Controls\inputeventhandler.h" />
     <ClInclude Include="Source\Controls\inputhandler.h" />
     <ClInclude Include="Source\Controls\keyboardbindings.h" />
+    <ClInclude Include="Source\Entity Component System\ESC.h" />
     <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\Game States\gamemenustate.h" />
     <ClInclude Include="Source\Game States\gamestate.h" />
@@ -51,6 +52,7 @@
     <ClCompile Include="Source\Controls\inputeventhandler.cpp" />
     <ClCompile Include="Source\Controls\inputhandler.cpp" />
     <ClCompile Include="Source\Controls\keyboardbindings.cpp" />
+    <ClCompile Include="Source\Entity Component System\ECS.cpp" />
     <ClCompile Include="Source\entity.cpp" />
     <ClCompile Include="Source\Game States\gamemenustate.cpp" />
     <ClCompile Include="Source\Game States\gamestate.cpp" />

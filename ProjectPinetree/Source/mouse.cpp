@@ -45,3 +45,9 @@ Vector2f MousePointer::GetPosition() const
 {
 	return m_v2fPosition;
 }
+
+void MousePointer::MouseMovement(Vector2f v2fMouseMovement)
+{
+	Vector2f v2fNewPosition = Vector2f::Plus(v2fMouseMovement, m_v2fPosition);
+	SetPosition(v2fNewPosition);
+}

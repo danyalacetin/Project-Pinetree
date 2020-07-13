@@ -23,6 +23,7 @@ class GameState;
 class MenuState;
 class GameMenuState;
 class State;
+class MousePointer;
 
 class Game
 {
@@ -49,6 +50,8 @@ public:
 	void AddGameState();
 	void AddGameMenuState();
 	void DeleteState();
+
+	MousePointer& GetMouse();
 
 protected:
 	void Process(float deltaTime);
@@ -114,6 +117,9 @@ protected:
 
 	// Game Entities
 	Player* m_pPlayer;
+
+	// Mouse
+	MousePointer* m_pMousePointer;
 	
 private:
 
