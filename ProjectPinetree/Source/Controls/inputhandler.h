@@ -11,7 +11,7 @@
 // Forward Declarations:
 class Game;
 class KeyboardBindings;
-class Vector2f;
+struct Vector2f;
 
 class InputHandler
 {

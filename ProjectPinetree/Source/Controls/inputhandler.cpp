@@ -29,39 +29,39 @@ void
 InputHandler::ProcessInput(Game& game)
 {
 	SDL_Event event;
+	UserInput input;
 
 	while (SDL_PollEvent(&event) != 0)
 	{
-		InputType type = InputType::NONE;
-		InputCommand command = InputCommand::NONE;
-		Vector2f mousePosition = Vector2f();
-
 		switch (event.type)
 		{
 		case SDL_KEYDOWN:
-			type = InputType::BUTTON_DOWN;
-			command = GetKeyCommand(event);
+			input.type = InputType::BUTTON_DOWN;
+			input.command = GetKeyCommand(event);
 			break;
 		case SDL_KEYUP:
-			type = InputType::BUTTON_UP;
-			command = GetKeyCommand(event);
+			input.type = InputType::BUTTON_UP;
+			input.command = GetKeyCommand(event);
 			break;
 		case SDL_MOUSEBUTTONDOWN:
-			type = InputType::BUTTON_DOWN;
-			command = InputCommand::CLICK;
+			input.type = InputType::BUTTON_DOWN;
+			input.command = InputCommand::CLICK;
 			break;
 		case SDL_MOUSEMOTION:
-			type = InputType::MOUSE_MOTION;
-			command = InputCommand::NONE;
-			mousePosition.x = static_cast<float>(event.motion.x);
-			mousePosition.y = static_cast<float>(event.motion.y);
+			input.type = InputType::MOUSE_MOTION;
+			input.command = InputCommand::NONE;
 			break;
 		default:
 			break;
 		}
 
-		game.HandleInput(UserInput{ command, type, mousePosition });
+		input.mousePosition.x = static_cast<float>(event.motion.x);
+		input.mousePosition.y = static_cast<float>(event.motion.y);
+
+		game.HandleInput(input);
 	}
+
+	game.HandleInput(input);
 }
 
 InputCommand InputHandler::GetKeyCommand(SDL_Event event)

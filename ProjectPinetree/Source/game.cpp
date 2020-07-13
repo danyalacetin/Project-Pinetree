@@ -6,7 +6,6 @@
 // Local includes:
 #include "SDL Render/backbuffer.h"
 #include "Controls/inputhandler.h"
-#include "Controls/inputeventhandler.h"
 #include "logmanager.h"
 #include "SDL Render/sprite.h"
 #include "player.h"
@@ -96,8 +95,6 @@ Game::Game()
 , m_lastTime(0)
 , m_lag(0)
 , m_drawDebugInfo(true)
-, m_pPlayer(0)
-, m_pPlayerSprite(0)
 , m_pPointerSprite(0)
 , m_pMousePointer(0)
 {
@@ -106,20 +103,18 @@ Game::Game()
 
 Game::~Game()
 {
-	delete m_pPlayerSprite;
-	m_pPlayerSprite = 0;
-
 	delete m_pPointerSprite;
 	m_pPointerSprite = 0;
-
-	delete m_pPlayer;
-	m_pPlayer = 0;
 
 	delete m_pMousePointer;
 	m_pMousePointer = 0;
 
+	while (!m_states.empty())
+	{
+		PopState();
+	}
+
 	ResourceManager::DestroyInstance();
-	InputEventHandler::DestroyInstance();
 
 	delete m_pBackBuffer;
 	m_pBackBuffer = 0;
@@ -170,9 +165,6 @@ Game::Initialise()
 
 	State* pState = SplashState::GetInstance();
 	ChangeState(pState);
-
-	m_pPlayer = new Player();
-	m_pPlayer->Initialise(m_pPlayerSprite);
 
 	m_pMousePointer = new MousePointer();
 	m_pMousePointer->Initialise(m_pPointerSprite);
@@ -263,7 +255,6 @@ Game::Quit()
 
 bool Game::LoadSprites()
 {
-	m_pPlayerSprite = m_pBackBuffer->CreateSprite("playership.png");
 	m_pPointerSprite = m_pBackBuffer->CreateSprite("mouse_pointer.png");
 
 	return true;
@@ -303,7 +294,10 @@ void Game::PopState()
 	{
 		m_states.top()->Cleanup();
 		m_states.pop();
+	}
 
+	if (!m_states.empty())
+	{
 		m_states.top()->Resume();
 	}
 }

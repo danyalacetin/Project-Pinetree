@@ -66,7 +66,7 @@ void Menu::AddChild(Button* button)
 }
 
 // Passes mouse click coordinates to all buttons in the menu.
-void Menu::MouseClicked(Vector2f v2fMousePosition)
+void Menu::MouseClicked(Vector2f v2fMousePosition, Game& game)
 {
 	Button* pSelectedButton = 0;
 
@@ -78,7 +78,10 @@ void Menu::MouseClicked(Vector2f v2fMousePosition)
 		}
 	}
 
-	pSelectedButton->OnPress();
+	if (pSelectedButton != 0)
+	{
+		pSelectedButton->OnPress(game);
+	}
 }
 
 void Menu::MouseMoved(Vector2f mousePosition)

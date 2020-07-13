@@ -5,6 +5,7 @@
 // Local Includes:
 #include "Resource Management/objectpool.h"
 #include "./Utilities/gameutils.h"
+#include "Controls/controlconstants.h"
 
 // Library Includes:
 #include <string>
@@ -88,19 +89,9 @@ protected:
 	// Game States:
 	std::stack<State*> m_states;
 
-	//-----Sprites-----
-	Sprite* m_pPointerSprite;
-
-	// Player
-	Sprite* m_pPlayerSprite;
-
-	//-----------------
-
-	// Game Entities
-	Player* m_pPlayer;
-
 	// Mouse
 	MousePointer* m_pMousePointer;
+	Sprite* m_pPointerSprite;
 	
 private:
 

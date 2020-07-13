@@ -4,7 +4,6 @@
 // Local Includes
 #include "SDL Render/backbuffer.h"
 #include "SDL Render/sprite.h"
-#include "Controls/inputeventhandler.h"
 
 MousePointer::MousePointer()
 : m_pSprite(0)

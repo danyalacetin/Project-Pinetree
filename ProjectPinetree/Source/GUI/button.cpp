@@ -15,7 +15,7 @@
 
 Button::Button()
 	: m_selected(false)
-	, m_fnOnPress([] {})
+	, m_fnOnPress([] (Game&){})
 {
 }
 
@@ -67,16 +67,22 @@ Button::Draw(BackBuffer& backBuffer)
 }
 
 void
-Button::OnPress()
+Button::OnPress(Game& game)
 {
 	//SoundManager::GetInstance().PlaySound(BUTTONPRESS);
-	m_fnOnPress();
+	m_fnOnPress(game);
+}
+
+void
+Button::SetOnPress(std::function<void(Game&)> fnOnPress)
+{
+	m_fnOnPress = fnOnPress;
 }
 
 void
 Button::SetOnPress(std::function<void()> fnOnPress)
 {
-	m_fnOnPress = fnOnPress;
+	m_fnOnPress = [fnOnPress](Game&) {fnOnPress(); };
 }
 
 bool

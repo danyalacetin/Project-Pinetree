@@ -12,7 +12,6 @@
 #include "../logmanager.h"
 #include "../Utilities/gameutils.h"
 #include "../Menus/menu.h"
-#include "../Controls/inputeventhandler.h"
 #include "gamestate.h"
 #include "../mouse.h"
 
@@ -24,18 +23,15 @@ MenuState MenuState::menuState;
 
 MenuState::MenuState()
 	: State()
-	, m_pMainMenu(0)
-	, m_pOptionsMenu(0)
-	, m_pCreditsMenu(0)
 	, m_pTitleScreen(0)
 	, m_pButtonSprite(0)
 {
 
 }
 
-void MenuState::MouseClicked(Vector2f position)
+void MenuState::MouseClicked(Vector2f position, Game& game)
 {
-	m_menuStack.top()->MouseClicked(position);
+	m_menuStack.top()->MouseClicked(position, game);
 }
 
 MenuState* MenuState::GetInstance()
@@ -48,6 +44,8 @@ MenuState::Initialise()
 {
 	m_pTitleScreen = BackBuffer::CreateSprite("TitleScreen.png");
 	m_pButtonSprite = BackBuffer::CreateSprite("Button.png");
+
+	CreateMainMenu();
 
 	return (true);
 }
@@ -65,6 +63,8 @@ void MenuState::Cleanup()
 
 	delete m_pButtonSprite;
 	m_pButtonSprite = 0;
+
+
 }
 
 void MenuState::HandleEvents(Game& game, UserInput input)
@@ -73,13 +73,24 @@ void MenuState::HandleEvents(Game& game, UserInput input)
 	{
 	case InputType::MOUSE_MOTION:
 		Game::GetInstance().GetMouse().SetPosition(input.mousePosition);
-		m_menuStack.top()->MouseMoved(input.mousePosition);
+		
+		if (!m_menuStack.empty())
+		{
+			m_menuStack.top()->MouseMoved(input.mousePosition);
+		}
+
 		break;
 	case InputType::BUTTON_DOWN:
 		switch (input.command)
 		{
 		case InputCommand::CLICK:
-			m_menuStack.top()->MouseClicked(input.mousePosition);
+			if (!m_menuStack.empty())
+			{
+				m_menuStack.top()->MouseClicked(input.mousePosition, game);
+			}
+			break;
+		case InputCommand::ESCAPE:
+			game.Quit();
 			break;
 		default:
 			break;
@@ -128,32 +139,38 @@ MenuState::CreateMainMenu()
 {
 	Image* pImage;
 	Button* pButton;
+	Menu* pMenu;
 
-	m_pMainMenu = new Menu();
-	m_pMainMenu->Initialise();
+	pMenu = new Menu();
+	pMenu->Initialise();
 
 	pImage = new Image();
 	pImage->Initialise(m_pTitleScreen);
-	m_pMainMenu->AddChild(pImage);
+	pMenu->AddChild(pImage);
 
 	pButton = new Button();
 	pButton->Initialise(m_pButtonSprite, "New Game");
 	pButton->SetOnPress([&] {  });
-	m_pMainMenu->AddChild(pButton);
+	pMenu->AddChild(pButton);
+
+	pButton = new Button();
+	pButton->Initialise(m_pButtonSprite, "Options");
+	pButton->SetOnPress([&] { CreateOptionsMenu(); });
+	pMenu->AddChild(pButton);
 
 	pButton = new Button();
 	pButton->Initialise(m_pButtonSprite, "Credits");
 	pButton->SetOnPress([&] {CreateCreditsMenu(); });
-	m_pMainMenu->AddChild(pButton);
+	pMenu->AddChild(pButton);
 
 	pButton = new Button();
 	pButton->Initialise(m_pButtonSprite, "Quit");
-	pButton->SetOnPress([] { Game::GetInstance().Quit(); });
-	m_pMainMenu->AddChild(pButton);
+	pButton->SetOnPress([&] (Game& game){ Quit(game); });
+	pMenu->AddChild(pButton);
 
-	m_pMainMenu->PositionElements(Game::screenDimensions);
+	pMenu->PositionElements(Game::screenDimensions);
 
-	m_menuStack.push(m_pMainMenu);
+	m_menuStack.push(pMenu);
 }
 
 void
@@ -161,25 +178,26 @@ MenuState::CreateOptionsMenu()
 {
 	Label* pLabel;
 	Button* pButton;
+	Menu* pMenu;
 
-	m_pOptionsMenu = new Menu();
-	m_pOptionsMenu->Initialise();
+	pMenu = new Menu();
+	pMenu->Initialise();
 
 	pLabel = new Label();
 	pLabel->Initialise("Options");
 	pLabel->SetAlignment(ALIGN_CENTRE);
 	pLabel->SetColour(0x00, 0x00, 0x00);
-	m_pOptionsMenu->AddChild(pLabel);
+	pMenu->AddChild(pLabel);
 
 	pButton = new Button();
 	pButton->Initialise(m_pButtonSprite, "Back");
 	pButton->SetSelected(true);
 	pButton->SetOnPress([&] { PopMenu(); });
-	m_pOptionsMenu->AddChild(pButton);
+	pMenu->AddChild(pButton);
 
-	m_pOptionsMenu->PositionElements(Game::screenDimensions);
+	pMenu->PositionElements(Game::screenDimensions);
 
-	m_menuStack.push(m_pOptionsMenu);
+	m_menuStack.push(pMenu);
 }
 
 void
@@ -187,43 +205,44 @@ MenuState::CreateCreditsMenu()
 {
 	Label* pLabel;
 	Button* pButton;
+	Menu* pMenu;
 	
-	m_pCreditsMenu = new Menu();
-	m_pCreditsMenu->Initialise();
+	pMenu = new Menu();
+	pMenu->Initialise();
 
 	pLabel = new Label();
 	pLabel->Initialise("Credits");
 	pLabel->SetAlignment(ALIGN_CENTRE);
 	pLabel->SetColour(0xFF, 0x00, 0x00);
-	m_pCreditsMenu->AddChild(pLabel);
+	pMenu->AddChild(pLabel);
 
 	pLabel = new Label();
 	pLabel->Initialise("Aidan");
 	pLabel->SetAlignment(ALIGN_CENTRE);
 	pLabel->SetColour(0x00, 0x00, 0x00);
-	m_pCreditsMenu->AddChild(pLabel);
+	pMenu->AddChild(pLabel);
 
 	pLabel = new Label();
 	pLabel->Initialise("Danyal");
 	pLabel->SetAlignment(ALIGN_CENTRE);
 	pLabel->SetColour(0x00, 0x00, 0x00);
-	m_pCreditsMenu->AddChild(pLabel);
+	pMenu->AddChild(pLabel);
 
 	pLabel = new Label();
 	pLabel->Initialise("Tammika");
 	pLabel->SetAlignment(ALIGN_CENTRE);
 	pLabel->SetColour(0x00, 0x00, 0x00);
-	m_pCreditsMenu->AddChild(pLabel);
+	pMenu->AddChild(pLabel);
 
 	pButton = new Button();
 	pButton->Initialise(m_pButtonSprite, "Back");
 	pButton->SetSelected(true);
 	pButton->SetOnPress([&] { PopMenu(); });
-	m_pCreditsMenu->AddChild(pButton);
+	pMenu->AddChild(pButton);
 
-	m_pCreditsMenu->PositionElements(Game::screenDimensions);
+	pMenu->PositionElements(Game::screenDimensions);
 
-	m_menuStack.push(m_pCreditsMenu);
+	m_menuStack.push(pMenu);
 }
 
 void MenuState::PushMenu(Menu* menu)
@@ -235,5 +254,10 @@ MenuState::PopMenu()
 {
 	delete m_menuStack.top();
 	m_menuStack.pop();
+}
+
+void MenuState::Quit(Game& game)
+{
+	game.Quit();
 }
 

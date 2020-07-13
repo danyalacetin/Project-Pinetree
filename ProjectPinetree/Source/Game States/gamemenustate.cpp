@@ -14,125 +14,122 @@
 #include "../logmanager.h"
 #include "../Utilities/gameutils.h"
 #include "../Menus/menu.h"
-//#include "../Controls/inputeventhandler.h"
 #include "state.h"
+#include "../mouse.h"
+#include "menustate.h"
 
 // Library includes:
 #include <cassert>
 #include <cstdio>
 
+GameMenuState GameMenuState::gameMenuStateInstance;
+
 GameMenuState::GameMenuState()
 	: State()
+	, m_pInGameMenu(0)
+	, m_pButtonSprite(0)
 {
+
 }
 
+void GameMenuState::ExitMenu(Game& game)
+{
+	game.PopState();
+}
 
-GameMenuState::~GameMenuState()
+void GameMenuState::MainMenu(Game& game)
+{
+	game.PopState();
+	game.ChangeState(MenuState::GetInstance());
+}
+
+void GameMenuState::ExitGame(Game& game)
+{
+	game.Quit();
+}
+
+GameMenuState* GameMenuState::GetInstance()
+{
+	return nullptr;
+}
+
+bool
+GameMenuState::Initialise()
+{
+	Button* pButton;
+	m_pButtonSprite = BackBuffer::CreateSprite("Button.png");
+
+	m_pInGameMenu = new Menu();
+	m_pInGameMenu->Initialise();
+
+	pButton = new Button();
+	pButton->Initialise(m_pButtonSprite, "Resume");
+	pButton->SetSelected(true);
+	pButton->SetOnPress([&] (Game& game){ ExitMenu(game); });
+	m_pInGameMenu->AddChild(pButton);
+
+	pButton = new Button();
+	pButton->Initialise(m_pButtonSprite, "Quit to Main Menu");
+	pButton->SetOnPress([&](Game& game) { MainMenu(game); });
+	m_pInGameMenu->AddChild(pButton);
+
+	pButton = new Button();
+	pButton->Initialise(m_pButtonSprite, "Quit to Desktop");
+	pButton->SetOnPress([&](Game& game) { ExitGame(game); });
+	m_pInGameMenu->AddChild(pButton);
+
+	m_pInGameMenu->PositionElements(Game::screenDimensions);
+
+	return (true);
+}
+
+void GameMenuState::Cleanup()
 {
 	delete m_pInGameMenu;
 }
 
-bool
-GameMenuState::Initialise(Sprite* buttonSprite)
+void GameMenuState::HandleEvents(Game& game, UserInput input)
 {
-	m_pInGameMenu = new Menu();
-	m_pInGameMenu->Initialise();
-
-	m_pButton = new Button();
-	m_pButton->Initialise(buttonSprite, "Resume");
-	m_pButton->SetSelected(true);
-	m_pButton->SetOnPress([&] { Game::GetInstance().DeleteState(); });
-	m_pInGameMenu->AddChild(m_pButton);
-
-	m_pButton = new Button();
-	m_pButton->Initialise(buttonSprite, "Quit to Lobby");
-	m_pButton->SetOnPress([&] { Game::GetInstance().DeleteState(); Game::GetInstance().DeleteState(); });
-	m_pInGameMenu->AddChild(m_pButton);
-
-	m_pButton = new Button();
-	m_pButton->Initialise(buttonSprite, "Quit to Desktop");
-	m_pButton->SetOnPress([&] { Game::GetInstance().Quit(); });
-	m_pInGameMenu->AddChild(m_pButton);
-
-	m_pInGameMenu->PositionElements(Game::screenDimensions);
-
-	InitialiseControls();
-
-	return (true);
+	switch (input.type)
+	{
+	case InputType::MOUSE_MOTION:
+		Game::GetInstance().GetMouse().SetPosition(input.mousePosition);
+		m_pInGameMenu->MouseMoved(input.mousePosition);
+		break;
+	case InputType::BUTTON_DOWN:
+		switch (input.command)
+		{
+		case InputCommand::CLICK:
+			m_pInGameMenu->MouseClicked(input.mousePosition, game);
+			break;
+		default:
+			break;
+		}
+		break;
+	default:
+		break;
+	}
 }
 
 void
 GameMenuState::Process(float deltaTime)
 {
-	Game::GetInstance().GetPreviousState()->Process(deltaTime);
 }
 
 void
 GameMenuState::Draw(BackBuffer& backBuffer)
 {
-	Game::GetInstance().GetPreviousState()->Draw(backBuffer);
 	m_pInGameMenu->Draw(backBuffer);
 }
 
-void
-GameMenuState::InitialiseControls()
+void GameMenuState::ChangeState(Game& game, State* newState)
 {
-	//InputEventHandler::GetInstance().Register(COMMAND_NONE, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_MOVE_LEFT, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_MOVE_STOP, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_MOVE_RIGHT, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_JUMP, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_ACTIVATE_WEAPON, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_SHOW_MENU, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_QUIT, [this] { Game::GetInstance().DeleteState(); });
-	//InputEventHandler::GetInstance().Register(COMMAND_MENU_SELECT, [this] {EnterButtonPressed(); });
-	//InputEventHandler::GetInstance().Register(COMMAND_MENU_SELECT_UP, [this] {UpButtonPressed(); });
-	//InputEventHandler::GetInstance().Register(COMMAND_MENU_SELECT_DOWN, [this] {DownButtonPressed(); });
-	//InputEventHandler::GetInstance().Register(COMMAND_TEST, [] {});
 }
 
-void
-GameMenuState::UpButtonPressed()
+void GameMenuState::Pause()
 {
-	//int iselected;
-
-	//iselected = m_pInGameMenu->DecrementSelected();
-
-	//for (unsigned i = 0; i < m_pInGameMenu->GetButtonContainor().size(); i++)
-	//{
-	//	if (i == iselected)
-	//	{
-	//		m_pInGameMenu->GetButtonContainor()[i]->SetSelected(true);
-	//	}
-	//	else
-	//	{
-	//		m_pInGameMenu->GetButtonContainor()[i]->SetSelected(false);
-	//	}
-	//}
 }
 
-void
-GameMenuState::DownButtonPressed()
+void GameMenuState::Resume()
 {
-	//int iselected;
-
-	//iselected = m_pInGameMenu->IncrementSelected();
-
-	//for (unsigned i = 0; i < m_pInGameMenu->GetButtonContainor().size(); i++)
-	//{
-	//	if (i == iselected)
-	//	{
-	//		m_pInGameMenu->GetButtonContainor()[i]->SetSelected(true);
-	//	}
-	//	else
-	//	{
-	//		m_pInGameMenu->GetButtonContainor()[i]->SetSelected(false);
-	//	}
-	//}
-}
-
-void
-GameMenuState::EnterButtonPressed()
-{
-	//m_pInGameMenu->GetSelectedButton().OnPress();
 }

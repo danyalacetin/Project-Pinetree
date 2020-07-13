@@ -12,9 +12,15 @@ public:
 	static GameState* GetInstance();
 
 	bool Initialise();
+	void Cleanup();
+
+	void HandleEvents(Game& game, UserInput input);
 	void Process(float deltaTime);
 	void Draw(BackBuffer& backBuffer);
-	void InitialiseControls();
+
+	void ChangeState(Game& game, State* newState);
+	void Pause();
+	void Resume();
 
 protected:
 	GameState();

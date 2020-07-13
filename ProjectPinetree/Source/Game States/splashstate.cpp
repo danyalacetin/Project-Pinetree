@@ -6,14 +6,8 @@
 #include "../game.h"
 #include "../Menus/splashscreen.h"
 #include "../SDL Render/backbuffer.h"
-#include "../GUI/label.h"
-#include "../GUI/button.h"
-#include "../GUI/image.h"
 #include "../logmanager.h"
 #include "../Utilities/gameutils.h"
-#include "../Menus/menu.h"
-#include "../Controls/inputeventhandler.h"
-#include "gamestate.h"
 #include "../mouse.h"
 #include "menustate.h"
 
@@ -34,16 +28,15 @@ SplashState::SplashState()
 bool SplashState::Initialise()
 {
 	SplashScreen* pSplashScreen = 0;
-	Sprite* pSprite = 0;
 
-	pSprite = BackBuffer::CreateSprite("FMOD.png");
+	m_pFMODSprite = BackBuffer::CreateSprite("FMOD.png");
 	pSplashScreen = new SplashScreen();
-	pSplashScreen->Initialise(pSprite);
+	pSplashScreen->Initialise(m_pFMODSprite);
 	m_splashStack.push(pSplashScreen);
 
-	pSprite = BackBuffer::CreateSprite("Box2D.png");
+	m_pBox2DSprite = BackBuffer::CreateSprite("Box2D.png");
 	pSplashScreen = new SplashScreen();
-	pSplashScreen->Initialise(pSprite);
+	pSplashScreen->Initialise(m_pBox2DSprite);
 	m_splashStack.push(pSplashScreen);
 
 	return true;
@@ -81,6 +74,10 @@ void SplashState::HandleEvents(Game& game, UserInput input)
 				break;
 			case InputCommand::CLICK:
 				m_splashStack.top()->Setfinished();
+				break;
+			case InputCommand::ESCAPE:
+				game.Quit();
+				break;
 			default:
 				break;
 			}

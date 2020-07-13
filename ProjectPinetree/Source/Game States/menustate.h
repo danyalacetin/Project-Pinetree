@@ -44,11 +44,13 @@ public:
 	void PushMenu(Menu* menu);
 	void PopMenu();
 
+	void Quit(Game& game);
+
 
 protected:
 	MenuState();
 
-	void MouseClicked(Vector2f position);
+	void MouseClicked(Vector2f position, Game& game);
 
 private:
 
@@ -62,10 +64,6 @@ private:
 
 	Sprite* m_pTitleScreen;
 	Sprite* m_pButtonSprite;
-
-	Menu* m_pMainMenu;
-	Menu* m_pOptionsMenu;
-	Menu* m_pCreditsMenu;
 
 	std::stack<Menu*> m_menuStack;
 };

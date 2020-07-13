@@ -10,6 +10,7 @@ class BackBuffer;
 class Sprite;
 class UIElement;
 class Button;
+class Game;
 
 class Menu
 {
@@ -25,7 +26,7 @@ public:
 	void AddChild(UIElement* uiElement);
 	void AddChild(Button* button);
 
-	void MouseClicked(Vector2f v2fMousePosition);
+	void MouseClicked(Vector2f v2fMousePosition, Game& game);
 	void MouseMoved(Vector2f mousePosition);
 
 	void PositionElements(Vector2f containerDimensions);
