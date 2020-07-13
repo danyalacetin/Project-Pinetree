@@ -19,6 +19,7 @@
 #include "Game States/gamemenustate.h"
 #include "Game States/state.h"
 #include "mouse.h"
+#include "Game States/splashstate.h"
 
 // Library includes:
 #include <cassert>
@@ -97,18 +98,6 @@ Game::Game()
 , m_drawDebugInfo(true)
 , m_pPlayer(0)
 , m_pPlayerSprite(0)
-, m_pAUT(0)
-, m_pBox2D(0)
-, m_pFMOD(0)
-, m_pRakNet(0)
-, m_pTitleScreen(0)
-, m_pButton(0)
-, m_pSmgSprite(0)
-, m_pBulletSprite(0)
-, m_pGameMenuState(0)
-, m_pGameState(0)
-, m_pMenuState(0)
-, m_pGameStateStack(0)
 , m_pPointerSprite(0)
 , m_pMousePointer(0)
 {
@@ -117,30 +106,6 @@ Game::Game()
 
 Game::~Game()
 {
-	delete m_pAUT;
-	m_pAUT = 0;
-
-	delete m_pBulletSprite;
-	m_pBulletSprite = 0;
-
-	delete m_pButton;
-	m_pButton = 0;
-
-	delete m_pFMOD;
-	m_pFMOD = 0;
-
-	delete m_pBox2D;
-	m_pBox2D = 0;
-
-	delete m_pRakNet;
-	m_pRakNet = 0;
-
-	delete m_pTitleScreen;
-	m_pTitleScreen = 0;
-
-	delete m_pSmgSprite;
-	m_pSmgSprite = 0;
-
 	delete m_pPlayerSprite;
 	m_pPlayerSprite = 0;
 
@@ -153,12 +118,6 @@ Game::~Game()
 	delete m_pMousePointer;
 	m_pMousePointer = 0;
 
-	while (!m_pGameStateStack.empty())
-	{
-		delete m_pGameStateStack.back();
-		m_pGameStateStack.pop_back();
-	}
-
 	ResourceManager::DestroyInstance();
 	InputEventHandler::DestroyInstance();
 
@@ -167,7 +126,6 @@ Game::~Game()
 
 	delete m_pInputHandler;
 	m_pInputHandler = 0;
-
 }
 
 bool 
@@ -210,9 +168,8 @@ Game::Initialise()
 	screenDimensions.x = static_cast<float>(displayMode.w);
 	screenDimensions.y = static_cast<float>(displayMode.h);
 
-	m_pMenuState = new MenuState();
-	m_pMenuState->Initialise(m_pFMOD, m_pBox2D, m_pRakNet, m_pAUT, m_pTitleScreen, m_pButton);
-	m_pGameStateStack.push_back(m_pMenuState);
+	State* pState = SplashState::GetInstance();
+	ChangeState(pState);
 
 	m_pPlayer = new Player();
 	m_pPlayer->Initialise(m_pPlayerSprite);
@@ -229,7 +186,7 @@ Game::DoGameLoop()
 	const float stepSize = 1.0f / 60.0f;
 
 	assert(m_pInputHandler);
-	m_pInputHandler->ProcessInput(*this, InputState::MENU);
+	m_pInputHandler->ProcessInput(*this);
 	
 	if (m_looping)
 	{
@@ -281,7 +238,7 @@ Game::Process(float deltaTime)
 	}
 
 	// Update the game world simulation:
-	m_pGameStateStack.back()->Process(deltaTime);
+	m_states.top()->Process(deltaTime);
 }
 
 void 
@@ -293,7 +250,7 @@ Game::Draw(BackBuffer& backBuffer)
 
 	// Draw game world
 
-	m_pGameStateStack.back()->Draw(backBuffer);
+	m_states.top()->Draw(backBuffer);
 
 	backBuffer.Present();
 }
@@ -306,51 +263,49 @@ Game::Quit()
 
 bool Game::LoadSprites()
 {
-	m_pAUT = m_pBackBuffer->CreateSprite("AUT.png");
-	m_pBox2D = m_pBackBuffer->CreateSprite("Box2D.png");
-	m_pFMOD = m_pBackBuffer->CreateSprite("FMOD.png");
-	m_pRakNet = m_pBackBuffer->CreateSprite("RakNet.png");
-	m_pTitleScreen = m_pBackBuffer->CreateSprite("TitleScreen.png");
-	m_pButton = m_pBackBuffer->CreateSprite("Button.png");
-
-	m_pSmgSprite = m_pBackBuffer->CreateSprite("assault_rifle.png");
-	m_pBulletSprite = m_pBackBuffer->CreateSprite("bullet_1.png");
-
 	m_pPlayerSprite = m_pBackBuffer->CreateSprite("playership.png");
 	m_pPointerSprite = m_pBackBuffer->CreateSprite("mouse_pointer.png");
 
 	return true;
 }
 
-State*
-Game::GetPreviousState()
+void Game::HandleInput(UserInput input)
 {
-	return m_pGameStateStack[m_pGameStateStack.size() - 2];
+	m_states.top()->HandleEvents(*this, input);
 }
 
-void
-Game::AddGameState()
+void Game::ChangeState(State* state)
 {
-	m_pGameState = new GameState();
-	m_pGameState->Initialise();
-	m_pGameStateStack.push_back(m_pGameState);
+	if (!m_states.empty())
+	{
+		m_states.top()->Cleanup();
+		m_states.pop();
+	}
+
+	m_states.push(state);
+	m_states.top()->Initialise();
 }
 
-void
-Game::AddGameMenuState()
+void Game::PushState(State* state)
 {
-	m_pGameMenuState = new GameMenuState();
-	m_pGameMenuState->Initialise(m_pButton);
-	m_pGameStateStack.push_back(m_pGameMenuState);
+	if (!m_states.empty())
+	{
+		m_states.top()->Pause();
+	}
+
+	m_states.push(state);
+	m_states.top()->Initialise();
 }
 
-void
-Game::DeleteState()
+void Game::PopState()
 {
-	delete m_pGameStateStack.back();
-	m_pGameStateStack.pop_back();
-	m_pGameStateStack.back()->InitialiseControls();
+	if (!m_states.empty())
+	{
+		m_states.top()->Cleanup();
+		m_states.pop();
 
+		m_states.top()->Resume();
+	}
 }
 
 MousePointer& Game::GetMouse()

@@ -35,7 +35,7 @@ public:
 	void DrawRectangle(int x1, int y1, int x2, int y2);
 	void DrawLine(int x1, int y1, int x2, int y2);
 
-	Sprite* CreateSprite(const char* pcFilename);
+	static Sprite* CreateSprite(const char* pcFilename);
 
 	void DrawText(Text* pText, int x, int y);
 	

@@ -6,6 +6,7 @@
 
 // Library includes:
 #include <SDL.h>
+#include <map>
 
 // Forward Declarations:
 class Game;
@@ -20,18 +21,10 @@ public:
 	~InputHandler();
 
 	bool Initialise();
-	void ProcessInput(Game& game, InputState state);
-
-	void RunCommand(InputState state, InputCommand command);
-
-	void KeyDown(SDL_Keycode keycode, InputState state);
-	void KeyUp(SDL_Keycode keycode, InputState state);
-
-	void MouseClick(SDL_Event& event, InputState state);
-	void MouseMovement(SDL_Event& event, InputState state);
-	void Quit(InputState state);
+	void ProcessInput(Game& game);
 
 protected:
+	InputCommand GetKeyCommand(SDL_Event event);
 
 private:
 	InputHandler(const InputHandler& inputHandler);
@@ -41,7 +34,6 @@ private:
 public:
 
 protected:
-	KeyboardBindings* m_pKeyboardBindings;
 
 private:
 

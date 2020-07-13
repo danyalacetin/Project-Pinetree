@@ -1,44 +1,10 @@
-// COMP710 GP 2D Framework 2019
-
-// This include:
+// Self include
 #include "state.h"
 
-// Local includes:
-
-// Library includes:
-#include <cassert>
+// Local includes
+#include "../game.h"
 
 State::State()
-{
-
-}
-
-State::~State()
-{
-
-}
-
-bool
-State::Initialise()
-{
-
-	return (true);
-}
-
-void
-State::Process(float deltaTime)
-{
-
-}
-
-void
-State::Draw(BackBuffer& backBuffer)
-{
-
-}
-
-void
-State::InitialiseControls()
 {
 
 }

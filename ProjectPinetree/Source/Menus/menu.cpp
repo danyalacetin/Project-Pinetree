@@ -81,6 +81,15 @@ void Menu::MouseClicked(Vector2f v2fMousePosition)
 	pSelectedButton->OnPress();
 }
 
+void Menu::MouseMoved(Vector2f mousePosition)
+{
+	for each (Button * pButton in m_buttonContainer)
+	{
+		bool pInButton = pButton->ContainsPoint(mousePosition);
+		pButton->SetSelected(pInButton);
+	}
+}
+
 /*
 Positions elements vertically in the centre of the container.
 */

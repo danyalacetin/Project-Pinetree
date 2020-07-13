@@ -8,7 +8,7 @@
 
 // Library Includes:
 #include <string>
-#include <vector>
+#include <stack>
 
 // Forward Declarations
 class BackBuffer;
@@ -46,10 +46,11 @@ public:
 
 	bool LoadSprites();
 
-	State* GetPreviousState();
-	void AddGameState();
-	void AddGameMenuState();
-	void DeleteState();
+	void HandleInput(UserInput input);
+
+	void ChangeState(State* state);
+	void PushState(State* state);
+	void PopState();
 
 	MousePointer& GetMouse();
 
@@ -85,30 +86,10 @@ protected:
 	bool m_drawDebugInfo;
 
 	// Game States:
-	MenuState* m_pMenuState;
-	GameState* m_pGameState;
-	GameMenuState* m_pGameMenuState;
-
-	std::vector<State*> m_pGameStateStack;
+	std::stack<State*> m_states;
 
 	//-----Sprites-----
-
-	//	Splash Screen
-	Sprite* m_pAUT;
-	Sprite* m_pBox2D;
-	Sprite* m_pFMOD;
-	Sprite* m_pRakNet;
-
-	// Main Menu
-	Sprite* m_pTitleScreen;
 	Sprite* m_pPointerSprite;
-
-	// Buttons
-	Sprite* m_pButton;
-
-	// Weapons
-	Sprite* m_pSmgSprite;
-	Sprite* m_pBulletSprite;
 
 	// Player
 	Sprite* m_pPlayerSprite;

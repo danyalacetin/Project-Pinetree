@@ -9,30 +9,24 @@ enum class InputCommand
 	RIGHT,
 	UP,
 	DOWN,
-	ACTIVATE,
-	SHOW_MENU,
-	QUIT,
+	ENTER,
+	CLICK,
+	ESCAPE,
 };
 
-enum class InputState
-{
-	MENU,
-	GAME
-};
-
-struct CommandStateInstance
+struct UserInput
 {
 	InputCommand command;
-	InputState state;
-
-	bool operator==(const CommandStateInstance& o) const;
-	bool operator<(const CommandStateInstance& o) const;
+	InputType type;
+	Vector2f mousePosition;
 };
 
-enum class ButtonEventType
+enum class InputType
 {
-	BUTTON_KEY_DOWN,
-	BUTTON_KEY_UP,
+	BUTTON_DOWN,
+	BUTTON_UP,
+	MOUSE_MOTION,
+	NONE,
 };
 
 #endif // !__CONTROLCONSTANTS_H__

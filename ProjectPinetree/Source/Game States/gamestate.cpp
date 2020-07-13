@@ -12,6 +12,8 @@
 #include <cassert>
 #include <vector>
 
+GameState GameState::gameStateInstance;
+
 GameState::GameState()
 	: State()
 {

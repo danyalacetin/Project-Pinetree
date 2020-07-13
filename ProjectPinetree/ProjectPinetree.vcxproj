@@ -12,14 +12,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Controls\controlconstants.h" />
-    <ClInclude Include="Source\Controls\inputeventhandler.h" />
     <ClInclude Include="Source\Controls\inputhandler.h" />
-    <ClInclude Include="Source\Controls\keyboardbindings.h" />
-    <ClInclude Include="Source\Entity Component System\ESC.h" />
     <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\Game States\gamemenustate.h" />
     <ClInclude Include="Source\Game States\gamestate.h" />
     <ClInclude Include="Source\Game States\menustate.h" />
+    <ClInclude Include="Source\Game States\splashstate.h" />
     <ClInclude Include="Source\Game States\state.h" />
     <ClInclude Include="Source\game.h" />
     <ClInclude Include="Source\GUI\button.h" />
@@ -48,15 +46,12 @@
     <ClInclude Include="Source\Utilities\gameutils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Controls\controlconstants.cpp" />
-    <ClCompile Include="Source\Controls\inputeventhandler.cpp" />
     <ClCompile Include="Source\Controls\inputhandler.cpp" />
-    <ClCompile Include="Source\Controls\keyboardbindings.cpp" />
-    <ClCompile Include="Source\Entity Component System\ECS.cpp" />
     <ClCompile Include="Source\entity.cpp" />
     <ClCompile Include="Source\Game States\gamemenustate.cpp" />
     <ClCompile Include="Source\Game States\gamestate.cpp" />
     <ClCompile Include="Source\Game States\menustate.cpp" />
+    <ClCompile Include="Source\Game States\splashstate.cpp" />
     <ClCompile Include="Source\Game States\state.cpp" />
     <ClCompile Include="Source\game.cpp" />
     <ClCompile Include="Source\GUI\button.cpp" />
