@@ -87,7 +87,7 @@ MenuState::Draw(BackBuffer& backBuffer)
 	}
 	else
 	{
-		backBuffer.SetClearColour(0x77, 0x77, 0x77); //Should this go here? No it shouldn't.
+		backBuffer.SetClearColour(0x77, 0x77, 0x77); //Should this go here? Probably not.
 		m_menuStack.top()->Draw(backBuffer);
 		Game::GetInstance().GetMouse().Draw(backBuffer);
 	}
@@ -104,7 +104,7 @@ MenuState::CreateMainMenu()
 	m_pMainMenu->AddChild(m_pImage);
 
 	m_pButton = new Button();
-	m_pButton->Initialise(m_pButtonSprite, "Join Game");
+	m_pButton->Initialise(m_pButtonSprite, "New Game");
 	m_pButton->SetOnPress([&] {CreateLobbyMenu(); });
 	m_pMainMenu->AddChild(m_pButton);
 
@@ -193,7 +193,7 @@ MenuState::CreateCreditsMenu()
 	m_pCreditsMenu->AddChild(m_pLabel);
 
 	m_pLabel = new Label();
-	m_pLabel->Initialise("Josh");
+	m_pLabel->Initialise("Tammika");
 	m_pLabel->SetAlignment(ALIGN_CENTRE);
 	m_pLabel->SetColour(0x00, 0x00, 0x00);
 	m_pCreditsMenu->AddChild(m_pLabel);

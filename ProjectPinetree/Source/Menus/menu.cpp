@@ -36,8 +36,7 @@ Menu::Initialise()
 	return (true);
 }
 
-void
-Menu::Process(float deltaTime)
+void Menu::Process(float deltaTime)
 {
 	for each (Button* pButton in m_buttonContainer)
 	{
@@ -45,8 +44,7 @@ Menu::Process(float deltaTime)
 	}
 }
 
-void
-Menu::Draw(BackBuffer& backBuffer)
+void Menu::Draw(BackBuffer& backBuffer)
 {
 	for (UIElement* m_uiElement : m_uiElementContainor)
 	{
@@ -54,18 +52,20 @@ Menu::Draw(BackBuffer& backBuffer)
 	}
 }
 
-void
-Menu::AddChild(UIElement* uiElement)
+// Adds a UIElement to the menu
+void Menu::AddChild(UIElement* uiElement)
 {
 	m_uiElementContainor.push_back(uiElement);
 }
 
+// Adds a Button to the menu.
 void Menu::AddChild(Button* button)
 {
 	m_uiElementContainor.push_back(button);
 	m_buttonContainer.push_back(button);
 }
 
+// Passes mouse click coordinates to all buttons in the menu.
 void Menu::MouseClicked(Vector2f v2fMousePosition)
 {
 	Button* pSelectedButton = 0;
@@ -81,6 +81,9 @@ void Menu::MouseClicked(Vector2f v2fMousePosition)
 	pSelectedButton->OnPress();
 }
 
+/*
+Positions elements vertically in the centre of the container.
+*/
 void Menu::PositionElements(Vector2f containerDimensions)
 {
 	// calcluate / set spacing
