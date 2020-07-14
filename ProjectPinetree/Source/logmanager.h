@@ -8,15 +8,13 @@ class LogManager
 {
 	//Member Methods:
 public:
-	static void DestroyInstance();
-	~LogManager();
-
 	static void Log(const char* pcMessage);
 	static void Log(std::string pcMessage);
 protected:
 
 private:
 	LogManager();
+	~LogManager();
 	LogManager(const LogManager& logManager);
 	LogManager& operator=(const LogManager& logManager);
 
@@ -24,7 +22,7 @@ private:
 public:
 
 protected:
-	static LogManager* sm_pInstance;
+	static LogManager sm_pInstance;
 
 private:
 

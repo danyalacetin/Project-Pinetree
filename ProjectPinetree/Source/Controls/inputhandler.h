@@ -26,7 +26,7 @@ public:
 	void ProcessInput(Game& game);
 
 protected:
-	InputCommand GetKeyCommand(SDL_Event event);
+	InputKey GetKeyCommand(SDL_Event event);
 
 private:
 	InputHandler(const InputHandler& inputHandler);
@@ -36,6 +36,7 @@ private:
 public:
 
 protected:
+	UserInput input;
 	MousePointer* m_pMouseInstance;
 	Sprite* m_pMouseSprite;
 

@@ -1,5 +1,3 @@
-// COMP710 GP 2D Framework 2019
-
 // Library includes:
 #include <SDL.h>
 #include <crtdbg.h>
@@ -26,7 +24,6 @@ int main(int argc, char* argv[])
 	}
 
 	Game::DestroyInstance();
-	LogManager::DestroyInstance();
 
 	return (0);
 }

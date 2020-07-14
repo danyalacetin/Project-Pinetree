@@ -35,6 +35,7 @@ public:
 	float GetPositionY() const;
 
 	Vector2f GetVelocity() const;
+	void SetVelocity(Vector2f velocity);
 
 	float GetHorizontalVelocity() const;
 	void SetHorizontalVelocity(float x); 

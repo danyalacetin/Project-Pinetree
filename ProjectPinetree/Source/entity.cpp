@@ -39,7 +39,8 @@ Entity::Initialise(Sprite* sprite)
 void 
 Entity::Process(float deltaTime)
 {
-
+	m_x += m_velocityX * deltaTime;
+	m_y += m_velocityY * deltaTime;
 }
 
 void 
@@ -120,6 +121,12 @@ Entity::GetVelocity() const
 {
 	Vector2f v2fVelocity = Vector2f(m_velocityX, m_velocityY);
 	return (v2fVelocity);
+}
+
+void Entity::SetVelocity(Vector2f velocity)
+{
+	SetHorizontalVelocity(velocity.x);
+	SetVerticalVelocity(velocity.y);
 }
 
 float 

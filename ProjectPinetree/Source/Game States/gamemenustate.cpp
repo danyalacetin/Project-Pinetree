@@ -65,7 +65,6 @@ GameMenuState::Initialise()
 
 	pButton = new Button();
 	pButton->Initialise(m_pButtonSprite, "Resume");
-	pButton->SetSelected(true);
 	pButton->SetOnPress([&] (Game& game){ ExitMenu(game); });
 	m_pInGameMenu->AddChild(pButton);
 
@@ -102,9 +101,9 @@ void GameMenuState::HandleEvents(Game& game, UserInput input)
 		m_pInGameMenu->MouseMoved(input.mousePosition);
 		break;
 	case InputType::BUTTON_DOWN:
-		switch (input.command)
+		switch (input.key)
 		{
-		case InputCommand::CLICK:
+		case InputKey::CLICK:
 			m_pInGameMenu->MouseClicked(input.mousePosition, game);
 			break;
 		default:

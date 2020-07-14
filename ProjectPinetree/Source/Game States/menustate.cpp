@@ -81,15 +81,15 @@ void MenuState::HandleEvents(Game& game, UserInput input)
 
 		break;
 	case InputType::BUTTON_DOWN:
-		switch (input.command)
+		switch (input.key)
 		{
-		case InputCommand::CLICK:
+		case InputKey::CLICK:
 			if (!m_menuStack.empty())
 			{
 				m_menuStack.top()->MouseClicked(input.mousePosition, game);
 			}
 			break;
-		case InputCommand::ESCAPE:
+		case InputKey::ESCAPE:
 			game.Quit();
 			break;
 		default:
