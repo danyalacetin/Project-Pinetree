@@ -12,6 +12,8 @@
 class Game;
 class KeyboardBindings;
 struct Vector2f;
+class MousePointer;
+class Sprite;
 
 class InputHandler
 {
@@ -34,6 +36,8 @@ private:
 public:
 
 protected:
+	MousePointer* m_pMouseInstance;
+	Sprite* m_pMouseSprite;
 
 private:
 

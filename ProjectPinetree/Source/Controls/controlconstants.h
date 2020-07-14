@@ -29,6 +29,11 @@ struct UserInput
 {
 	UserInput()
 	{
+		Clean();
+	}
+
+	void Clean()
+	{
 		command = InputCommand::NONE;
 		type = InputType::NONE;
 		mousePosition = Vector2f();

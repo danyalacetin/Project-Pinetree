@@ -7,6 +7,7 @@
 #include "../game.h"
 #include "../SDL Render/sprite.h"
 #include "../player.h"
+#include "gamemenustate.h"
 
 // Library includes:
 #include <cassert>
@@ -38,6 +39,13 @@ void GameState::Cleanup()
 
 void GameState::HandleEvents(Game& game, UserInput input)
 {
+	if (input.type == InputType::BUTTON_DOWN)
+	{
+		if (input.command == InputCommand::ESCAPE)
+		{
+			ChangeState(game, GameMenuState::GetInstance());
+		}
+	}
 }
 
 void
@@ -54,6 +62,7 @@ GameState::Draw(BackBuffer& backBuffer)
 
 void GameState::ChangeState(Game& game, State* newState)
 {
+	game.PushState(newState);
 }
 
 void GameState::Pause()

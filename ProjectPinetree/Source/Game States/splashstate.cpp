@@ -8,7 +8,6 @@
 #include "../SDL Render/backbuffer.h"
 #include "../logmanager.h"
 #include "../Utilities/gameutils.h"
-#include "../mouse.h"
 #include "menustate.h"
 
 // Library includes:

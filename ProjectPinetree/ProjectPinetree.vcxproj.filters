@@ -144,11 +144,11 @@
     <ClInclude Include="Source\Controls\inputhandler.h">
       <Filter>Header Files\Controls</Filter>
     </ClInclude>
-    <ClInclude Include="Source\mouse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game States\splashstate.h">
       <Filter>Header Files\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Controls\mouse.h">
+      <Filter>Header Files\Controls</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -233,11 +233,11 @@
     <ClCompile Include="Source\Controls\inputhandler.cpp">
       <Filter>Source Files\Controls</Filter>
     </ClCompile>
-    <ClCompile Include="Source\mouse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game States\splashstate.cpp">
       <Filter>Source Files\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Controls\mouse.cpp">
+      <Filter>Source Files\Controls</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

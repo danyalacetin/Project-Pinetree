@@ -53,8 +53,6 @@ public:
 	void PushState(State* state);
 	void PopState();
 
-	MousePointer& GetMouse();
-
 protected:
 	void Process(float deltaTime);
 	void Draw(BackBuffer& backBuffer);
@@ -88,10 +86,6 @@ protected:
 
 	// Game States:
 	std::stack<State*> m_states;
-
-	// Mouse
-	MousePointer* m_pMousePointer;
-	Sprite* m_pPointerSprite;
 	
 private:
 
