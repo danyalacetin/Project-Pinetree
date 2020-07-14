@@ -2,6 +2,9 @@
 
 #define __CONTROLCONSTANTS_H__
 
+// Local includes
+#include "../Utilities/gameutils.h"
+
 enum class InputCommand
 {
 	NONE,
@@ -9,30 +12,31 @@ enum class InputCommand
 	RIGHT,
 	UP,
 	DOWN,
-	ACTIVATE,
-	SHOW_MENU,
-	QUIT,
+	ENTER,
+	CLICK,
+	ESCAPE,
 };
 
-enum class InputState
+enum class InputType
 {
-	MENU,
-	GAME
+	BUTTON_DOWN,
+	BUTTON_UP,
+	MOUSE_MOTION,
+	NONE,
 };
 
-struct CommandStateInstance
+struct UserInput
 {
+	UserInput()
+	{
+		command = InputCommand::NONE;
+		type = InputType::NONE;
+		mousePosition = Vector2f();
+	}
+
 	InputCommand command;
-	InputState state;
-
-	bool operator==(const CommandStateInstance& o) const;
-	bool operator<(const CommandStateInstance& o) const;
-};
-
-enum class ButtonEventType
-{
-	BUTTON_KEY_DOWN,
-	BUTTON_KEY_UP,
+	InputType type;
+	Vector2f mousePosition;
 };
 
 #endif // !__CONTROLCONSTANTS_H__

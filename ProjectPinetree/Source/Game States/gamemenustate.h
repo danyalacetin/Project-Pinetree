@@ -14,22 +14,25 @@ class GameMenuState : public State
 {
 public:
 	//Member Methods:
-	GameMenuState();
-	~GameMenuState();
+	static GameMenuState* GetInstance();
 
-	bool Initialise(Sprite* buttonSprite);
+	bool Initialise();
+	void Cleanup();
+
+	void HandleEvents(Game& game, UserInput input);
 	void Process(float deltaTime);
 	void Draw(BackBuffer& backBuffer);
 
-	void InitialiseControls();
-
-	void UpButtonPressed();
-
-	void DownButtonPressed();
-
-	void EnterButtonPressed();
+	void ChangeState(Game& game, State* newState);
+	void Pause();
+	void Resume();
 
 protected:
+	GameMenuState();
+
+	void ExitMenu(Game& game);
+	void MainMenu(Game& game);
+	void ExitGame(Game& game);
 
 private:
 
@@ -38,9 +41,10 @@ public:
 
 protected:
 	Menu* m_pInGameMenu;
-	Button* m_pButton;
+	Sprite* m_pButtonSprite;
 
 private:
+	static GameMenuState gameMenuStateInstance;
 
 };
 

@@ -49,12 +49,6 @@
     <Filter Include="Source Files\Controls">
       <UniqueIdentifier>{1b5d3d00-fc93-433a-a30d-31534d4bc12e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Entity Component System">
-      <UniqueIdentifier>{388f4e3f-3d17-45ce-890c-9cbf3a36a779}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Entity Component System">
-      <UniqueIdentifier>{a61154b3-a363-4307-8f27-93103884a232}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\entity.h">
@@ -147,20 +141,14 @@
     <ClInclude Include="Source\Controls\controlconstants.h">
       <Filter>Header Files\Controls</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Controls\inputeventhandler.h">
-      <Filter>Header Files\Controls</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Controls\inputhandler.h">
-      <Filter>Header Files\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Controls\keyboardbindings.h">
       <Filter>Header Files\Controls</Filter>
     </ClInclude>
     <ClInclude Include="Source\mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Entity Component System\ESC.h">
-      <Filter>Header Files\Entity Component System</Filter>
+    <ClInclude Include="Source\Game States\splashstate.h">
+      <Filter>Header Files\Game States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -242,23 +230,14 @@
     <ClCompile Include="Source\Game States\state.cpp">
       <Filter>Source Files\Game States</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Controls\inputeventhandler.cpp">
-      <Filter>Source Files\Controls</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Controls\inputhandler.cpp">
-      <Filter>Source Files\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Controls\keyboardbindings.cpp">
-      <Filter>Source Files\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Controls\controlconstants.cpp">
       <Filter>Source Files\Controls</Filter>
     </ClCompile>
     <ClCompile Include="Source\mouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Entity Component System\ECS.cpp">
-      <Filter>Source Files\Entity Component System</Filter>
+    <ClCompile Include="Source\Game States\splashstate.cpp">
+      <Filter>Source Files\Game States</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

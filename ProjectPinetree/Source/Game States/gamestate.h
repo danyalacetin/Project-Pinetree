@@ -1,4 +1,3 @@
-// COMP710 GP 2D Framework 2019
 #ifndef __GAMESTATE_H__
 #define __GAMESTATE_H__
 
@@ -10,16 +9,21 @@ class BackBuffer;
 class GameState : public State
 {
 public:
-	//Member Methods:
-	GameState();
-	~GameState();
+	static GameState* GetInstance();
 
 	bool Initialise();
+	void Cleanup();
+
+	void HandleEvents(Game& game, UserInput input);
 	void Process(float deltaTime);
 	void Draw(BackBuffer& backBuffer);
-	void InitialiseControls();
+
+	void ChangeState(Game& game, State* newState);
+	void Pause();
+	void Resume();
 
 protected:
+	GameState();
 
 private:
 
@@ -28,9 +32,9 @@ public:
 
 protected:
 
-	// sprites:
 
 private:
+	static GameState gameStateInstance;
 
 };
 

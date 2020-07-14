@@ -4,7 +4,6 @@
 // Local Includes
 #include "SDL Render/backbuffer.h"
 #include "SDL Render/sprite.h"
-#include "Controls/inputeventhandler.h"
 
 MousePointer::MousePointer()
 : m_pSprite(0)
@@ -19,7 +18,6 @@ MousePointer::~MousePointer()
 bool MousePointer::Initialise(Sprite* pSprite)
 {
 	m_pSprite = pSprite;
-	InputEventHandler::GetInstance().RegisterMouseListener(InputState::MENU, [this](Vector2f position) { SetPosition(position); });
 	m_pSprite->SetHandle(SpritePositionHandle::TOP_LEFT);
 
 	return true;
@@ -44,10 +42,4 @@ void MousePointer::SetPosition(Vector2f v2fNewPosition)
 Vector2f MousePointer::GetPosition() const
 {
 	return m_v2fPosition;
-}
-
-void MousePointer::MouseMovement(Vector2f v2fMouseMovement)
-{
-	Vector2f v2fNewPosition = Vector2f::Plus(v2fMouseMovement, m_v2fPosition);
-	SetPosition(v2fNewPosition);
 }

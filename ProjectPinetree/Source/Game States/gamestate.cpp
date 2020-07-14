@@ -12,23 +12,32 @@
 #include <cassert>
 #include <vector>
 
+GameState GameState::gameStateInstance;
+
 GameState::GameState()
 	: State()
 {
 
 }
 
-GameState::~GameState()
+GameState* GameState::GetInstance()
 {
-
+	return &gameStateInstance;
 }
 
 bool
 GameState::Initialise()
 {
-	InitialiseControls();
 
 	return (true);
+}
+
+void GameState::Cleanup()
+{
+}
+
+void GameState::HandleEvents(Game& game, UserInput input)
+{
 }
 
 void
@@ -43,20 +52,15 @@ GameState::Draw(BackBuffer& backBuffer)
 
 }
 
-void
-GameState::InitialiseControls()
+void GameState::ChangeState(Game& game, State* newState)
 {
-	//InputEventHandler::GetInstance().Register(COMMAND_NONE, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_MOVE_LEFT, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_MOVE_STOP, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_MOVE_RIGHT, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_JUMP, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_ACTIVATE_WEAPON, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_SHOW_MENU, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_QUIT, [this] {
-	//InputEventHandler::GetInstance().Register(COMMAND_MENU_SELECT, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_MENU_SELECT_UP, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_MENU_SELECT_DOWN, [] {});
-	//InputEventHandler::GetInstance().Register(COMMAND_TEST, [] {});
+}
+
+void GameState::Pause()
+{
+}
+
+void GameState::Resume()
+{
 }
 

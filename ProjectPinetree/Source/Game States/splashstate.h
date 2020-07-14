@@ -1,5 +1,5 @@
-#ifndef __MENUSTATE_H__
-#define __MENUSTATE_H__
+#ifndef __SPLASHSTATE_H__
+#define __SPLASHSTATE_H__
 
 // Superclass Includes:
 #include "state.h"
@@ -20,12 +20,10 @@ class Image;
 class Button;
 class Label;
 
-class MenuState : public State
+class SplashState : public State
 {
 public:
 	//Member Methods:
-	static MenuState* GetInstance();
-
 	bool Initialise();
 	void Cleanup();
 
@@ -37,20 +35,9 @@ public:
 	void Pause();
 	void Resume();
 
-	void CreateMainMenu();
-	void CreateOptionsMenu();
-	void CreateCreditsMenu();
-
-	void PushMenu(Menu* menu);
-	void PopMenu();
-
-	void Quit(Game& game);
-
+	static SplashState* GetInstance();
 
 protected:
-	MenuState();
-
-	void MouseClicked(Vector2f position, Game& game);
 
 private:
 
@@ -58,16 +45,18 @@ private:
 public:
 
 protected:
+	SplashState();
 
 private:
-	static MenuState menuState;
+	static SplashState m_splashState;
 
-	Sprite* m_pTitleScreen;
-	Sprite* m_pButtonSprite;
+	Sprite* m_pFMODSprite;
+	Sprite* m_pBox2DSprite;
+	bool m_bIsFinished;
 
-	std::stack<Menu*> m_menuStack;
+	std::stack<SplashScreen*> m_splashStack;
 };
 
-#endif // __MENUSTATE_H__
+#endif // __SPLASHSTATE_H__
 
 

@@ -1,5 +1,3 @@
-// COMP710 GP 2D Framework 2019
-
 // This include:
 #include "menustate.h"
 
@@ -14,7 +12,6 @@
 #include "../logmanager.h"
 #include "../Utilities/gameutils.h"
 #include "../Menus/menu.h"
-#include "../Controls/inputeventhandler.h"
 #include "gamestate.h"
 #include "../mouse.h"
 
@@ -22,55 +19,92 @@
 #include <cassert>
 #include <cstdio>
 
+MenuState MenuState::menuState;
+
 MenuState::MenuState()
 	: State()
-	, m_pMainMenu(0)
-	, m_pSplash(0)
-	, m_playerCount(0)
+	, m_pTitleScreen(0)
+	, m_pButtonSprite(0)
 {
+
 }
 
-
-MenuState::~MenuState()
+void MenuState::MouseClicked(Vector2f position, Game& game)
 {
-	while (!m_splashStack.empty())
-	{
-		delete m_splashStack.top();
-		m_splashStack.pop();
-	}
+	m_menuStack.top()->MouseClicked(position, game);
+}
 
+MenuState* MenuState::GetInstance()
+{
+	return &menuState;
+}
+
+bool
+MenuState::Initialise()
+{
+	m_pTitleScreen = BackBuffer::CreateSprite("TitleScreen.png");
+	m_pButtonSprite = BackBuffer::CreateSprite("Button.png");
+
+	CreateMainMenu();
+
+	return (true);
+}
+
+void MenuState::Cleanup()
+{
 	while (!m_menuStack.empty())
 	{
 		delete m_menuStack.top();
 		m_menuStack.pop();
 	}
+
+	delete m_pTitleScreen;
+	m_pTitleScreen = 0;
+
+	delete m_pButtonSprite;
+	m_pButtonSprite = 0;
+
+
 }
 
-bool
-MenuState::Initialise(Sprite* pFMOD, Sprite* pBox2D, Sprite* pRakNet, Sprite* pAUT, Sprite* pTitleScreen, Sprite* pButton)
+void MenuState::HandleEvents(Game& game, UserInput input)
 {
-	m_pRakNet = pRakNet;
-	m_pBox2D = pBox2D;
-	m_pFMOD = pFMOD;
-	m_pTitleScreen = pTitleScreen;
-	m_pAUT = pAUT;
-	m_pButtonSprite = pButton;
+	switch (input.type)
+	{
+	case InputType::MOUSE_MOTION:
+		Game::GetInstance().GetMouse().SetPosition(input.mousePosition);
+		
+		if (!m_menuStack.empty())
+		{
+			m_menuStack.top()->MouseMoved(input.mousePosition);
+		}
 
-	CreateSplash();
-
-	InitialiseControls();
-
-	return (true);
+		break;
+	case InputType::BUTTON_DOWN:
+		switch (input.command)
+		{
+		case InputCommand::CLICK:
+			if (!m_menuStack.empty())
+			{
+				m_menuStack.top()->MouseClicked(input.mousePosition, game);
+			}
+			break;
+		case InputCommand::ESCAPE:
+			game.Quit();
+			break;
+		default:
+			break;
+		}
+		break;
+	default:
+		break;
+	}
 }
 
 void
 MenuState::Process(float deltaTime)
 {
-	if (!m_splashStack.empty())
-	{
-		ProcessSplash(deltaTime);
-	}
-	else
+	if (!m_menuStack.empty())
 	{
 		m_menuStack.top()->Process(deltaTime);
 		Game::GetInstance().GetMouse().Process(deltaTime);
@@ -80,258 +114,150 @@ MenuState::Process(float deltaTime)
 void
 MenuState::Draw(BackBuffer& backBuffer)
 {
-
-	if (!m_splashStack.empty())
+	if (!m_menuStack.empty())
 	{
-		DrawSplash(backBuffer);
-	}
-	else
-	{
-		backBuffer.SetClearColour(0x77, 0x77, 0x77); //Should this go here? Probably not.
 		m_menuStack.top()->Draw(backBuffer);
 		Game::GetInstance().GetMouse().Draw(backBuffer);
 	}
 }
 
-void
-MenuState::CreateMainMenu()
+void MenuState::ChangeState(Game& game, State* newState)
 {
-	m_pMainMenu = new Menu();
-	m_pMainMenu->Initialise();
+	game.PushState(newState);
+}
 
-	m_pImage = new Image();
-	m_pImage->Initialise(m_pTitleScreen);
-	m_pMainMenu->AddChild(m_pImage);
+void MenuState::Pause()
+{
+}
 
-	m_pButton = new Button();
-	m_pButton->Initialise(m_pButtonSprite, "New Game");
-	m_pButton->SetOnPress([&] {CreateLobbyMenu(); });
-	m_pMainMenu->AddChild(m_pButton);
-
-	m_pButton = new Button();
-	m_pButton->Initialise(m_pButtonSprite, "Credits");
-	m_pButton->SetOnPress([&] {CreateCreditsMenu(); });
-	m_pMainMenu->AddChild(m_pButton);
-
-	m_pButton = new Button();
-	m_pButton->Initialise(m_pButtonSprite, "Quit");
-	m_pButton->SetOnPress([] { Game::GetInstance().Quit(); });
-	m_pMainMenu->AddChild(m_pButton);
-
-	m_pMainMenu->PositionElements(Game::screenDimensions);
-
-	m_menuStack.push(m_pMainMenu);
+void MenuState::Resume()
+{
 }
 
 void
-MenuState::CreateSplash()
+MenuState::CreateMainMenu()
 {
-	m_pAUT->SetWidth(static_cast<int>(Game::screenDimensions.x / 8));
-	m_pAUT->SetHeight(static_cast<int>(Game::screenDimensions.x / 8));
+	Image* pImage;
+	Button* pButton;
+	Menu* pMenu;
 
-	m_pAUT->SetY(m_pAUT->GetHeight() / 2);
-	m_pAUT->SetX(static_cast<int>((Game::screenDimensions.x - m_pAUT->GetWidth() / 2) - m_pAUT->GetWidth() / 4.615));
+	pMenu = new Menu();
+	pMenu->Initialise();
 
-	m_pSplash = new SplashScreen();
-	m_pSplash->Initialise(m_pFMOD);
-	m_splashStack.push(m_pSplash);
+	pImage = new Image();
+	pImage->Initialise(m_pTitleScreen);
+	pMenu->AddChild(pImage);
 
-	m_pSplash = new SplashScreen();
-	m_pSplash->Initialise(m_pBox2D);
-	m_splashStack.push(m_pSplash);
+	pButton = new Button();
+	pButton->Initialise(m_pButtonSprite, "New Game");
+	pButton->SetOnPress([&] {  });
+	pMenu->AddChild(pButton);
 
-	m_pSplash = new SplashScreen();
-	m_pSplash->Initialise(m_pRakNet);
-	m_splashStack.push(m_pSplash);
+	pButton = new Button();
+	pButton->Initialise(m_pButtonSprite, "Options");
+	pButton->SetOnPress([&] { CreateOptionsMenu(); });
+	pMenu->AddChild(pButton);
+
+	pButton = new Button();
+	pButton->Initialise(m_pButtonSprite, "Credits");
+	pButton->SetOnPress([&] {CreateCreditsMenu(); });
+	pMenu->AddChild(pButton);
+
+	pButton = new Button();
+	pButton->Initialise(m_pButtonSprite, "Quit");
+	pButton->SetOnPress([&] (Game& game){ Quit(game); });
+	pMenu->AddChild(pButton);
+
+	pMenu->PositionElements(Game::screenDimensions);
+
+	m_menuStack.push(pMenu);
 }
 
 void
 MenuState::CreateOptionsMenu()
 {
-	m_pOptionsMenu = new Menu();
-	m_pOptionsMenu->Initialise();
+	Label* pLabel;
+	Button* pButton;
+	Menu* pMenu;
 
-	m_pLabel = new Label();
-	m_pLabel->Initialise("Options");
-	m_pLabel->SetAlignment(ALIGN_CENTRE);
-	m_pLabel->SetColour(0x00, 0x00, 0x00);
-	m_pOptionsMenu->AddChild(m_pLabel);
+	pMenu = new Menu();
+	pMenu->Initialise();
 
-	m_pButton = new Button();
-	m_pButton->Initialise(m_pButtonSprite, "Back");
-	m_pButton->SetSelected(true);
-	m_pButton->SetOnPress([&] { MenuReturn(); });
-	m_pOptionsMenu->AddChild(m_pButton);
+	pLabel = new Label();
+	pLabel->Initialise("Options");
+	pLabel->SetAlignment(ALIGN_CENTRE);
+	pLabel->SetColour(0x00, 0x00, 0x00);
+	pMenu->AddChild(pLabel);
 
-	m_pOptionsMenu->PositionElements(Game::screenDimensions);
+	pButton = new Button();
+	pButton->Initialise(m_pButtonSprite, "Back");
+	pButton->SetSelected(true);
+	pButton->SetOnPress([&] { PopMenu(); });
+	pMenu->AddChild(pButton);
 
-	m_menuStack.push(m_pOptionsMenu);
+	pMenu->PositionElements(Game::screenDimensions);
+
+	m_menuStack.push(pMenu);
 }
 
 void
 MenuState::CreateCreditsMenu()
 {
-	m_pCreditsMenu = new Menu();
-	m_pCreditsMenu->Initialise();
+	Label* pLabel;
+	Button* pButton;
+	Menu* pMenu;
+	
+	pMenu = new Menu();
+	pMenu->Initialise();
 
-	m_pLabel = new Label();
-	m_pLabel->Initialise("Credits");
-	m_pLabel->SetAlignment(ALIGN_CENTRE);
-	m_pLabel->SetColour(0xFF, 0x00, 0x00);
-	m_pCreditsMenu->AddChild(m_pLabel);
+	pLabel = new Label();
+	pLabel->Initialise("Credits");
+	pLabel->SetAlignment(ALIGN_CENTRE);
+	pLabel->SetColour(0xFF, 0x00, 0x00);
+	pMenu->AddChild(pLabel);
 
-	m_pLabel = new Label();
-	m_pLabel->Initialise("Aidan");
-	m_pLabel->SetAlignment(ALIGN_CENTRE);
-	m_pLabel->SetColour(0x00, 0x00, 0x00);
-	m_pCreditsMenu->AddChild(m_pLabel);
+	pLabel = new Label();
+	pLabel->Initialise("Aidan");
+	pLabel->SetAlignment(ALIGN_CENTRE);
+	pLabel->SetColour(0x00, 0x00, 0x00);
+	pMenu->AddChild(pLabel);
 
-	m_pLabel = new Label();
-	m_pLabel->Initialise("Danyal");
-	m_pLabel->SetAlignment(ALIGN_CENTRE);
-	m_pLabel->SetColour(0x00, 0x00, 0x00);
-	m_pCreditsMenu->AddChild(m_pLabel);
+	pLabel = new Label();
+	pLabel->Initialise("Danyal");
+	pLabel->SetAlignment(ALIGN_CENTRE);
+	pLabel->SetColour(0x00, 0x00, 0x00);
+	pMenu->AddChild(pLabel);
 
-	m_pLabel = new Label();
-	m_pLabel->Initialise("Tammika");
-	m_pLabel->SetAlignment(ALIGN_CENTRE);
-	m_pLabel->SetColour(0x00, 0x00, 0x00);
-	m_pCreditsMenu->AddChild(m_pLabel);
+	pLabel = new Label();
+	pLabel->Initialise("Tammika");
+	pLabel->SetAlignment(ALIGN_CENTRE);
+	pLabel->SetColour(0x00, 0x00, 0x00);
+	pMenu->AddChild(pLabel);
 
-	m_pButton = new Button();
-	m_pButton->Initialise(m_pButtonSprite, "Back");
-	m_pButton->SetSelected(true);
-	m_pButton->SetOnPress([&] { MenuReturn(); });
-	m_pCreditsMenu->AddChild(m_pButton);
+	pButton = new Button();
+	pButton->Initialise(m_pButtonSprite, "Back");
+	pButton->SetSelected(true);
+	pButton->SetOnPress([&] { PopMenu(); });
+	pMenu->AddChild(pButton);
 
-	m_pCreditsMenu->PositionElements(Game::screenDimensions);
+	pMenu->PositionElements(Game::screenDimensions);
 
-	m_menuStack.push(m_pCreditsMenu);
+	m_menuStack.push(pMenu);
 }
 
-void
-MenuState::CreateLobbyMenu()
+void MenuState::PushMenu(Menu* menu)
 {
-	m_pLobbyMenu = new Menu();
-	m_pLobbyMenu->Initialise();
-
-	m_pLabel = new Label();
-	m_pLabel->Initialise("Lobby");
-	m_pLabel->SetAlignment(ALIGN_CENTRE);
-	m_pLabel->SetColour(0xFF, 0x00, 0x00);
-	m_pLobbyMenu->AddChild(m_pLabel);
-
-	m_pLabel = new Label();
-	m_pLabel->Initialise("Waiting for more players . . .");
-	m_pLabel->SetAlignment(ALIGN_CENTRE);
-	m_pLabel->SetColour(0x00, 0x00, 0x00);
-	m_pLobbyMenu->AddChild(m_pLabel);
-
-	m_pButton = new Button();
-	m_pButton->Initialise(m_pButtonSprite, "Back");
-	m_pButton->SetOnPress([&] { MenuReturn(); });
-	m_pButton->SetPosition(Game::screenDimensions.x - m_pButtonSprite->GetWidth(), Game::screenDimensions.y - m_pButtonSprite->GetHeight());
-	m_pLobbyMenu->AddChild(m_pButton);
-
-	m_pLobbyMenu->PositionElements(Game::screenDimensions);
-
-	m_menuStack.push(m_pLobbyMenu);
 }
 
 void
-MenuState::ProcessSplash(float deltaTime)
-{
-	if (!m_splashStack.empty())
-	{
-		if (m_splashStack.top()->Isfinished())
-		{
-			delete m_splashStack.top();
-			m_splashStack.pop();
-
-			if (m_splashStack.empty())
-			{
-				CreateMainMenu();
-			}
-
-		}
-		else
-		{
-			m_splashStack.top()->Process(deltaTime);
-		}
-	}
-}
-
-void
-MenuState::DrawSplash(BackBuffer& backBuffer)
-{
-	m_pAUT->Draw(backBuffer);
-	m_splashStack.top()->Draw(backBuffer);
-}
-
-void
-MenuState::MenuReturn()
+MenuState::PopMenu()
 {
 	delete m_menuStack.top();
 	m_menuStack.pop();
 }
 
-void
-MenuState::InitialiseControls()
+void MenuState::Quit(Game& game)
 {
-	InputEventHandler::GetInstance().Register(InputState::GAME, InputCommand::QUIT, [this] { EscapeButtonPressed(); });
-	InputEventHandler::GetInstance().Register(InputState::MENU, InputCommand::ACTIVATE, [this] { ActivateAction(); });
-}
-
-void
-MenuState::UpButtonPressed()
-{
-	//m_menuStack.top()->DecrementSelected();
-}
-
-void
-MenuState::DownButtonPressed()
-{
-	//m_menuStack.top()->IncrementSelected();
-}
-
-void
-MenuState::ActivateAction()
-{
-	if (!m_splashStack.empty())
-	{
-		m_splashStack.top()->Setfinished();
-	}
-	else
-	{
-		Vector2f v2fMousePosition = Game::GetInstance().GetMouse().GetPosition();
-		m_menuStack.top()->MouseClicked(v2fMousePosition);
-	}
-}
-
-void
-MenuState::EscapeButtonPressed()
-{
-	if (m_menuStack.size() > 1)
-	{
-		MenuReturn();
-	}
-	else
-	{
-		Game::GetInstance().Quit();
-	}
-}
-
-void MenuState::MouseMoved(Vector2f pos)
-{
-	if (!m_menuStack.empty())
-	{
-		//m_menuStack.top()->MouseMoved(pos);
-	}
-}
-
-std::stack<Menu*>
-MenuState::GetMenuStack()
-{
-	return m_menuStack;
+	game.Quit();
 }
 

@@ -14,6 +14,7 @@
 class BackBuffer;
 class Sprite;
 class Label;
+class Game;
 
 class Button : public UIElement
 {
@@ -29,7 +30,8 @@ public:
 	bool IsSelected();
 	void SetSelected(bool selected); // TODO: Maybe remove?
 
-	void OnPress();
+	void OnPress(Game& game);
+	void SetOnPress(std::function<void(Game&)> fnOnPress);
 	void SetOnPress(std::function<void()> fnOnPress);
 
 	void SetPosition(Vector2f newPosition);
@@ -53,7 +55,7 @@ private:
 	std::string m_text;
 	bool m_selected;
 
-	std::function<void()> m_fnOnPress;
+	std::function<void(Game&)> m_fnOnPress;
 
 };
 

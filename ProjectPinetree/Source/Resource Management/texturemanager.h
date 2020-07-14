@@ -12,6 +12,7 @@
 // Forward Declarations:
 class Texture;
 struct SDL_Renderer;
+class Sprite;
 
 class TextureManager : public ManagerInterface
 {
