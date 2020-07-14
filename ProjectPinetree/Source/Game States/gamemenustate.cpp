@@ -15,7 +15,7 @@
 #include "../Utilities/gameutils.h"
 #include "../Menus/menu.h"
 #include "state.h"
-#include "../mouse.h"
+#include "../Controls/mouse.h"
 #include "menustate.h"
 
 // Library includes:
@@ -28,6 +28,7 @@ GameMenuState::GameMenuState()
 	: State()
 	, m_pInGameMenu(0)
 	, m_pButtonSprite(0)
+	, m_pMouseInstance(0)
 {
 
 }
@@ -50,7 +51,7 @@ void GameMenuState::ExitGame(Game& game)
 
 GameMenuState* GameMenuState::GetInstance()
 {
-	return nullptr;
+	return &gameMenuStateInstance;
 }
 
 bool
@@ -64,7 +65,6 @@ GameMenuState::Initialise()
 
 	pButton = new Button();
 	pButton->Initialise(m_pButtonSprite, "Resume");
-	pButton->SetSelected(true);
 	pButton->SetOnPress([&] (Game& game){ ExitMenu(game); });
 	m_pInGameMenu->AddChild(pButton);
 
@@ -80,12 +80,17 @@ GameMenuState::Initialise()
 
 	m_pInGameMenu->PositionElements(Game::screenDimensions);
 
+	m_pMouseInstance = MousePointer::GetInstance();
+
 	return (true);
 }
 
 void GameMenuState::Cleanup()
 {
 	delete m_pInGameMenu;
+	delete m_pButtonSprite;
+
+	m_pMouseInstance = nullptr;
 }
 
 void GameMenuState::HandleEvents(Game& game, UserInput input)
@@ -93,13 +98,12 @@ void GameMenuState::HandleEvents(Game& game, UserInput input)
 	switch (input.type)
 	{
 	case InputType::MOUSE_MOTION:
-		Game::GetInstance().GetMouse().SetPosition(input.mousePosition);
 		m_pInGameMenu->MouseMoved(input.mousePosition);
 		break;
 	case InputType::BUTTON_DOWN:
-		switch (input.command)
+		switch (input.key)
 		{
-		case InputCommand::CLICK:
+		case InputKey::CLICK:
 			m_pInGameMenu->MouseClicked(input.mousePosition, game);
 			break;
 		default:
@@ -114,12 +118,14 @@ void GameMenuState::HandleEvents(Game& game, UserInput input)
 void
 GameMenuState::Process(float deltaTime)
 {
+	m_pMouseInstance->Process(deltaTime);
 }
 
 void
 GameMenuState::Draw(BackBuffer& backBuffer)
 {
 	m_pInGameMenu->Draw(backBuffer);
+	m_pMouseInstance->Draw(backBuffer);
 }
 
 void GameMenuState::ChangeState(Game& game, State* newState)

@@ -9,6 +9,7 @@ class BackBuffer;
 class Sprite;
 class Button;
 class Menu;
+class MousePointer;
 
 class GameMenuState : public State
 {
@@ -42,6 +43,8 @@ public:
 protected:
 	Menu* m_pInGameMenu;
 	Sprite* m_pButtonSprite;
+
+	MousePointer* m_pMouseInstance;
 
 private:
 	static GameMenuState gameMenuStateInstance;

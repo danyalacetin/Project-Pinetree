@@ -17,7 +17,6 @@
 #include "Game States/gamestate.h"
 #include "Game States/gamemenustate.h"
 #include "Game States/state.h"
-#include "mouse.h"
 #include "Game States/splashstate.h"
 
 // Library includes:
@@ -95,20 +94,12 @@ Game::Game()
 , m_lastTime(0)
 , m_lag(0)
 , m_drawDebugInfo(true)
-, m_pPointerSprite(0)
-, m_pMousePointer(0)
 {
 	
 }
 
 Game::~Game()
 {
-	delete m_pPointerSprite;
-	m_pPointerSprite = 0;
-
-	delete m_pMousePointer;
-	m_pMousePointer = 0;
-
 	while (!m_states.empty())
 	{
 		PopState();
@@ -136,16 +127,16 @@ Game::Initialise()
 		return (false);
 	}
 
+	if (!ResourceManager::Setup(m_pBackBuffer->GetRenderer()))
+	{
+		LogManager::Log("ResourceManager Setup Failed");
+		return (false);
+	}
+
 	m_pInputHandler = new InputHandler();
 	if (!m_pInputHandler->Initialise())
 	{
 		LogManager::Log("InputHandler Init Fail!");
-		return (false);
-	}
-
-	if (!ResourceManager::Setup(m_pBackBuffer->GetRenderer()))
-	{
-		LogManager::Log("ResourceManager Setup Failed");
 		return (false);
 	}
 
@@ -165,9 +156,6 @@ Game::Initialise()
 
 	State* pState = SplashState::GetInstance();
 	ChangeState(pState);
-
-	m_pMousePointer = new MousePointer();
-	m_pMousePointer->Initialise(m_pPointerSprite);
 
 	return (true);
 }
@@ -255,8 +243,6 @@ Game::Quit()
 
 bool Game::LoadSprites()
 {
-	m_pPointerSprite = m_pBackBuffer->CreateSprite("mouse_pointer.png");
-
 	return true;
 }
 
@@ -300,9 +286,4 @@ void Game::PopState()
 	{
 		m_states.top()->Resume();
 	}
-}
-
-MousePointer& Game::GetMouse()
-{
-	return *m_pMousePointer;
 }

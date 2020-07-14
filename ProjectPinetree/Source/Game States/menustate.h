@@ -19,6 +19,7 @@ class Menu;
 class Image;
 class Button;
 class Label;
+class MousePointer;
 
 class MenuState : public State
 {
@@ -66,6 +67,7 @@ private:
 	Sprite* m_pButtonSprite;
 
 	std::stack<Menu*> m_menuStack;
+	MousePointer* m_pMouseInstance;
 };
 
 #endif // __MENUSTATE_H__

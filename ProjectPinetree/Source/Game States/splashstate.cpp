@@ -8,7 +8,6 @@
 #include "../SDL Render/backbuffer.h"
 #include "../logmanager.h"
 #include "../Utilities/gameutils.h"
-#include "../mouse.h"
 #include "menustate.h"
 
 // Library includes:
@@ -67,15 +66,15 @@ void SplashState::HandleEvents(Game& game, UserInput input)
 	{
 		if (input.type == InputType::BUTTON_DOWN)
 		{
-			switch (input.command)
+			switch (input.key)
 			{
-			case InputCommand::ENTER:
+			case InputKey::ENTER:
 				m_splashStack.top()->Setfinished();
 				break;
-			case InputCommand::CLICK:
+			case InputKey::CLICK:
 				m_splashStack.top()->Setfinished();
 				break;
-			case InputCommand::ESCAPE:
+			case InputKey::ESCAPE:
 				game.Quit();
 				break;
 			default:

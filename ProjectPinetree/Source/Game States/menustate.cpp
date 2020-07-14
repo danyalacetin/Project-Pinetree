@@ -13,7 +13,7 @@
 #include "../Utilities/gameutils.h"
 #include "../Menus/menu.h"
 #include "gamestate.h"
-#include "../mouse.h"
+#include "../Controls/mouse.h"
 
 // Library includes:
 #include <cassert>
@@ -25,6 +25,7 @@ MenuState::MenuState()
 	: State()
 	, m_pTitleScreen(0)
 	, m_pButtonSprite(0)
+	, m_pMouseInstance(0)
 {
 
 }
@@ -46,6 +47,7 @@ MenuState::Initialise()
 	m_pButtonSprite = BackBuffer::CreateSprite("Button.png");
 
 	CreateMainMenu();
+	m_pMouseInstance = MousePointer::GetInstance();
 
 	return (true);
 }
@@ -64,7 +66,7 @@ void MenuState::Cleanup()
 	delete m_pButtonSprite;
 	m_pButtonSprite = 0;
 
-
+	m_pMouseInstance = nullptr;
 }
 
 void MenuState::HandleEvents(Game& game, UserInput input)
@@ -72,8 +74,6 @@ void MenuState::HandleEvents(Game& game, UserInput input)
 	switch (input.type)
 	{
 	case InputType::MOUSE_MOTION:
-		Game::GetInstance().GetMouse().SetPosition(input.mousePosition);
-		
 		if (!m_menuStack.empty())
 		{
 			m_menuStack.top()->MouseMoved(input.mousePosition);
@@ -81,15 +81,15 @@ void MenuState::HandleEvents(Game& game, UserInput input)
 
 		break;
 	case InputType::BUTTON_DOWN:
-		switch (input.command)
+		switch (input.key)
 		{
-		case InputCommand::CLICK:
+		case InputKey::CLICK:
 			if (!m_menuStack.empty())
 			{
 				m_menuStack.top()->MouseClicked(input.mousePosition, game);
 			}
 			break;
-		case InputCommand::ESCAPE:
+		case InputKey::ESCAPE:
 			game.Quit();
 			break;
 		default:
@@ -107,8 +107,9 @@ MenuState::Process(float deltaTime)
 	if (!m_menuStack.empty())
 	{
 		m_menuStack.top()->Process(deltaTime);
-		Game::GetInstance().GetMouse().Process(deltaTime);
 	}
+
+	m_pMouseInstance->Process(deltaTime);
 }
 
 void
@@ -117,13 +118,14 @@ MenuState::Draw(BackBuffer& backBuffer)
 	if (!m_menuStack.empty())
 	{
 		m_menuStack.top()->Draw(backBuffer);
-		Game::GetInstance().GetMouse().Draw(backBuffer);
 	}
+
+	m_pMouseInstance->Draw(backBuffer);
 }
 
 void MenuState::ChangeState(Game& game, State* newState)
 {
-	game.PushState(newState);
+	game.ChangeState(newState);
 }
 
 void MenuState::Pause()
@@ -150,7 +152,7 @@ MenuState::CreateMainMenu()
 
 	pButton = new Button();
 	pButton->Initialise(m_pButtonSprite, "New Game");
-	pButton->SetOnPress([&] {  });
+	pButton->SetOnPress([&](Game& game) { ChangeState(game, GameState::GetInstance()); });
 	pMenu->AddChild(pButton);
 
 	pButton = new Button();
@@ -236,7 +238,6 @@ MenuState::CreateCreditsMenu()
 
 	pButton = new Button();
 	pButton->Initialise(m_pButtonSprite, "Back");
-	pButton->SetSelected(true);
 	pButton->SetOnPress([&] { PopMenu(); });
 	pMenu->AddChild(pButton);
 

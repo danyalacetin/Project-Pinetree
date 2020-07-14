@@ -2,8 +2,9 @@
 #include "mouse.h"
 
 // Local Includes
-#include "SDL Render/backbuffer.h"
-#include "SDL Render/sprite.h"
+#include "../SDL Render/sprite.h"
+
+MousePointer MousePointer::mouseInstance;
 
 MousePointer::MousePointer()
 : m_pSprite(0)
@@ -15,12 +16,22 @@ MousePointer::~MousePointer()
 {
 }
 
+MousePointer* MousePointer::GetInstance()
+{
+	return &mouseInstance;
+}
+
 bool MousePointer::Initialise(Sprite* pSprite)
 {
 	m_pSprite = pSprite;
 	m_pSprite->SetHandle(SpritePositionHandle::TOP_LEFT);
 
 	return true;
+}
+
+void MousePointer::Cleanup()
+{
+	m_pSprite = nullptr;
 }
 
 void MousePointer::Process(float fDeltaTime)

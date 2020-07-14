@@ -5,6 +5,8 @@
 #include "state.h"
 
 class BackBuffer;
+class Sprite;
+class Entity;
 
 class GameState : public State
 {
@@ -25,12 +27,16 @@ public:
 protected:
 	GameState();
 
+	Vector2f CalculatePlayerMovement(const Uint8* movementMap);
+
 private:
 
 	//Member Data:
 public:
 
 protected:
+	Sprite* m_pPlayerSprite;
+	Entity* m_pPlayer;
 
 
 private:

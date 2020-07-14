@@ -5,7 +5,13 @@
 // Local includes
 #include "../Utilities/gameutils.h"
 
-enum class InputCommand
+// Library includes
+#include <map>
+
+// Forward Declarations
+typedef uint8_t Uint8;
+
+enum class InputKey
 {
 	NONE,
 	LEFT,
@@ -28,15 +34,22 @@ enum class InputType
 struct UserInput
 {
 	UserInput()
+		: keyboardState(0)
 	{
-		command = InputCommand::NONE;
+		Clean();
+	}
+
+	void Clean()
+	{
+		key = InputKey::NONE;
 		type = InputType::NONE;
 		mousePosition = Vector2f();
 	}
 
-	InputCommand command;
+	InputKey key;
 	InputType type;
 	Vector2f mousePosition;
+	const Uint8* keyboardState;
 };
 
 #endif // !__CONTROLCONSTANTS_H__
